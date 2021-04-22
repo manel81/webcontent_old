@@ -1,0 +1,63 @@
+uuid: 1f7a114d-7a2a-4294-a451-9ce87eab51c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_product_icon
+    - node.type.api_product
+    - paragraphs.paragraphs_type.icon
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: 8VE1yM7JYNiMcOxDJwtlDz4iBPadGx_WYbox7VBqmk4
+id: node.api_product.field_api_product_icon
+field_name: field_api_product_icon
+entity_type: node
+bundle: api_product
+label: 'API Product icon'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      icon: icon
+    target_bundles_drag_drop:
+      benefit:
+        weight: 12
+        enabled: false
+      block:
+        weight: 13
+        enabled: false
+      card:
+        weight: 14
+        enabled: false
+      cta:
+        weight: 15
+        enabled: false
+      featured_api:
+        weight: 16
+        enabled: false
+      grid:
+        weight: 17
+        enabled: false
+      icon:
+        enabled: true
+        weight: 18
+      image:
+        weight: 19
+        enabled: false
+      message:
+        weight: 20
+        enabled: false
+      promo_image:
+        weight: 21
+        enabled: false
+      text:
+        weight: 22
+        enabled: false
+field_type: entity_reference_revisions

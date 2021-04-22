@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for Allianz HTTP Error pages.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\allianz_error_pages\Form\Settings;
+use Drupal\file\Entity\File;
+
+/**
+ * Implements hook_uninstall().
+ */
+function allianz_error_pages_uninstall(): void {
+  $state = \Drupal::state();
+  $logger = \Drupal::logger('logger.channel.allianz_error_pages');
+  $messenger = \Drupal::messenger();
+
+  $http_error_background_image_fid = $state->get(Settings::HTTP_ERROR_BACKGROUND_IMAGE);
+  if ($http_error_background_image_fid) {
+    $image = File::load($http_error_background_image_fid);
+    if ($image) {
+      try {
+        $image->delete($image);
+      }
+      catch (EntityStorageException $e) {
+        $logger->warning('Cannot delete HTTP Error background image: @message', [
+          '@message' => $e->getMessage(),
+        ]);
+        $messenger->addError(t('Cannot delete HTTP Error background image.'));
+      }
+    }
+  }
+  $state->delete(Settings::HTTP_ERROR_BACKGROUND_IMAGE);
+
+  $maintenance_background_image_fid = $state->get(Settings::MAINTENANCE_BACKGROUND_IMAGE);
+  if ($maintenance_background_image_fid) {
+    $image = File::load($maintenance_background_image_fid);
+    if ($image) {
+      try {
+        $image->delete($image);
+      }
+      catch (EntityStorageException $e) {
+        $logger->warning('Cannot delete Maintenance background image: @message', [
+          '@message' => $e->getMessage(),
+        ]);
+        $messenger->addError(t('Cannot delete Maintenance background image.'));
+      }
+    }
+  }
+  $state->delete(Settings::MAINTENANCE_BACKGROUND_IMAGE);
+}

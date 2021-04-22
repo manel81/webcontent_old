@@ -1,0 +1,11 @@
+name: Devportal API Bundle
+description: API Bundle entity.
+package: Devportal
+
+dependencies:
+  - devportal:devportal_api_reference
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

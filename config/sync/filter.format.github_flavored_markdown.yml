@@ -1,0 +1,18 @@
+uuid: 1f3ca244-67fd-45de-9540-995f885155f1
+langcode: en
+status: true
+dependencies:
+  module:
+    - devportal
+_core:
+  default_config_hash: J4a4KfnNN95UKnY_4ygc_oZ2w8pc_-mynjq4DRwwjws
+name: 'GitHub Flavored Markdown'
+format: github_flavored_markdown
+weight: 0
+filters:
+  filter_github_flavored_markdown:
+    id: filter_github_flavored_markdown
+    provider: devportal
+    status: true
+    weight: 10
+    settings: {  }

@@ -1,0 +1,68 @@
+%button,
+.button {
+  &--primary {
+    &:hover {
+      background-color: $button--primary__backgroundColor--hover;
+      border-color: $button--primary__backgroundColor--hover;
+      box-shadow: unset;
+    }
+
+    &:active,
+    &:focus {
+      background-color: $button--primary__backgroundColor--active;
+      border-color: $button--primary__backgroundColor--active;
+    }
+  }
+
+  &--primary--inverted {
+    &:hover {
+      background-color: $button--primary--inverted__backgroundColor--hover;
+      border-color: $button--primary--inverted__backgroundColor--hover;
+      box-shadow: unset;
+    }
+
+    &:active,
+    &:focus {
+      background-color: $button--primary--inverted__backgroundColor--active;
+      border-color: $button--primary--inverted__backgroundColor--active;
+    }
+  }
+
+  &--secondary {
+    border-image: unset;
+
+    &:hover {
+      border-color: $button--secondary__borderColor--hover;
+      color: $button--secondary__color--hover;
+    }
+
+    &:active,
+    &:focus {
+      border-color: $button--secondary__borderColor--active;
+      color: $button--secondary__color--active;
+    }
+  }
+
+  &--secondary--inverted {
+    border-image: unset;
+
+    &:hover {
+      background-color: $button--secondary--inverted__backgroundColor--hover;
+      border-color: $button--secondary--inverted__borderColor--hover;
+      color: $button--secondary--inverted__color--hover;
+    }
+
+    &:active,
+    &:focus {
+      background-color: $button--secondary--inverted__backgroundColor--active;
+      border-color: $button--secondary--inverted__borderColor--active;
+      color: $button--secondary--inverted__color--active;
+    }
+  }
+}
+
+.path-group {
+  .button-action {
+    margin-bottom: $gutter__width / 2;
+  }
+}

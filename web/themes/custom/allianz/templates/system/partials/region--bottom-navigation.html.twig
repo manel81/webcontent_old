@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a region.
+ *
+ * Available variables:
+ * - content: The content for this region, typically blocks.
+ * - attributes: HTML attributes for the region <div>.
+ * - region: The name of the region variable as defined in the theme's
+ *   .info.yml file.
+ *
+ * @see template_preprocess_region()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+    'region',
+    'region--' ~ region|clean_class,
+  ]
+%}
+{% set attributes = attributes.addClass(classes) %}
+{% if content %}
+  {% block content %}
+    <section{{ attributes }}>
+        <div class="container">
+          {{ content }}
+        </div>
+          <div {{ bn_image_panel_attributes.addClass(['bn__img-panel']) }}>
+            <img {{ bn_image_attributes }}>
+          </div>
+      <div {{ bn_slogan_wrapper_attributes.addClass(['bn__slogan-wrapper']) }}>
+        <div class="container">
+          <h3 {{ bn_slogan_attributes.addClass(['bn__slogan']) }}>{{ bn_slogan_content }} </h3>
+        </div>
+      </div>
+    </section>
+  {% endblock %}
+{% endif %}

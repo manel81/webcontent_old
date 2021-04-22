@@ -1,0 +1,145 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the DP Docs module.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\node\Entity\NodeType;
+use Drupal\pathauto\Entity\PathautoPattern;
+use Drupal\system\Entity\Menu;
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 2
+ *  of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ *  USA.
+ */
+
+/**
+ * Add or update 'documentation' menu.
+ *
+ * Update module dependency of 'documentation' menu or create the menu if it
+ * doesn't exist yet.
+ */
+function dp_docs_install(): void {
+  /** @var \Drupal\system\Entity\Menu $documentation_menu */
+  $documentation_menu = \Drupal::entityTypeManager()
+    ->getStorage('menu')
+    ->load('documentation');
+
+  if ($documentation_menu) {
+    // Update documentation menu if it already exists with new module
+    // dependency.
+    $dependencies = $documentation_menu->get('dependencies');
+
+    if (isset($dependencies['module'])) {
+      $key = array_search('dp_api_docs', $dependencies['module']);
+      if ($key !== FALSE) {
+        unset($dependencies['module'][$key]);
+      }
+    }
+
+    if (isset($dependencies['enforced']) && isset($dependencies['enforced']['module'])) {
+      $key = array_search('dp_api_docs', $dependencies['enforced']['module']);
+      if ($key !== FALSE) {
+        unset($dependencies['enforced']['module'][$key]);
+        // Reindex the array.
+        $dependencies['enforced']['module'] = array_values($dependencies['enforced']['module']);
+      }
+    }
+
+    $dependencies['enforced']['module'][] = 'dp_docs';
+    $documentation_menu->set('dependencies', $dependencies);
+    $documentation_menu->save();
+  }
+  else {
+    // Create the documentation menu if it doesn't exist yet.
+    Menu::create([
+      'langcode' => 'en',
+      'status' => TRUE,
+      'dependencies' => [
+        'enforced' => [
+          'module' => [
+            'dp_docs',
+          ],
+        ],
+      ],
+      'id' => 'documentation',
+      'label' => 'Documentation',
+      'description' => 'Documentation links',
+      'locked' => FALSE,
+    ])->save();
+  }
+
+  // As module configuration was imported before invoking hook_install(),
+  // now we need to add the 'documentation' menu as allowed menu to
+  // Documentation Page CT.
+  $documentation_page_ct = NodeType::load('documentation_page');
+  if (!$documentation_page_ct) {
+    return;
+  }
+
+  $documentation_page_ct
+    ->setThirdPartySetting('menu_ui', 'available_menus', ['documentation'])
+    ->save();
+}
+
+/**
+ * Generates pathauto pattern for the documentation page content type.
+ */
+function dp_docs_update_8001(): ?string {
+  $configs = \Drupal::configFactory()->loadMultiple(\Drupal::configFactory()->listAll('pathauto.pattern'));
+  $pattern_defined = FALSE;
+  foreach ($configs as $config) {
+    $bundles = $config->get('selection_criteria');
+    if (empty($bundles)) {
+      continue;
+    }
+
+    $bundles = reset($bundles)['bundles'];
+    if (!in_array('documentation_page', $bundles)) {
+      continue;
+    }
+
+    $pattern_defined = TRUE;
+  }
+  $updated_content_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('documentation_page')->label();
+  if (!$pattern_defined) {
+    PathautoPattern::create([
+      'id' => 'documentation_page_pattern',
+      'label' => 'Documentation page pattern',
+      'type' => 'canonical_entities:node',
+      'pattern' => '/docs/[node:title]',
+    ])->save();
+    return t('Pathauto pattern for the @updated_content_type content type had been generated.', ['@updated_content_type' => $updated_content_type])->render();
+  }
+  return NULL;
+}
+
+/**
+ * Generate a URL alias for paths having none.
+ *
+ * @param array $context
+ *   Batch context.
+ */
+function dp_docs_update_8002(array &$context): string {
+  /** @var \Drupal\pathauto\AliasTypeBatchUpdateInterface $alias_type */
+  $alias_type = \Drupal::service('plugin.manager.alias_type')->createInstance('canonical_entities:node');
+  $alias_type->batchUpdate('create', $context);
+  return t('Missing URL aliases have been generated.')->render();
+}

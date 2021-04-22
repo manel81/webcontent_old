@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.api_description_page.field_api_reference
+    - field.field.node.api_description_page.field_header
+    - field.field.node.api_description_page.field_page_builder_elements
+    - node.type.api_description_page
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - entity_reference_revisions
+    - user
+id: node.api_description_page.default
+targetEntityType: node
+bundle: api_description_page
+mode: default
+content:
+  field_page_builder_elements:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+hidden:
+  field_api_reference: true
+  field_header: true
+  links: true

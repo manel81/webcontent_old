@@ -1,0 +1,10 @@
+services:
+  allianz_api_product.route_subscriber:
+    class: Drupal\allianz_api_product\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  allianz_api_product.api_product_sortable_access_checker:
+    class: Drupal\allianz_api_product\Access\ApiProductSortableAccessCheck
+    arguments: ['@current_route_match', '@entity_type.manager']
+    tags:
+      - { name: access_check, applies_to: _api_product_sortable }

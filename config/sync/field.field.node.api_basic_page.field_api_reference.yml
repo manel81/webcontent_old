@@ -1,0 +1,30 @@
+uuid: e0f1390f-69f9-44e3-a838-d73c47835f74
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_reference
+    - node.type.api_basic_page
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: SzRASLFap7wjNt1f-f9XKcYA0iQC8lzXAeOr8Y2m3JM
+id: node.api_basic_page.field_api_reference
+field_name: field_api_reference
+entity_type: node
+bundle: api_basic_page
+label: 'API Reference'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: api_reference
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

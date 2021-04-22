@@ -1,0 +1,12 @@
+name: Devportal Docs trigger for groups
+description: Remote triggering of imports from an groups
+package: Devportal Pro
+
+dependencies:
+  - dp_trigger:dp_trigger
+  - group:group
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

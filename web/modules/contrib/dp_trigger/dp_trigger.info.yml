@@ -1,0 +1,11 @@
+name: Devportal Docs trigger
+description: Remote triggering of imports
+package: Devportal Pro
+
+dependencies:
+  - devportal_api_reference:devportal_api_reference
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

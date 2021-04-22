@@ -1,0 +1,21 @@
+uuid: 1337fd90-c4b4-4442-95b4-06b95e5d49e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_project_id
+    - node.type.api_reference
+_core:
+  default_config_hash: 3U6jPWBF_izoRsafkrb_Qed7BLKCV45pawgh90XLpFY
+id: node.api_reference.field_project_id
+field_name: field_project_id
+entity_type: node
+bundle: api_reference
+label: 'Project ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

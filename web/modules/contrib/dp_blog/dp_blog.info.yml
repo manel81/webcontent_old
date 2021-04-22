@@ -1,0 +1,17 @@
+name: Devportal Blog
+description: Creates a blog page.
+package: Devportal Standard
+
+dependencies:
+  - dp_core:dp_core
+  - focal_point:focal_point
+  - pathauto:pathauto
+  - drupal:views
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:menu_ui
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

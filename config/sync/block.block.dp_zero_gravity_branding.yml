@@ -1,0 +1,25 @@
+uuid: c5c68dd3-691b-40c0-9609-cb48b5d19e3d
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: 2y6eJK1nen0FYLgdJMwB9rnDaA-NGWeoU1ABn25d6Xc
+id: dp_zero_gravity_branding
+theme: dp_zero_gravity
+region: navigation
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  provider: system
+  label_display: '0'
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

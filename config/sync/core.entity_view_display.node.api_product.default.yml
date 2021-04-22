@@ -1,0 +1,38 @@
+uuid: 282dbe70-7c42-43b6-b042-29aa2c23118b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.api_product.body
+    - field.field.node.api_product.field_api_header_content
+    - field.field.node.api_product.field_api_product_category
+    - field.field.node.api_product.field_api_product_icon
+    - field.field.node.api_product.field_page_builder_elements
+    - field.field.node.api_product.field_version
+    - node.type.api_product
+  module:
+    - entity_reference_revisions
+    - user
+_core:
+  default_config_hash: iaVpH3aQTzKd4Tr7rP26sETLO8Z2Uwd4qO8xA8-pRFA
+id: node.api_product.default
+targetEntityType: node
+bundle: api_product
+mode: default
+content:
+  field_page_builder_elements:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+hidden:
+  body: true
+  field_api_header_content: true
+  field_api_product_category: true
+  field_api_product_icon: true
+  field_version: true
+  links: true

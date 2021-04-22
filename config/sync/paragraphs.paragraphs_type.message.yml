@@ -1,0 +1,15 @@
+uuid: 14921198-1bd4-4db4-b75c-b5d67680f9fd
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: ks9SoPL994VWu8SamihzdJ_PJw2gQ3L6WI-Ytc4NiYo
+id: message
+label: Message
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

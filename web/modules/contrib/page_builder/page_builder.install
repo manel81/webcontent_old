@@ -1,0 +1,849 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Page Builder module.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Site\Settings;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\FieldStorageConfigUpdateForbiddenException;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+/**
+ * Upgrade storage schema and content (if possible) to block_field.
+ */
+function page_builder_update_8001(): ?string {
+  // Bail out early if the needed conversion was already done by some other
+  // means (ie. manually).
+  $field_storage_config = FieldStorageConfig::loadByName('paragraph', 'field_block');
+  if (!$field_storage_config) {
+    throw new FieldStorageConfigUpdateForbiddenException('Cannot update field storage config: field not found.');
+  }
+  if ($field_storage_config->getType() == 'block_field') {
+    return NULL;
+  }
+
+  $entity_type_manager = \Drupal::entityTypeManager();
+  // Bail out early in case of any other misconfiguration.
+  $field_config = FieldConfig::loadByName('paragraph', 'block', 'field_block');
+  if (!$field_config) {
+    throw new FieldStorageConfigUpdateForbiddenException('Cannot update field config: field not found.');
+  }
+  $node_field_config = FieldConfig::loadByName('node', 'page_builder', 'field_page_builder_elements');
+  if (!$node_field_config) {
+    throw new FieldStorageConfigUpdateForbiddenException('Cannot update node field config: field not found.');
+  }
+  /** @var \Drupal\Core\Entity\Entity\EntityViewDisplay $view_display */
+  $view_display = $entity_type_manager->getStorage('entity_view_display')
+    ->load('paragraph.block.default');
+  if (!$view_display) {
+    throw new FieldStorageConfigUpdateForbiddenException('Cannot update entity view display: not found.');
+  }
+  $view_display_component = $view_display->getComponent('field_block');
+  if (!$view_display_component) {
+    throw new FieldStorageConfigUpdateForbiddenException('Cannot update entity view display: field not found.');
+  }
+  /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $form_display */
+  $form_display = $entity_type_manager->getStorage('entity_form_display')
+    ->load('paragraph.block.default');
+  if (!$form_display) {
+    throw new FieldStorageConfigUpdateForbiddenException('Cannot update entity form display: not found.');
+  }
+  $form_display_component = $form_display->getComponent('field_block');
+  if (!$form_display_component) {
+    throw new FieldStorageConfigUpdateForbiddenException('Cannot update entity form display: field not found.');
+  }
+
+  // @todo Make this batchable to allow handling more content.
+  // @todo Add more entries to this array to have more block types supported.
+  $block_map = [
+    'bartik_search' => [
+      'id' => 'search_form_block',
+      'label' => 'Search',
+      'provider' => 'search',
+      'label_display' => 'visible',
+    ],
+    'seven_login' => [
+      'id' => 'user_login_block',
+      'label' => 'User login',
+      'provider' => 'user',
+      'label_display' => 'visible',
+    ],
+  ];
+
+  // There are 5 things to be changed:
+  // - core.entity_form_display.paragraph.block.default.yml
+  // - core.entity_view_display.paragraph.block.default.yml
+  // - field.field.node.page_builder.field_page_builder_elements.yml
+  // - field.field.paragraph.block.field_block.yml
+  // - field.storage.paragraph.field_block.yml
+  // In order to carry these out, several steps are needed:
+  // - the old content needs to be saved to a different (temporary) storage,
+  // - the old content needs to be deleted,
+  // - the config and more importantly, the schema needs to be updated,
+  // - the old content needs to be converted and injected into the new storage,
+  // - the temporary storage of the old content needs to be deleted.
+  // The old content cannot be fetched via standard entity storage methods, as
+  // they would already work based on the new schema (for some unknown reasons).
+  // @see https://www.drupal.org/node/2554097
+  // Most likely for those same reasons, the methods described in this above
+  // documentation are not usable either.
+  $database = \Drupal::database();
+
+  // Fetch old content.
+  $paragraph_values = $database->select('paragraph__field_block', 'pfb')
+    ->fields('pfb', [
+      'bundle',
+      'deleted',
+      'entity_id',
+      'revision_id',
+      'langcode',
+      'delta',
+      'field_block_target_id',
+    ])
+    ->orderBy('entity_id')
+    ->execute()
+    ->fetchAll();
+  $paragraph_revision_values = $database->select('paragraph_revision__field_block', 'prfb')
+    ->fields('prfb', [
+      'bundle',
+      'deleted',
+      'entity_id',
+      'revision_id',
+      'langcode',
+      'delta',
+      'field_block_target_id',
+    ])
+    ->orderBy('entity_id')
+    ->execute()
+    ->fetchAll();
+
+  // Check if all the old content can be migrated and bail out early if not.
+  // Too bad these messages cannot be seen anywhere (at least they aren't
+  // displayed in the output of `drush updb` and they cannot be found in the
+  // watchdog).
+  foreach ($paragraph_values as $paragraph_value) {
+    if (!isset($block_map[$paragraph_value->field_block_target_id])) {
+      throw new FieldStorageConfigUpdateForbiddenException('Cannot migrate :block block', [
+        ':block' => $paragraph_value->field_block_target_id,
+      ]);
+    }
+  }
+  foreach ($paragraph_revision_values as $paragraph_revision_value) {
+    if (!isset($block_map[$paragraph_revision_value->field_block_target_id])) {
+      throw new FieldStorageConfigUpdateForbiddenException('Cannot migrate :block', [
+        ':block' => $paragraph_revision_value->field_block_target_id,
+      ]);
+    }
+  }
+
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+
+  try {
+    // Delete old content.
+    $database->delete('paragraph__field_block');
+    $database->delete('paragraph_revision__field_block');
+
+    // Enable the block_field module in order to have the appropriate plugins
+    // available. TRUE stands for "also enable dependencies".
+    \Drupal::service('module_installer')->install(['block_field'], TRUE);
+
+    // Update the schema and the config: field storage, field config, entity
+    // form/view displays.
+    // Update the field storage per
+    // https://www.drupal.org/docs/8/api/update-api/updating-entities-and-fields-in-drupal-8#field-storage
+    $new_field_storage_config = $field_storage_config->toArray();
+    $new_field_storage_config['type'] = 'block_field';
+    $new_field_storage_config['module'] = 'block_field';
+    $new_field_storage_config['settings'] = [];
+    // Changing the field type would trigger a \Drupal\Core\Field\FieldException
+    // saying "Cannot change the field type for an existing field storage.", so
+    // let's delete the old field storage and create a new one, **retaining the
+    // old one's UUID**.
+    $field_storage_config->delete();
+    $new_field_storage = FieldStorageConfig::create($new_field_storage_config);
+    $new_field_storage->enforceIsNew(TRUE);
+    $new_field_storage->save();
+
+    // Update the field (instance) config per
+    // https://www.drupal.org/docs/8/api/update-api/updating-entities-and-fields-in-drupal-8#field-config
+    // retaining its UUID.
+    $new_field_config = $field_config->toArray();
+    $new_field_config['field_type'] = 'block_field';
+    $new_field_config['settings'] = [
+      'plugin_ids' => [
+        'search_form_block' => 'search_form_block',
+        'user_login_block' => 'user_login_block',
+        'views_block:content_recent-block_1' => 'views_block:content_recent-block_1',
+      ],
+    ];
+    $new_field = FieldConfig::create($new_field_config);
+    $new_field->original = $field_config;
+    $new_field->enforceIsNew(FALSE);
+    $new_field->save();
+
+    // Update the node field (instance) config the same way.
+    $new_node_field_config = $node_field_config->toArray();
+    $new_node_field_config['settings']['handler_settings']['target_bundles']['block'] = 'block';
+    $new_node_field_config['settings']['handler_settings']['target_bundles_drag_drop']['block']['enabled'] = TRUE;
+    $new_node_field_config['settings']['handler_settings']['target_bundles_drag_drop']['message'] = [
+      'weight' => 16,
+      'enabled' => FALSE,
+    ];
+    $new_node_field_config['settings']['handler_settings']['target_bundles_drag_drop']['promo_image'] = [
+      'weight' => 17,
+      'enabled' => FALSE,
+    ];
+    unset($new_node_field_config['settings']['handler_settings']['target_bundles_drag_drop']['header']);
+    // As we're updating the field config directly, and we're NOT fiddling with
+    // the config objects, there's no need to manually update the dependencies
+    // as they're recalculated upon saving the field config.
+    $new_node_field = FieldConfig::create($new_node_field_config);
+    $new_node_field->original = $node_field_config;
+    $new_node_field->enforceIsNew(FALSE);
+    $new_node_field->save();
+
+    // Update the entity view display, retaining its UUID.
+    $view_display_array = $view_display->toArray();
+    $view_display_array['content']['field_block']['type'] = 'block_field';
+    $view_display_array['content']['field_block']['settings'] = [];
+    $new_view_display = EntityViewDisplay::create($view_display_array);
+    $new_view_display->original = $view_display;
+    $new_view_display->enforceIsNew(FALSE);
+    $new_view_display->save();
+
+    // Update the entity form display, retaining its UUID.
+    $form_display_array = $form_display->toArray();
+    $form_display_array['content']['field_block']['type'] = 'block_field_default';
+    $form_display_array['content']['field_block']['settings'] = [
+      'plugin_id' => '',
+      'settings' => [],
+      'configuration_form' => 'full',
+    ];
+    $new_form_display = EntityFormDisplay::create($form_display_array);
+    $new_form_display->original = $form_display;
+    $new_form_display->enforceIsNew(FALSE);
+    $new_form_display->save();
+
+    // Inject the content back.
+    foreach ($paragraph_values as $paragraph_value) {
+      $values = [
+        'bundle' => $paragraph_value->bundle,
+        'deleted' => $paragraph_value->deleted,
+        'entity_id' => $paragraph_value->entity_id,
+        'revision_id' => $paragraph_value->revision_id,
+        'langcode' => $paragraph_value->langcode,
+        'delta' => $paragraph_value->delta,
+        'field_block_plugin_id' => $block_map[$paragraph_value->field_block_target_id]['id'],
+        'field_block_settings' => serialize($block_map[$paragraph_value->field_block_target_id]),
+      ];
+      $database->insert('paragraph__field_block')
+        ->fields($values)
+        ->execute();
+    }
+    foreach ($paragraph_revision_values as $paragraph_revision_value) {
+      $values = [
+        'bundle' => $paragraph_revision_value->bundle,
+        'deleted' => $paragraph_revision_value->deleted,
+        'entity_id' => $paragraph_revision_value->entity_id,
+        'revision_id' => $paragraph_revision_value->revision_id,
+        'langcode' => $paragraph_revision_value->langcode,
+        'delta' => $paragraph_revision_value->delta,
+        'field_block_plugin_id' => $block_map[$paragraph_revision_value->field_block_target_id]['id'],
+        'field_block_settings' => serialize($block_map[$paragraph_revision_value->field_block_target_id]),
+      ];
+      $database->insert('paragraph_revision__field_block')
+        ->fields($values)
+        ->execute();
+    }
+  }
+  // Catch any exceptions that are thrown. So we can fail somewhat nicely if a
+  // display plugin isn't found.
+  catch (\Exception $e) {
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('page_builder', $e);
+  }
+
+  return NULL;
+}
+
+/**
+ * Create grid layout field.
+ */
+function page_builder_update_8002(): ?string {
+  $database = \Drupal::database();
+  $grid_fields = \Drupal::service('entity_field.manager')
+    ->getFieldDefinitions('paragraph', 'grid');
+
+  // Add layout field if it doesn't exist.
+  if (!isset($grid_fields['field_grid_layout'])) {
+    $config_source = new FileStorage(DRUPAL_ROOT . '/' . Settings::get('config_sync_directory'));
+    // Start a DB transaction in order to have some hopefully meaningful
+    // rollback option if anything goes wrong.
+    $transaction = $database->startTransaction();
+
+    try {
+      // Create the field storage.
+      $field_storage = FieldStorageConfig::create([
+        'field_name' => 'field_grid_layout',
+        'type' => 'list_string',
+        'entity_type' => 'paragraph',
+        'settings' => [
+          'allowed_values_function' => '_page_builder_field_grid_layout_allowed_values',
+        ],
+        'module' => 'options',
+      ]);
+      // If this field storage's config already exist in the sync directory, use
+      // the same UUID for creating the field storage to avoid data loss during
+      // PROD deployments.
+      $config = $config_source->read('field.storage.paragraph.field_grid_layout');
+      if ($config) {
+        $field_storage->set('uuid', $config['uuid']);
+      }
+      $field_storage->save();
+
+      // Create the new field (instance).
+      $field = FieldConfig::create([
+        'field_storage' => $field_storage,
+        'bundle' => 'grid',
+        'label' => 'Grid layout',
+        'translatable' => FALSE,
+        'required' => TRUE,
+        'settings' => [],
+      ]);
+      // If this field's config already exist in the sync directory, use the
+      // same UUID for creating the field to avoid data loss during PROD
+      // deployment.
+      $config = $config_source->read('field.field.paragraph.grid.field_grid_layout');
+      if ($config) {
+        $field->set('uuid', $config['uuid']);
+      }
+      $field->save();
+    }
+    catch (Exception $e) {
+      // Catch any exceptions that are thrown.
+      $transaction->rollBack();
+      \Drupal::messenger()->addError($e->getMessage());
+      watchdog_exception('page_builder', $e);
+    }
+
+    return t('New field grid_layout has been created.')->render();
+  }
+
+  return t('No updates required.')->render();
+}
+
+/**
+ * Update grid layout field values.
+ */
+function page_builder_update_8003(array &$sandbox): ?string {
+  $database = \Drupal::database();
+  $grid_fields = \Drupal::service('entity_field.manager')
+    ->getFieldDefinitions('paragraph', 'grid');
+
+  // Initialize some variables during the first pass through.
+  if (!isset($sandbox['total'])) {
+    $sandbox['current'] = 0;
+    $sandbox['total'] = \Drupal::entityQuery('paragraph')
+      ->condition('type', 'grid')
+      ->count()
+      ->execute();
+  }
+
+  // Only convert fields if there are paragraphs found.
+  if ($sandbox['total'] > 0) {
+    // Update layout fields grid column fields still exist.
+    if (!isset($grid_fields['field_grid_columns']) || !isset($grid_fields['field_grid_column_ratios'])) {
+      $sandbox['#finished'] = 1;
+      return t('No column fields found, process aborted.')->render();
+    }
+
+    // Start a DB transaction in order to have some hopefully meaningful
+    // rollback option if anything goes wrong.
+    $transaction = $database->startTransaction();
+
+    try {
+      $paragraphs_per_batch = 10;
+
+      $ids = \Drupal::entityQuery('paragraph')
+        ->condition('type', 'grid')
+        ->sort('id')
+        ->range($sandbox['current'], $sandbox['current'] + $paragraphs_per_batch)
+        ->execute();
+
+      foreach ($ids as $id) {
+        $paragraph = Paragraph::load($id);
+        $columns = (int) $paragraph->get('field_grid_columns')
+          ->first()
+          ->getValue()['value'];
+
+        switch ($columns) {
+          case 1:
+            $paragraph->set('field_grid_layout', 'one-column')->save();
+            break;
+
+          case 2:
+            $column_ratios = $paragraph->get('field_grid_column_ratios')
+              ->getValue();
+            $column_1 = (int) $column_ratios[0]['value'];
+            $column_2 = (int) $column_ratios[1]['value'];
+            if ($column_1 === $column_2) {
+              $paragraph->set('field_grid_layout', 'two-columns')->save();
+            }
+            elseif ($column_1 > $column_2) {
+              $paragraph->set('field_grid_layout', 'two-columns-66-33')
+                ->save();
+            }
+            elseif ($column_2 > $column_1) {
+              $paragraph->set('field_grid_layout', 'two-columns-33-66')
+                ->save();
+            }
+            break;
+
+          case 3:
+            $paragraph->set('field_grid_layout', 'three-columns')->save();
+            break;
+
+          case 4:
+            $paragraph->set('field_grid_layout', 'four-columns')->save();
+            break;
+        }
+
+        $sandbox['current']++;
+      }
+    }
+    catch (Exception $e) {
+      // Catch any exceptions that are thrown.
+      $transaction->rollBack();
+      \Drupal::messenger()->addError($e->getMessage());
+      watchdog_exception('page_builder', $e);
+    }
+
+    // Update our progress information.
+    $sandbox['#finished'] = $sandbox['current'] / $sandbox['total'];
+
+    // Do some config updates once finished.
+    if ($sandbox['#finished'] === 1) {
+      return t('All Paragraphs processed.')->render();
+    }
+
+    return t('@count Paragraphs processed.', ['@count' => $sandbox['current']])->render();
+  }
+
+  $sandbox['#finished'] = 1;
+  return t('No Paragraphs found.')->render();
+}
+
+/**
+ * Remove old fields, update config.
+ */
+function page_builder_update_8004(): ?string {
+  $database = \Drupal::database();
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $grid_fields = \Drupal::service('entity_field.manager')
+    ->getFieldDefinitions('paragraph', 'grid');
+
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+
+  try {
+    // Delete old columns field if it still exists.
+    if (isset($grid_fields['field_grid_columns'])) {
+      // Delete old content.
+      $database->delete('paragraph__field_grid_columns');
+      $database->delete('paragraph_revision__field_grid_columns');
+      // Delete old field instance and storage.
+      $field_config = FieldConfig::loadByName('paragraph', 'grid', 'field_grid_columns');
+      if ($field_config) {
+        $field_config->delete();
+      }
+      $field_storage_config = FieldStorageConfig::loadByName('paragraph', 'field_grid_columns');
+      if ($field_storage_config) {
+        $field_storage_config->delete();
+      }
+    }
+
+    // Delete old column_ratios field if it still exists.
+    if (isset($grid_fields['field_grid_column_ratios'])) {
+      // Delete old content.
+      $database->delete('paragraph__field_grid_column_ratios');
+      $database->delete('paragraph_revision__field_grid_column_ratios');
+      // Delete old field instance and storage.
+      $field_config = FieldConfig::loadByName('paragraph', 'grid', 'field_grid_column_ratios');
+      if ($field_config) {
+        $field_config->delete();
+      }
+      $field_storage_config = FieldStorageConfig::loadByName('paragraph', 'field_grid_column_ratios');
+      if ($field_storage_config) {
+        $field_storage_config->delete();
+      }
+    }
+
+    // Update page_builder node form config.
+    /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $form_display */
+    $form_display = $entity_type_manager->getStorage('entity_form_display')
+      ->load('node.page_builder.default');
+    if ($form_display) {
+      // Update the entity form display, retaining its UUID.
+      $form_display_array = $form_display->toArray();
+      $form_display_array['content']['field_page_builder_elements']['settings']['edit_mode'] = 'open';
+      // Set enforcing.
+      // At the time this update hook was written there was no enforcing in the
+      // config so we can assume it has to be recreated.
+      if (!isset($form_display_array['dependencies']['enforced'])) {
+        $form_display_array['dependencies']['enforced'] = ['page_builder'];
+      }
+      $new_form_display = EntityFormDisplay::create($form_display_array);
+      $new_form_display->original = $form_display;
+      $new_form_display->enforceIsNew(FALSE);
+      $new_form_display->save();
+    }
+
+    // Update grid paragraph type's form config.
+    $form_display = $entity_type_manager->getStorage('entity_form_display')
+      ->load('paragraph.grid.default');
+    if ($form_display) {
+      // Update the entity form display, retaining its UUID.
+      $form_display_array = $form_display->toArray();
+      // Update content.
+      // Set weights.
+      $form_display_array['content']['field_background_color']['weight'] = 6;
+      $form_display_array['content']['field_border_color']['weight'] = 7;
+      $form_display_array['content']['field_grid_elements']['weight'] = 8;
+      // Set grid_elements field settings.
+      $form_display_array['content']['field_grid_elements']['settings']['edit_mode'] = 'open';
+      // Add new grid_layout field config.
+      $form_display_array['content']['field_grid_layout'] = [
+        'weight' => 3,
+        'settings' => [],
+        'third_party_settings' => [],
+        'type' => 'options_select',
+        'region' => 'content',
+      ];
+      $new_form_display = EntityFormDisplay::create($form_display_array);
+      $new_form_display->original = $form_display;
+      $new_form_display->enforceIsNew(FALSE);
+      $new_form_display->save();
+    }
+
+    // Update grid paragraph type's view display config.
+    /** @var \Drupal\Core\Entity\Entity\EntityViewDisplay $view_display */
+    $view_display = $entity_type_manager->getStorage('entity_view_display')
+      ->load('paragraph.grid.default');
+    if ($view_display) {
+      // Update the entity form display, retaining its UUID.
+      $view_display_array = $view_display->toArray();
+      $view_display_array['hidden']['field_grid_layout'] = TRUE;
+      $new_view_display = EntityViewDisplay::create($view_display_array);
+      $new_view_display->original = $view_display;
+      $new_view_display->enforceIsNew(FALSE);
+      $new_view_display->save();
+    }
+
+    // Update field_grid_elements settings config, retaining its UUID.
+    $field_config = FieldConfig::loadByName('paragraph', 'grid', 'field_grid_elements');
+    if ($field_config) {
+      // Update the node field (instance) config the same way.
+      $new_field_config = $field_config->toArray();
+      $new_field_config['settings']['handler_settings']['target_bundles']['grid'] = 'grid';
+      $new_field_config['settings']['handler_settings']['target_bundles_drag_drop']['grid']['enabled'] = TRUE;
+      $new_field = FieldConfig::create($new_field_config);
+      $new_field->original = $field_config;
+      $new_field->enforceIsNew(FALSE);
+      $new_field->save();
+    }
+
+    // Enable paragraphs_collapsible module.
+    \Drupal::service('module_installer')->install(['paragraphs_collapsible'], TRUE);
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('page_builder', $e);
+  }
+
+  return t('Grid columns and grid column ratios field removed, configs updated, paragraphs_collapsible module enabled.')->render();
+}
+
+/**
+ * Add Featured API paragraph type with API Reference field.
+ */
+function page_builder_update_8005(): ?string {
+  $database = \Drupal::database();
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+  try {
+    // Create API Reference field if it doesn't exist.
+    if (!isset(\Drupal::service('entity_field.manager')->getFieldStorageDefinitions('paragraph')['field_api_reference'])) {
+      $api_reference_field = FieldStorageConfig::create([
+        'id' => 'paragraph.field_api_reference',
+        'field_name' => 'field_api_reference',
+        'entity_type' => 'paragraph',
+        'type' => 'entity_reference',
+        'settings' => [
+          'target_type' => 'node',
+        ],
+        'module' => 'core',
+        'locked' => FALSE,
+        'cardinality' => -1,
+        'translatable' => TRUE,
+        'indexes' => [],
+        'persist_with_no_fields' => FALSE,
+        'custom_storage' => FALSE,
+      ]);
+      $api_reference_field->save();
+    }
+
+    // Create Featured API paragraph type if it does't exist.
+    if (!ParagraphsType::load('featured_api')) {
+      $featured_api_paragraphs_type = ParagraphsType::create([
+        'id' => 'featured_api',
+        'label' => 'Featured API',
+        'icon_uuid' => NULL,
+        'description' => 'An API reference element.',
+        'behavior_plugins' => [],
+      ]);
+      $featured_api_paragraphs_type->save();
+    }
+
+    // Create API Reference field of Featured API paragraph type.
+    $featured_api_api_reference_field = FieldConfig::create([
+      'id' => 'paragraph.featured_api.field_api_reference',
+      'field_name' => 'field_api_reference',
+      'entity_type' => 'paragraph',
+      'bundle' => 'featured_api',
+      'label' => 'API Reference',
+      'description' => '',
+      'required' => FALSE,
+      'translatable' => FALSE,
+      'default_value' => [],
+      'default_value_callback' => '',
+      'settings' => [
+        'handler' => 'default:node',
+        'handler_settings' => [
+          'target_bundles' => [
+            'api_reference' => 'api_reference',
+          ],
+          'sort' => [
+            'field' => '_none',
+          ],
+          'auto_create' => FALSE,
+          'auto_create_bundle' => '',
+        ],
+      ],
+      'field_type' => 'entity_reference',
+    ]);
+    $featured_api_api_reference_field->save();
+
+    // Create default view display of Featured API paragraph type.
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $featured_api_view_display = $entity_type_manager->getStorage('entity_view_display')->create([
+      'status' => TRUE,
+      'id' => 'paragraph.featured_api.default',
+      'targetEntityType' => 'paragraph',
+      'bundle' => 'featured_api',
+      'mode' => 'default',
+      'content' => [
+        'field_api_reference' => [
+          'weight' => 0,
+          'label' => 'hidden',
+          'settings' => [
+            'view_mode' => 'card',
+            'link' => FALSE,
+          ],
+          'third_party_settings' => [],
+          'type' => 'entity_reference_entity_view',
+          'region' => 'content',
+        ],
+      ],
+      'hidden' => [],
+    ]);
+    $featured_api_view_display->save();
+
+    // Create default form display of Featured API paragraph type.
+    $featured_api_form_display = $entity_type_manager->getStorage('entity_form_display')->create([
+      'status' => TRUE,
+      'id' => 'paragraph.featured_api.default',
+      'targetEntityType' => 'paragraph',
+      'bundle' => 'featured_api',
+      'mode' => 'default',
+      'content' => [
+        'field_api_reference' => [
+          'weight' => 0,
+          'settings' => [
+            'match_operator' => 'CONTAINS',
+            'size' => 60,
+            'placeholder' => '',
+          ],
+          'third_party_settings' => [],
+          'type' => 'entity_reference_autocomplete',
+          'region' => 'content',
+        ],
+      ],
+      'hidden' => [
+        'created' => TRUE,
+        'status' => TRUE,
+      ],
+    ]);
+    $featured_api_form_display->save();
+
+    // Add Featured API to Grid elements field of Grid paragraph type.
+    $field_grid_elements_config = FieldConfig::load('paragraph.grid.field_grid_elements');
+    $field_grid_elements_settings = $field_grid_elements_config->getSettings();
+    $field_grid_elements_settings['handler_settings']['target_bundles']['featured_api'] = 'featured_api';
+    $field_grid_elements_settings['handler_settings']['target_bundles_drag_drop']['featured_api'] = [
+      'enabled' => TRUE,
+      'weight' => 11,
+    ];
+    $field_grid_elements_config->set('settings', $field_grid_elements_settings);
+    $field_grid_elements_config->save();
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('page_builder', $e);
+  }
+  return t('Added new paragraph type: Featured API.')->render();
+}
+
+/**
+ * Change format setting of Border color field of Grid Paragraph type.
+ */
+function page_builder_update_8006(array &$sandbox): ?string {
+  $database = \Drupal::database();
+
+  if (!isset($sandbox['total'])) {
+    $transaction = $database->startTransaction();
+    try {
+      $field_border_color = FieldStorageConfig::load('paragraph.field_border_color');
+
+      if (isset($field_border_color)) {
+        $field_border_color_settings = $field_border_color->getSettings();
+        $field_border_color_settings['format'] = '#hexhex';
+        $field_border_color->set('settings', $field_border_color_settings);
+        $field_border_color->save();
+      }
+    }
+    catch (Exception $e) {
+      // Catch any exceptions that are thrown.
+      $transaction->rollBack();
+      \Drupal::messenger()->addError($e->getMessage());
+      watchdog_exception('page_builder', $e);
+    }
+
+    $sandbox['current'] = 0;
+    $sandbox['total'] = \Drupal::entityQuery('paragraph')
+      ->count()
+      ->execute();
+  }
+
+  if ($sandbox['total'] > 0) {
+    $transaction = $database->startTransaction();
+    try {
+      $entities_per_batch = 10;
+
+      $ids = \Drupal::entityQuery('paragraph')
+        ->range($sandbox['current'], $sandbox['current'] + $entities_per_batch)
+        ->sort('id')
+        ->execute();
+
+      $paragraphs = Paragraph::loadMultiple($ids);
+
+      foreach ($paragraphs as $paragraph) {
+        if (in_array('field_border_color', array_keys($paragraph->getFieldDefinitions()))) {
+          $value = $paragraph->field_border_color->getValue();
+          if ($value) {
+            $paragraph->field_border_color->color = strtolower($value[0]['color']);
+            $paragraph->save();
+          }
+        }
+        $sandbox['current']++;
+      }
+    }
+    catch (Exception $e) {
+      // Catch any exceptions that are thrown.
+      $transaction->rollBack();
+      \Drupal::messenger()->addError($e->getMessage());
+      watchdog_exception('page_builder', $e);
+    }
+    $sandbox['#finished'] = $sandbox['current'] / $sandbox['total'];
+
+    if ($sandbox['#finished'] === 1) {
+      return t('All paragraphs processed.')->render();
+    }
+
+    return t('@count paragraphs processed', ['@count' => $sandbox['current']])->render();
+  }
+
+  $sandbox['#finished'] = 1;
+  return t('No paragraphs found.')->render();
+}
+
+/**
+ * Change field widget for color fields.
+ */
+function page_builder_update_8007(): ?string {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $color_fields = \Drupal::service('entity_field.manager')->getFieldMapByFieldType('color_field_type');
+  $color_field_map = [];
+
+  // Go through color fields and create a better manageable array out of the
+  // results.
+  foreach ($color_fields as $entity_type_key => $entity_type) {
+    $color_field_map[$entity_type_key] = [];
+
+    foreach ($entity_type as $field_key => $field) {
+      foreach ($field['bundles'] as $bundle) {
+        if (!is_array($color_field_map[$entity_type_key][$bundle])) {
+          $color_field_map[$entity_type_key][$bundle] = [];
+        }
+        $color_field_map[$entity_type_key][$bundle][$field_key] = $field_key;
+      }
+    }
+  }
+
+  // Change form displays to the new widget.
+  foreach ($color_field_map as $entity_type_key => $entity_type) {
+    foreach ($entity_type as $bundle_key => $bundle) {
+      foreach ($bundle as $field_name) {
+        /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $form_display */
+        $form_display = $entity_type_manager->getStorage('entity_form_display')->load("{$entity_type_key}.{$bundle_key}.default");
+        if ($form_display === NULL) {
+          continue;
+        }
+        $form_display_component = $form_display->getComponent($field_name);
+        $form_display_component['type'] = 'color_field_widget_html5';
+        $form_display->setComponent($field_name, $form_display_component)->save();
+      }
+    }
+  }
+
+  return t('Successfully changed color field widgets.')->render();
+}
+
+/**
+ * Removes leftover page builder settings.
+ */
+function page_builder_update_8008(): string {
+  $settings = \Drupal::configFactory()->getEditable('page_builder.settings');
+  if (!$settings->isNew()) {
+    $settings->delete();
+    return t('Leftover page builder configuration has been removed.')->render();
+  }
+  return t('No leftover page builder configuration was found.')->render();
+}

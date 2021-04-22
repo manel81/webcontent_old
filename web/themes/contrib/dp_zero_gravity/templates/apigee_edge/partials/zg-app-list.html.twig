@@ -1,0 +1,36 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a list of Apigee entities.
+ *
+ * Available variables:
+ * - content: List of apigee entities.
+ * - view_mode: The view mode for the entities.
+ * - entity_type_id: The entity type id.
+ *
+ * @see template_preprocess_apigee_entities_list()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set classes = [
+  'zg-apigee-apps'
+] %}
+{% set output = render_var(content) %}
+
+<div {{ attributes.addClass(classes) }}>
+  {% if output %}
+    <div class="zg-apigee-apps-header">
+      <small class="zg-apigee-app-header__name">{{ "App name"|t }}</small>
+      <small class="zg-apigee-app-header__status">{{ "Status"|t }}</small>
+      <small class="zg-apigee-app-header__operations">{{ "Operations"|t }}</small>
+    </div>
+    {{ content }}
+
+  {% else %}
+    <div class="zg-apigee-app__warning zg-apigee-app__warning--no-app">
+      <span class="zg-icon--info"></span>
+      {{ 'Looks like you don’t have any apps! Get started by adding one.'|t }}
+    </div>
+  {% endif %}
+</div>

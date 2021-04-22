@@ -1,0 +1,163 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+.region--breadcrumb {
+  background-color: $breadcrumb__backgroundColor;
+}
+
+.region--trusted {
+  background-color: $trusted__backgroundColor;
+}
+
+.region--bottom-navigation {
+  background-color: $bottomNavigation__backgroundColor;
+
+  &,
+  a {
+    color: $bottomNavigation__color;
+  }
+
+  ul {
+    margin-top: 0;
+    list-style: none;
+    padding-left: 0;
+  }
+}
+
+.region--footer {
+  background-color: $footer__backgroundColor;
+  color: $footer__color;
+
+  a {
+    color: $footer__link__color;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $footer__link--hover__color;
+    }
+  }
+}
+
+.zg-page-header {
+  background-color: $pageHeader__backgroundColor;
+  color: $pageHeader__color;
+  position: relative;
+
+  h1 {
+    color: $pageHeader__color;
+  }
+}
+
+@include for-tablet-portrait-up {
+  .zg-page-header--hero {
+    min-height: $pageHeader--minHeight;
+    max-height: $pageHeader--maxHeight;
+  }
+}
+
+.zg-page-header {
+  // Make child element backgrounds transparent to ensure the background
+  // image or header text shows up.
+  &.has-background-image {
+    > * {
+      background-color: transparent;
+    }
+  }
+}
+
+.zg-page-header--overlay {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: $pageHeader__opacity;
+    background-color: $pageHeader__overlay__backgroundColor;
+  }
+}
+
+.zg-page-header--nav-above {
+  @include for-tablet-portrait-up {
+    &.zg-page-header--hero {
+      min-height: calc(#{$pageHeader--minHeight} - #{$navigation__height});
+      max-height: calc(#{$pageHeader--maxHeight} - #{$navigation__height});
+    }
+
+    &.zg-page-header--max {
+      height: calc(#{$pageHeader--maxHeight} - #{$navigation__height});
+    }
+
+    &.zg-page-header--min {
+      height: calc(#{$pageHeader--minHeight} - #{$navigation__height});
+    }
+  }
+}
+
+.zg-page-title {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.zg-page-header--title-only {
+  background-color: $pageTitle__backgroundColor;
+
+  @include for-tablet-portrait-up {
+    &.has-background-image {
+      position: relative;
+
+      .zg-page-header__first {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    }
+  }
+
+  &:not(.has-background-image) {
+    h1 {
+      color: $pageTitle__color;
+    }
+  }
+}
+
+@include for-tablet-portrait-up {
+  .zg-page-header--hero {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    .zg-page-header__first {
+      margin-top: $pageHeader__first__marginTop;
+      flex: 1;
+    }
+  }
+
+  .zg-page-header--max {
+    height: $pageHeader--maxHeight;
+  }
+
+  .zg-page-header--min {
+    height: $pageHeader--minHeight;
+  }
+}

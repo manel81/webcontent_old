@@ -1,0 +1,67 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+%tag,
+.tag {
+  @include setFontFromStack($tag__font...);
+  display: inline-block;
+  font-size: $fontSize--small;
+  line-height: 1;
+  margin: $tag__margin $tag__margin $tag__margin--bottom 0;
+  padding: $tag__padding;
+  border-radius: $tag__borderRadius;
+  border: 1px solid;
+  text-transform: uppercase;
+  border-color: $tag__borderColor;
+  background-color: $tag__background-color;
+
+  > a {
+    color: $version__color;
+
+    &:active,
+    &:focus,
+    &:hover {
+      box-shadow: $version--hover__boxShadow;
+    }
+  }
+}
+
+/// Workaround for CKEDITOR issue.
+/// @see https://project.pronovix.net/issues/9447
+a > .tag {
+  &:active,
+  &:focus,
+  &:hover {
+    box-shadow: $tag--hover__boxShadow;
+    text-decoration: $tag--hover__textDecoration;
+  }
+}
+
+%tags,
+.tags {
+  list-style: none;
+  margin: -$tag__margin 0;
+  padding: 0;
+
+  li {
+    display: inline-block;
+
+    > * {
+      @extend %tag;
+    }
+  }
+}

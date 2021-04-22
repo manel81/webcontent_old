@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+name: 'API categories'
+vid: api_categories
+description: 'Tags to categorize APIs.'
+hierarchy: 0
+weight: 0

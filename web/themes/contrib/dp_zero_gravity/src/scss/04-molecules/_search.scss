@@ -1,0 +1,98 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+.search-form {
+  .form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    .form-item {
+      margin-bottom: 0;
+    }
+
+    .button {
+      width: auto;
+    }
+
+    #edit-keys {
+      border-right: 0;
+    }
+  }
+}
+
+// Admin toolbar search theming
+.ui-autocomplete {
+  background-color: $panel__backgroundColor;
+  border: 1px solid $panel__item__borderColor;
+}
+
+// Search theming
+.search-block-form {
+  @include for-tablet-landscape-up {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.zg-search {
+  display: flex;
+  padding: 2rem 1rem;
+
+  .form-item {
+    flex: 1 0 auto;
+  }
+
+  .form-actions {
+    margin-top: 0;
+  }
+}
+
+@include for-desktop-down {
+  .search-submit-wrapper {
+    position: relative;
+
+    &::before {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: $fontFamily--icons;
+      content: $searchBlock__submit__icon;
+      font-size: $navigation__buttonIcon__fontSize;
+      width: $input__height;
+      height: $input__height;
+      color: $button__color;
+      background-color: $button--primary__backgroundColor;
+    }
+
+    &:hover::before {
+      color: $button--primary__color;
+      box-shadow: $button__boxShadow;
+    }
+  }
+
+  .zg-search__submit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    min-width: initial;
+  }
+}

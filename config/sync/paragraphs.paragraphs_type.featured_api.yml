@@ -1,0 +1,15 @@
+uuid: 8b2511c2-683b-43d4-bf8c-89fabb3b98ea
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: CRJ_Pj5mS159X60Pfo7QgURrM3v9V2S4GQ_426L_FBw
+id: featured_api
+label: 'Featured API'
+icon_uuid: null
+icon_default: null
+description: 'An API reference element.'
+behavior_plugins: {  }

@@ -1,0 +1,22 @@
+uuid: 07e27c02-4be1-480d-be83-05af1fa4b81c
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: NC7MWeoQ3dQXrSQ7hsFSfP44R4dAA3jce9g-eUg3kKI
+id: dp_zero_gravity_content
+theme: dp_zero_gravity
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

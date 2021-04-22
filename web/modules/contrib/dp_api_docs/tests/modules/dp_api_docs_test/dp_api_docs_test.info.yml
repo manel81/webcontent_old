@@ -1,0 +1,12 @@
+name: 'Devportal API Docs tests'
+type: module
+description: 'Resources for Devportal API Docs tests.'
+package: Testing
+core_version_requirement: ^8.9.1 || ^9
+dependencies:
+  - dp_api_docs:dp_api_docs
+config_devel:
+  install:
+    - field.storage.node.field_visibility
+    - field.field.node.api_basic_page.field_visibility
+version: 2.11.3

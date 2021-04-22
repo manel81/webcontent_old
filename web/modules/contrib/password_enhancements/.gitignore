@@ -1,0 +1,7 @@
+build
+phpcs.xml.dist
+composer.lock
+/.*
+!/.gitignore
+*.lock
+!/.eslintignore

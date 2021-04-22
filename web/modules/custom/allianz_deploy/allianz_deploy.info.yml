@@ -1,0 +1,6 @@
+name: Allianz Deploy
+type: module
+core_version_requirement: ^8.8.8 || ^9
+description: 'Allows applying database updates on site-specific configurations before configuration import.'
+package: Allianz
+hidden: true

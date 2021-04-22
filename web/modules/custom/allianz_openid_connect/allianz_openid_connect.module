@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Provides OpenID Connect module related customization.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+/**
+ * Implements hook_config_schema_info_alter().
+ */
+function allianz_openid_connect_config_schema_info_alter(array &$definitions): void {
+  if (isset($definitions['openid_connect.settings'])) {
+    // Add missing schema for openid connect settings.
+    $definitions['openid_connect.settings']['mapping']['userinfo_mappings']['mapping'] += [
+      'first_name' => [
+        'type' => 'string',
+        'label' => 'First name',
+      ],
+      'last_name' => [
+        'type' => 'string',
+        'label' => 'Last name',
+      ],
+      'apigee_edge_developer_id' => [
+        'type' => 'string',
+        'label' => 'Apigee Edge Developer ID',
+      ],
+      'path' => [
+        'type' => 'string',
+        'label' => 'URL alias',
+      ],
+    ];
+  }
+}

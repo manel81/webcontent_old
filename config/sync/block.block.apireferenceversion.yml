@@ -1,0 +1,30 @@
+uuid: 4a0225ff-b236-49a7-b778-5e755481871f
+langcode: en
+status: true
+dependencies:
+  module:
+    - api_reference_version
+    - node
+  theme:
+    - allianz
+id: apireferenceversion
+theme: allianz
+region: sidebar_first
+weight: -13
+provider: null
+plugin: api_reference_version_block
+settings:
+  id: api_reference_version_block
+  label: 'API Reference Version'
+  provider: api_reference_version
+  label_display: '0'
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      api_reference: api_reference
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

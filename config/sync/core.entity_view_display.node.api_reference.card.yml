@@ -1,0 +1,54 @@
+uuid: 3e83a332-ef07-46c9-b2e5-c13d5a830644
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.api_reference.field_api_category
+    - field.field.node.api_reference.field_api_header_content
+    - field.field.node.api_reference.field_api_name
+    - field.field.node.api_reference.field_description
+    - field.field.node.api_reference.field_latest_version
+    - field.field.node.api_reference.field_project_id
+    - field.field.node.api_reference.field_source_file
+    - field.field.node.api_reference.field_version
+    - node.type.api_reference
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: K0t7AIFDFsGoXt1Esu7VF7oEMF0HjD5toJZ1rZASHzw
+id: node.api_reference.card
+targetEntityType: node
+bundle: api_reference
+mode: card
+content:
+  field_api_category:
+    type: entity_reference_label
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+  field_description:
+    type: text_default
+    weight: 1
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_api_header_content: true
+  field_api_name: true
+  field_internal: true
+  field_latest_version: true
+  field_project_id: true
+  field_source_file: true
+  field_target_audience: true
+  field_tutorial: true
+  field_version: true
+  links: true

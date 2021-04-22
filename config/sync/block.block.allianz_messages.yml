@@ -1,0 +1,22 @@
+uuid: 667c24e5-efc1-47e3-afac-19d18a23cd60
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - allianz
+_core:
+  default_config_hash: TeMasGokvcsp2QPy1s-89YUN20JoToUhOgwV2CCUNpY
+id: allianz_messages
+theme: allianz
+region: top_bar
+weight: -6
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  provider: system
+  label_display: '0'
+visibility: {  }

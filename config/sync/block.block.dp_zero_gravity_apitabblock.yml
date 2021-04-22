@@ -1,0 +1,22 @@
+uuid: ab007bbd-ce96-4cf1-97bc-fba54bc065a4
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_api_docs
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: F1Wmzy5_pTXPUymtcDng-CqxzwgmDcrEfzr4Mh9y8s4
+id: dp_zero_gravity_apitabblock
+theme: dp_zero_gravity
+region: header_second
+weight: -9
+provider: null
+plugin: api_tab_block
+settings:
+  id: api_tab_block
+  label: 'API Tab block'
+  provider: dp_api_docs
+  label_display: '0'
+visibility: {  }

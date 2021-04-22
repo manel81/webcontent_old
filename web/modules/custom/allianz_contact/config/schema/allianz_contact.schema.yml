@@ -1,0 +1,62 @@
+block.settings.allianz_contact_info_block:
+  type: block_settings
+  label: Info block Settings
+  mapping:
+    icon:
+      type: string
+      label: Icon
+    icon_color:
+      type: string
+      label: Icon color
+    icon_background_color:
+      type: string
+      label: Icon background color
+    title:
+      type: text
+      label: Title
+    content:
+      type: text
+      label: Address
+block.settings.allianz_contact_contact_block:
+  type: block_settings
+  label: Contact block Settings
+  mapping:
+    title:
+      type: text
+      label: Title
+    address_icon:
+      type: string
+      label: Address icon
+    address_text:
+      type: text
+      label: Address
+    phone_icon:
+      type: string
+      label: Phone icon
+    phone_text:
+      type: text
+      label: Phone
+    email_icon:
+      type: string
+      label: Address icon
+    email_text:
+      type: text
+      label: Email
+    facebook:
+      type: text
+      label: Facebook
+    twitter:
+      type: text
+      label: Twitter
+    linked_in:
+      type: text
+      label: Linked In
+    github:
+      type: text
+      label: Github
+    icon_color:
+      type: string
+      label: Icon color
+    icon_background_color:
+      type: string
+      label: Icon background color

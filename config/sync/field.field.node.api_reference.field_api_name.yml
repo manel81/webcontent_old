@@ -1,0 +1,31 @@
+uuid: 799776ea-6b6f-4a56-9d12-594035c1d16c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_name
+    - node.type.api_reference
+    - taxonomy.vocabulary.api_name
+_core:
+  default_config_hash: o47iswgs5yAFZv10cLOWgvgy2xPXLEdprc8W7dCS9zA
+id: node.api_reference.field_api_name
+field_name: field_api_name
+entity_type: node
+bundle: api_reference
+label: 'API Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      api_name: api_name
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

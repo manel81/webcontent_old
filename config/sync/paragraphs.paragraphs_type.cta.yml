@@ -1,0 +1,15 @@
+uuid: af0f8380-6d0c-4d62-b6d9-096f61a331dc
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: vrBt_pg7Ir6NhuuACli76leTQUs5YUxr5Fb4XgaNEFM
+id: cta
+label: CTA
+icon_uuid: null
+icon_default: null
+description: 'A full width row with text and buttons.'
+behavior_plugins: {  }

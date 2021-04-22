@@ -1,0 +1,9 @@
+name: 'Devportal JSON:API'
+description: 'Patches and integrations with the core JSON:API module.'
+package: Devportal Standard
+type: module
+core_version_requirement: '^8.9.1 || ^9.0'
+php: '7.1'
+dependencies:
+  - drupal:jsonapi
+version: 2.11.3

@@ -1,0 +1,18 @@
+uuid: 8739b051-ecef-44f3-860b-2dcc34cbd099
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.business_unit
+id: group.business_unit.label
+field_name: label
+entity_type: group
+bundle: business_unit
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

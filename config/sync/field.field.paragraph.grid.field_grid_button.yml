@@ -1,0 +1,28 @@
+uuid: f0ef2907-ce17-49e2-925d-00d06d5a2505
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_grid_button
+    - paragraphs.paragraphs_type.grid
+  enforced:
+    module:
+      - page_builder
+  module:
+    - link
+_core:
+  default_config_hash: PpDfMxXViOEk2wq8Ng_D29FZ4wJjHbinI-rXl4Go_e8
+id: paragraph.grid.field_grid_button
+field_name: field_grid_button
+entity_type: paragraph
+bundle: grid
+label: 'Grid button'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

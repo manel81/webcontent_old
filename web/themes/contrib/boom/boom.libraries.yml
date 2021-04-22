@@ -1,0 +1,42 @@
+boom:
+  js:
+    dist/js/global.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+
+feather:
+  css:
+    theme:
+      icons/feather/style.css: {}
+
+boom_tabs:
+  css:
+    theme:
+      dist/css/boom_tabs.css: {}
+  js:
+    dist/js/boom_tabs.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalsettings
+
+boom_affix:
+  css:
+    theme:
+      dist/css/boom_affix.css: {}
+  js:
+    /libraries/stickyfill/dist/stickyfill.min.js: {}
+    dist/js/boom_affix.js: {}
+
+boom_docs_title:
+  js:
+    dist/js/boom_docs_title.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalsettings

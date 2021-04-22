@@ -1,0 +1,13 @@
+build
+phpcs.xml.dist
+/.*
+!/.gitignore
+*.lock
+!/.eslintignore
+
+# Ideally excluding dist would be enough but composer will exclude the generated files which is not the correct
+# behaviour.
+# @see https://github.com/composer/composer/issues/7358
+# @see https://github.com/composer/composer/issues/57
+dist/**/js/**/*.js
+dist/**/css/**/*.css

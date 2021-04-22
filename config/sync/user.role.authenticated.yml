@@ -1,0 +1,21 @@
+uuid: cb2c4c76-1111-407e-9931-a9d42d252555
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access content'
+  - 'add_api_key own developer_app'
+  - 'analytics own developer_app'
+  - 'create developer_app'
+  - 'delete own developer_app'
+  - 'edit_api_products developer_app'
+  - 'revoke_api_key own developer_app'
+  - 'search content'
+  - 'update own developer_app'
+  - 'view own developer_app'

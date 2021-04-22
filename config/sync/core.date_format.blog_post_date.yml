@@ -1,0 +1,13 @@
+uuid: 4f3e49a4-e71f-4c04-8fbd-70e496cf1a98
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_blog
+_core:
+  default_config_hash: 9b6PDoC9rPZXUwKWySFGeWkf-h9jnL7slUtr67s5zu4
+id: blog_post_date
+label: 'Blog Post Date'
+locked: false
+pattern: m.d.Y

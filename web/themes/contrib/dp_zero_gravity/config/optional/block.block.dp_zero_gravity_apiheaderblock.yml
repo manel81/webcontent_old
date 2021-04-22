@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_api_docs
+  theme:
+    - dp_zero_gravity
+id: dp_zero_gravity_apiheaderblock
+theme: dp_zero_gravity
+region: header_first
+weight: -8
+provider: null
+plugin: api_header_block
+settings:
+  id: api_header_block
+  label: 'API Header block'
+  provider: dp_api_docs
+  label_display: '0'
+visibility: {  }

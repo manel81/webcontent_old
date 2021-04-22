@@ -1,0 +1,7 @@
+block.settings.dp_faq_block:
+  type: block_settings
+  label: 'DP FAQ Block'
+  mapping:
+    quicklinks:
+      type: boolean
+      label: 'Enable quicklinks'

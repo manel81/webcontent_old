@@ -1,0 +1,27 @@
+uuid: 3fed1fa0-3cdf-4d72-9b30-b42327be6f34
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block.field_block
+    - paragraphs.paragraphs_type.block
+  enforced:
+    module:
+      - page_builder
+  module:
+    - block_field
+_core:
+  default_config_hash: 1fomO6fiB4vw0Lgay7GG-QoaFKhOMFqzJ5G9QAKczB8
+id: paragraph.block.default
+targetEntityType: paragraph
+bundle: block
+mode: default
+content:
+  field_block:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: block_field
+    region: content
+hidden: {  }

@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+id: text
+label: Text
+icon_uuid: null
+description: 'Text with WYSIWYG editor paragraph element.'
+behavior_plugins: {  }

@@ -1,0 +1,27 @@
+uuid: 055806d6-8a79-4637-9710-8916f1160851
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_product
+    - node.type.api_product_description_page
+_core:
+  default_config_hash: 5y1jeVE5V8ZwdyS0b1jFYrysjVN0g6v2K8fjq8u7ngI
+id: node.api_product_description_page.field_api_product
+field_name: field_api_product
+entity_type: node
+bundle: api_product_description_page
+label: 'API Product'
+description: 'The API Product this API Product Description Page is linked to.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: api_reference
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

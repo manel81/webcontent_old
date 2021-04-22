@@ -1,0 +1,34 @@
+uuid: d1b7c756-5c33-4dab-8d9a-2e57ead34461
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.api_product.body
+    - field.field.node.api_product.field_api_header_content
+    - field.field.node.api_product.field_api_product_category
+    - field.field.node.api_product.field_api_product_icon
+    - field.field.node.api_product.field_page_builder_elements
+    - field.field.node.api_product.field_version
+    - node.type.api_product
+  module:
+    - user
+_core:
+  default_config_hash: EAWmW1OGkiTcNpZ5QMzSf9NMXee1Rl-DR4IXZPqMCCk
+id: node.api_product.teaser
+targetEntityType: node
+bundle: api_product
+mode: teaser
+content:
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  body: true
+  field_api_header_content: true
+  field_api_product_category: true
+  field_api_product_icon: true
+  field_page_builder_elements: true
+  field_version: true

@@ -1,0 +1,13 @@
+options:
+  path-aliases:
+    %files: sites/default/files
+
+command:
+  sql:
+    sync:
+      options:
+        no-ordered-dump: true
+  core:
+    rsync:
+      options:
+        exclude-paths: private/donotcopy

@@ -1,0 +1,153 @@
+<?php
+
+/**
+ * @file
+ * Main module file for Allianz HTTP Error pages.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\allianz_error_pages\Form\Settings;
+use Drupal\file\Entity\File;
+
+/**
+ * Implements hook_theme().
+ */
+function allianz_error_pages_theme(): array {
+  return [
+    'allianz_error_pages' => [
+      'template' => 'error-pages',
+      'variables' => [
+        'http_status_text' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements template_preprocess_HOOK() for error-pages.html.twig.
+ */
+function template_preprocess_allianz_error_pages(array &$variables): void {
+  $background_image_fid = NULL;
+  $config = \Drupal::config('allianz_error_pages.settings');
+  $state = \Drupal::state();
+
+  $variables['title_attributes'] = new Attribute();
+  $variables['button_attributes'] = new Attribute();
+  if ($state->get('system.maintenance_mode')) {
+    $variables['main_attributes'] = new Attribute(['class' => ['page--maintenance'], 'role' => 'main']);
+    $variables['wrapper_attributes'] = new Attribute(['class' => ['page--maintenance__wrapper']]);
+    $variables['content_attributes'] = new Attribute(['class' => ['page--maintenance__text']]);
+    $variables['button_wrapper_attributes'] = new Attribute(['class' => ['page--maintenance__button']]);
+
+    $variables['http_status_text'] = $config->get('maintenance_content');
+    $variables['show_home_button'] = $config->get('maintenance_show_home_button');
+
+    $background_image_fid = $state->get(Settings::MAINTENANCE_BACKGROUND_IMAGE);
+  }
+  else {
+    $variables['main_attributes'] = new Attribute(['class' => ['page--http-status'], 'role' => 'main']);
+    $variables['wrapper_attributes'] = new Attribute(['class' => ['page--http-status__wrapper']]);
+    $variables['content_attributes'] = new Attribute(['class' => ['page--http-status__text']]);
+    $variables['button_wrapper_attributes'] = new Attribute(['class' => ['page--http-status__button']]);
+
+    $route_name = \Drupal::routeMatch()->getRouteName();
+    if ($route_name) {
+      switch ($route_name) {
+        case 'system.403':
+          $variables['http_status_text'] = $config->get('403_content');
+          $variables['show_home_button'] = $config->get('403_show_home_button');
+          break;
+
+        case 'system.404':
+          $variables['http_status_text'] = $config->get('404_content');
+          $variables['show_home_button'] = $config->get('404_show_home_button');
+          break;
+      }
+    }
+
+    $background_image_fid = $state->get(Settings::HTTP_ERROR_BACKGROUND_IMAGE);
+  }
+
+  if ($background_image_fid) {
+    $background_image = File::load($background_image_fid);
+    if ($background_image) {
+      $background_image = file_create_url($background_image->uri->value);
+      $variables['main_attributes']->setAttribute('style', sprintf('background-image: url(%s)', $background_image));
+    }
+  }
+
+  $variables['#attached']['library'][] = 'allianz_error_pages/error_pages';
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for page.
+ */
+function allianz_error_pages_theme_suggestions_page_alter(array &$suggestions, array $variables): void {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if (in_array($route_name, ['system.403', 'system.404'])) {
+    $suggestions[] = 'allianz_error_pages';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for image-widget.html.twig.
+ */
+function allianz_error_pages_preprocess_image_widget(array &$variables): void {
+  $element = &$variables['element'];
+
+  if (!empty($element['fids']['#value'])) {
+    $file = reset($element['#files']);
+    $variables['data']['file_' . $file->id()]['filename']['#suffix'] = ' <span class="file-size">(' . format_size($file->getSize()) . ')</span> ';
+    $variables['data']['preview'] = [
+      '#weight' => -10,
+      '#theme' => 'image_style',
+      '#style_name' => $element['#preview_image_style'],
+      '#uri' => $file->getFileUri(),
+    ];
+    $image = \Drupal::service('image.factory')->get($file->getFileUri());
+    if ($image->isValid()) {
+      $variables['data']['#width'] = $image->getWidth();
+      $variables['data']['#height'] = $image->getHeight();
+    }
+    else {
+      $variables['data']['#width'] = NULL;
+      $variables['data']['#height'] = NULL;
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for system_site_maintenance_mode.
+ */
+function allianz_error_pages_form_system_site_maintenance_mode_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $form['maintenance_mode_message']['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for maintenance_page.
+ */
+function allianz_error_pages_theme_suggestions_maintenance_page_alter(array &$suggestions, array &$variables): void {
+  $suggestions[] = 'allianz_error_pages';
+}

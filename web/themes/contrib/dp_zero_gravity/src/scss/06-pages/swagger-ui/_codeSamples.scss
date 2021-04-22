@@ -1,0 +1,14 @@
+.code-samples {
+  &__title {
+    display: block;
+    padding-top: 20px;
+    border-top: 1px solid $swaggerUi__divider__borderColor;
+  }
+
+  &__select {
+    display: block;
+    margin: $swaggerUi__codeSamples__select__margin;
+    width: auto;
+    min-width: $swaggerUi__codeSamples__select__minWidth;
+  }
+}

@@ -1,0 +1,19 @@
+uuid: e8ae0960-e088-4180-9137-ab61c409b2de
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: U1_Kz2OM-35iFTGNGJ-DlJ6JavH_hIYaIMkoDXu9-xM
+name: 'API Product Description Page'
+type: api_product_description_page
+description: 'A page builder page that gives a general overview about an API Product. <b>An API Product can only have one API Product Description page.</b>'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

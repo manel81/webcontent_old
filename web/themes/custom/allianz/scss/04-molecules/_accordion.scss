@@ -1,0 +1,8 @@
+.ui-accordion-header-active {
+  box-shadow: unset;
+  border-top: 1px solid $accordion__header__borderColor;
+}
+
+.ui-accordion-content {
+  background-color: $accordion__content__backgroundColor;
+}

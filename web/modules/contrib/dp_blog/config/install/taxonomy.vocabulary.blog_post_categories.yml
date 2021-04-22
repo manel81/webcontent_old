@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_blog
+name: 'Blog post categories'
+vid: blog_post_categories
+description: 'Categories for blog blog_posts'
+hierarchy: 0
+weight: 0

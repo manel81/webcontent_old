@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'API Name'
+vid: api_name
+description: 'Common name for grouping together different versions of API references.'
+weight: 0

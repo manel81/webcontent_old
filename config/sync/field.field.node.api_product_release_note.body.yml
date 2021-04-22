@@ -1,0 +1,25 @@
+uuid: 3a31f428-3329-466c-9c6e-ab91d99e7591
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.api_product_release_note
+  module:
+    - text
+_core:
+  default_config_hash: ZH2Jiugf7UnG5i05E-hlqLIVAf7RqvodyL6jPCvhw7A
+id: node.api_product_release_note.body
+field_name: body
+entity_type: node
+bundle: api_product_release_note
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

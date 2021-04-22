@@ -1,0 +1,30 @@
+uuid: 0b275ce6-15b5-4887-9c96-8b48167d01ea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_background_color
+    - paragraphs.paragraphs_type.cta
+  enforced:
+    module:
+      - page_builder
+  module:
+    - color_field
+_core:
+  default_config_hash: swsvPSxJqWx2FlD1zK0_Roawsja57U7pc6Xyiu3_Kdc
+id: paragraph.cta.field_background_color
+field_name: field_background_color
+entity_type: paragraph
+bundle: cta
+label: 'Background color'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    color: '#ffffff'
+    opacity: !!float 1
+default_value_callback: ''
+settings:
+  opacity: 1
+field_type: color_field_type

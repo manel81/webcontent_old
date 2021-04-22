@@ -1,0 +1,69 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - password_enhancements
+third_party_settings:
+  password_enhancements:
+    minimumRequiredConstraints: 1
+    expireSeconds: 172800
+    expireWarnSeconds: 86400
+    expiryWarningMessage: 'Your password will expire on @date_time, please <a href="@url">change your password</a> before it expires to prevent any potential data loss.'
+    constraints:
+      c20516e5-7baa-4197-9150-07b0bf6fb6d0:
+        uuid: c20516e5-7baa-4197-9150-07b0bf6fb6d0
+        id: minimum_characters
+        data:
+          required: true
+          minimum_characters: 9
+          descriptionSingular: 'Add at least one character. M'
+          descriptionPlural: 'Add @minimum_characters more characters. N'
+      c20516e5-7baa-4197-9150-07b0bf6fb6d1:
+        uuid: c20516e5-7baa-4197-9150-07b0bf6fb6d1
+        id: lower_case
+        data:
+          required: true
+          minimum_characters: 3
+          descriptionSingular: 'Add at least one lower-cased letter. O'
+          descriptionPlural: 'Add @minimum_characters more lower-cased letters. P'
+      c20516e5-7baa-4197-9150-07b0bf6fb6d2:
+        uuid: c20516e5-7baa-4197-9150-07b0bf6fb6d2
+        id: upper_case
+        data:
+          required: false
+          minimum_characters: 3
+          descriptionSingular: 'Add at least one upper-cased letter. Q'
+          descriptionPlural: 'Add @minimum_characters more upper-cased letters. R'
+      c20516e5-7baa-4197-9150-07b0bf6fb6d3:
+        uuid: c20516e5-7baa-4197-9150-07b0bf6fb6d3
+        id: number
+        data:
+          required: true
+          minimum_characters: 3
+          descriptionSingular: 'Add at least one number. S'
+          descriptionPlural: 'Add @minimum_characters more numbers. T'
+      c20516e5-7baa-4197-9150-07b0bf6fb6d4:
+        uuid: c20516e5-7baa-4197-9150-07b0bf6fb6d4
+        id: special_character
+        data:
+          required: true
+          minimum_characters: 3
+          descriptionSingular: 'Add at least one special character. U'
+          descriptionPlural: 'Add @minimum_characters more special characters. V'
+          use_custom_special_characters: true
+          special_characters: '()'
+      c20516e5-7baa-4197-9150-07b0bf6fb6d5:
+        uuid: c20516e5-7baa-4197-9150-07b0bf6fb6d5
+        id: special_character
+        data:
+          required: true
+          minimum_characters: 3
+          descriptionSingular: 'Add at least one special character. W'
+          descriptionPlural: 'Add @minimum_characters more special characters. X'
+          use_custom_special_characters: true
+          special_characters: '<>'
+id: editor
+label: editor
+weight: -7
+is_admin: null
+permissions: {  }

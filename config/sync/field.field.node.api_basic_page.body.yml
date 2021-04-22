@@ -1,0 +1,28 @@
+uuid: c497d46f-f6c1-4a6d-ac27-534e01dcb652
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.api_basic_page
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - text
+_core:
+  default_config_hash: yJEAp4xUtxMojm1lODEtxFeHjISYKSb4tv77RJf1j6s
+id: node.api_basic_page.body
+field_name: body
+entity_type: node
+bundle: api_basic_page
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

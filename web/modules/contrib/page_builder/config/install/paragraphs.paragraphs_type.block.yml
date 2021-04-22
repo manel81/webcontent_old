@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+id: block
+label: Block
+icon_uuid: null
+description: 'A block reference paragraph element.'
+behavior_plugins: {  }

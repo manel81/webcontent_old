@@ -1,0 +1,24 @@
+uuid: 15d53246-b1d7-4290-b875-73f9e5f2d59c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: yZGAvuezaBA6WzsQyWXb7B_Vv1EEqUGp4TrtFTcUhHw
+id: api_product_realease_note_pattern
+label: 'API Product Realease note pattern'
+type: 'canonical_entities:node'
+pattern: '/products/[node:field_api_ref]/[node:title]'
+selection_criteria:
+  30466544-7d4e-4454-b225-4be75511591c:
+    id: node_type
+    bundles:
+      api_product_release_note: api_product_release_note
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 30466544-7d4e-4454-b225-4be75511591c
+selection_logic: and
+weight: -5
+relationships: {  }

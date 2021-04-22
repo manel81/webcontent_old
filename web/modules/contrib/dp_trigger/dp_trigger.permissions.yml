@@ -1,0 +1,8 @@
+list trigger tokens:
+  title: 'List devportal trigger tokens'
+
+create trigger token:
+  title: 'Create devportal trigger token'
+
+revoke trigger token:
+  title: 'Revoke devportal trigger token'

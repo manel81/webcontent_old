@@ -1,0 +1,24 @@
+uuid: b0a4ddac-bbf4-4568-8574-d81eef8b7b67
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.api_bundle
+_core:
+  default_config_hash: o7LgWJYt4NQBOPPUZb8dIQTsb7QmunZFs_GWY__rrAQ
+id: node.api_bundle.status
+field_name: status
+entity_type: node
+bundle: api_bundle
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

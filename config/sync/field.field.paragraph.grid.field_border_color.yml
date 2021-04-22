@@ -1,0 +1,27 @@
+uuid: 9449f5e9-6952-447c-99ee-677b01a4edd7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_border_color
+    - paragraphs.paragraphs_type.grid
+  module:
+    - color_field
+_core:
+  default_config_hash: cXUR5wiBTHwCxx_gkdp2U0Ob5WKAPwJxYIQoz5-4Lrw
+id: paragraph.grid.field_border_color
+field_name: field_border_color
+entity_type: paragraph
+bundle: grid
+label: 'Border color'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    color: '#ffffff'
+    opacity: !!float 1
+default_value_callback: ''
+settings:
+  opacity: 1
+field_type: color_field_type

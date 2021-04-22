@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: api_description_page_pattern
+label: 'API Description Page pattern'
+type: 'canonical_entities:node'
+pattern: '/api-catalog/[node:field_api_ref]/[node:title]'
+selection_criteria:
+  18896731-2d77-41da-bf15-873ba0ea2136:
+    id: node_type
+    bundles:
+      api_description_page: api_description_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 18896731-2d77-41da-bf15-873ba0ea2136
+selection_logic: and
+weight: -5
+relationships: {  }

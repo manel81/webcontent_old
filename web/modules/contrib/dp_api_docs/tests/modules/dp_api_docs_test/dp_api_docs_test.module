@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * @file
+ * Test module for testing the Devportal API Docs module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_node_access_records().
+ */
+function dp_api_docs_test_node_access_records(NodeInterface $node): array {
+  $grants = [];
+
+  if ($node->bundle() === 'api_basic_page' && $node->isPublished()) {
+    $grants[] = [
+      'realm' => 'node_access_dp_api_docs_test_owner',
+      'gid' => $node->getOwnerId(),
+      'grant_view' => 1,
+      'grant_update' => 0,
+      'grant_delete' => 0,
+      'grant_priority' => 0,
+    ];
+
+    if (!$node->get('field_visibility')->isEmpty()) {
+      foreach (array_column($node->get('field_visibility')->getValue(), 'target_id') as $id) {
+        $grants[] = [
+          'realm' => 'node_access_dp_api_docs_test_visibility',
+          'gid' => $id,
+          'grant_view' => 1,
+          'grant_update' => 0,
+          'grant_delete' => 0,
+          'grant_priority' => 0,
+        ];
+      }
+    }
+  }
+
+  return $grants;
+}
+
+/**
+ * Implements hook_node_grants().
+ */
+function dp_api_docs_test_node_grants(AccountInterface $account, string $operation): array {
+  $grants = [];
+
+  $grants['node_access_dp_api_docs_test_owner'] = [$account->id()];
+  $grants['node_access_dp_api_docs_test_visibility'] = [$account->id()];
+
+  return $grants;
+}

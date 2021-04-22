@@ -1,0 +1,11 @@
+name: Devportal Core
+description: Provides general functionalities that other DP modules can depend on.
+package: Devportal Standard
+
+dependencies:
+  - focal_point:focal_point
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

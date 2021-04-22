@@ -1,0 +1,15 @@
+uuid: 45f685eb-573f-47c9-a95b-1048a9e09547
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: GQwiCcn7HVy9RhIVyH7PpALlxbnymORMmZlJqV7hslE
+id: block
+label: Block
+icon_uuid: null
+icon_default: null
+description: 'A block reference paragraph element.'
+behavior_plugins: {  }

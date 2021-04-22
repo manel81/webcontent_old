@@ -1,0 +1,20 @@
+uuid: bc310d2a-eaea-464a-b565-b7d9cc4dc00d
+langcode: en
+status: true
+dependencies:
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: LXP7e5Reg_NAQLXKFB-teboINxhatJtSV6dl6Mab9io
+id: dp_zero_gravity_page_title
+theme: dp_zero_gravity
+region: header_first
+weight: -6
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  provider: core
+  label_display: '0'
+visibility: {  }

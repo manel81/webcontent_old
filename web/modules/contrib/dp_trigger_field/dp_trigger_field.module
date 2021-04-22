@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * @file
+ * Adds field support for dp_trigger.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Devportal Pro module for Drupal.
+ *
+ * Copyright (C) 2018 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\node\NodeInterface;
+
+/**
+ * Formats the content as a markdown textfield.
+ *
+ * @param string $content
+ *   Raw markdown content.
+ *
+ * @return array
+ *   Formatted field data.
+ */
+function dp_trigger_field_content_text_markdown(string $content): array {
+  return [
+    'value' => $content,
+    'format' => 'github_flavored_markdown',
+  ];
+}
+
+/**
+ * Formats a list of strings as a Drupal list.
+ *
+ * Each item in the list must be in the allowed values of the field.
+ *
+ * @param string[] $items
+ *   List of values to set.
+ * @param string $field_name
+ *   Field name.
+ *
+ * @return string[]
+ *   Formatted field data.
+ */
+function dp_trigger_field_content_list(array $items, string $field_name): array {
+  /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
+  $field_manager = \Drupal::service('entity_field.manager');
+  $definitions = $field_manager->getFieldStorageDefinitions('node');
+  $allowed_values = $definitions[$field_name]->getSetting('allowed_values');
+  return array_filter(array_map(static function (string $item) use ($allowed_values): array {
+    $value = array_search($item, $allowed_values, TRUE);
+    return $value ? ['value' => $value] : [];
+  }, $items));
+}
+
+/**
+ * Formats a list of terms as a term reference list.
+ *
+ * @param string[] $terms
+ *   List of terms.
+ * @param string $field_name
+ *   Name of the field.
+ * @param string|null $vid
+ *   Vocabulary vid. If not given, the vid will be taken from the $field_name,
+ *   as "field_$vid".
+ *
+ * @return array
+ *   Formatted field data.
+ */
+function dp_trigger_field_content_terms(array $terms, string $field_name, ?string $vid = NULL): array {
+  $vid = $vid ?: substr($field_name, mb_strlen('field_'));
+  return array_filter(array_map(static function (string $term) use ($vid): array {
+    $term = devportal_api_reference_ensure_term($vid, $term, '');
+    return $term ? [
+      'target_id' => $term->id(),
+    ] : [];
+  }, $terms));
+}
+
+/**
+ * Formats an alias as a Drupal path.
+ *
+ * @param string|null $alias
+ *   The path alias. If null, then alias will be unset.
+ * @param \Drupal\node\NodeInterface $node
+ *   Owner node.
+ *
+ * @return array
+ *   Formatted field data.
+ */
+function dp_trigger_field_path(?string $alias, NodeInterface $node): array {
+  $path = $node->get('path')[0] ?? new stdClass();
+  return $alias && $path ? [
+    'alias' => $alias,
+  ] + $path->getValue() : [];
+}

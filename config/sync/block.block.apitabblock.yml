@@ -1,0 +1,20 @@
+uuid: 6dd6eda3-e769-419b-9130-be0ebd46a21a
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_api_docs
+  theme:
+    - allianz
+id: apitabblock
+theme: allianz
+region: header_second
+weight: -12
+provider: null
+plugin: api_tab_block
+settings:
+  id: api_tab_block
+  label: 'API Tab block'
+  provider: dp_api_docs
+  label_display: '0'
+visibility: {  }

@@ -1,0 +1,41 @@
+.region--bottom-navigation {
+  > .container {
+    > * {
+      .block-title {
+        &::before {
+          background: unset;
+        }
+      }
+    }
+
+    .block--block-content {
+      border: unset;
+    }
+  }
+
+  .bn__img-panel {
+    background-color: $bottomNavigation__backgroundColor;
+    border-radius: $bottomNavigation--img__borderRadius;
+    width: $bottomNavigation--img--panelWidth;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: $gutter__width / 2;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .bn__slogan-wrapper {
+    background-color: $bottomNavigation--slogan__backgroundColor;
+    border-bottom: 1px solid $bottomNavigation--slogan__borderColor;
+    height: $bottomNavigation--slogan--wrapperHeight;
+    display: flex;
+    justify-content: center;
+
+    .bn__slogan {
+      text-align: center;
+      margin-top: $bottomNavigation--slogan--marginTop;
+    }
+  }
+}

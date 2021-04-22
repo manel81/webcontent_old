@@ -1,0 +1,36 @@
+{% set attributes = attributes.addClass(['card', 'card--summary']) %}
+{% set title_attributes = title_attributes.addClass(['card__title', 'h4']) %}
+{%
+  set linkAttributes = create_attribute({
+  'class': [
+    'card--summary__target',
+    'card__link',
+    'card__link--arrow',
+  ],
+})
+%}
+{% block card %}
+  <article{{ attributes }}>
+    {% block header %}
+      {#  <header class="card__header"></header>  #}
+    {% endblock %}
+    {% block title %}
+      <h2{{ title_attributes }}>
+        {{ label }}
+      </h2>
+      <address class="card__author text--small">{{ formatted_user_name_and_date }}</address>
+    {% endblock %}
+    {% block body %}
+      {#  <section class="card__body"></section>  #}
+      {{ content }}
+    {% endblock %}
+    {% block footer %}
+      <footer class="card__footer">
+        <a{{ linkAttributes.setAttribute('href', url).setAttribute('rel', 'bookmark') }}>{{ 'Read More'|t }}</a>
+      </footer>
+    {% endblock %}
+    {% block background %}
+      <div class="card__background has-shadow"></div>
+    {% endblock %}
+  </article>
+{% endblock %}

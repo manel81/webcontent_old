@@ -1,0 +1,53 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+@mixin invalidFormElement() {
+  animation: shake 0.4s 1;
+  border-color: $input--error__borderColor;
+}
+
+// # Errors
+select {
+  &.invalid {
+    @include invalidFormElement();
+  }
+}
+
+input[type='text'],
+input[type='password'],
+input[type='search'],
+input[type='email'],
+input[type='file'],
+textarea {
+  &.invalid {
+    @include invalidFormElement();
+  }
+}
+
+button {
+  &.invalid {
+    @include invalidFormElement();
+  }
+}
+
+// Leaving these hardcoded values here as fallback.
+.errors-wrapper {
+  margin: 2rem;
+  padding: $panel__paddingVertical $panel__paddingHorizontal;
+  animation: scaleUp 0.5s;
+  border: 1px solid $input--error__borderColor;
+}

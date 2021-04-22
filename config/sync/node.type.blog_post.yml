@@ -1,0 +1,22 @@
+uuid: 2c4d0dd2-3576-4ded-a413-48c76ce8ef1e
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_blog
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: l3XMg2dyZjUP753Pr-70JWXRhps8Rgpxo_-GUWdGi_4
+name: 'Blog post'
+type: blog_post
+description: 'Content type for creating Blog posts'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

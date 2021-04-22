@@ -1,0 +1,99 @@
+uuid: 62f867ca-eaca-4067-89ca-ff48bc3e7257
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.page_builder.field_header
+    - field.field.node.page_builder.field_page_builder_elements
+    - node.type.page_builder
+  enforced:
+    module:
+      - page_builder
+  module:
+    - paragraphs
+    - path
+    - text
+_core:
+  default_config_hash: BZGyMkO_3wdpY1czP-WG2kFVKVUgi_F8fG8df50cdmo
+id: node.page_builder.default
+targetEntityType: node
+bundle: page_builder
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_header:
+    weight: 7
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_page_builder_elements:
+    type: entity_reference_paragraphs
+    weight: 8
+    settings:
+      title: 'Page Builder element'
+      title_plural: 'Page Builder elements'
+      edit_mode: open
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    region: content
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 3
+    region: content
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 6
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 4
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+  url_redirects:
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,219 @@
+<?php
+
+/**
+ * @file
+ * Main module file for In-page navigation.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\block\Entity\Block;
+use Drupal\in_page_navigation\InPageNavigationConfiguration;
+use Drupal\node\NodeInterface;
+
+/**
+ * Default DOM selector.
+ */
+// phpcs:disable DrupalPractice.Constants.GlobalConstant.GlobalConstant
+// @deprecated in in_page_navigation: 2.8.0 and is removed from
+// in_page_navigation:3.0.0.
+const IN_PAGE_NAVIGATION_DEFAULT_SELECTOR = 'main .layout-content h2';
+// phpcs:enable
+
+/**
+ * Implements hook_theme().
+ */
+function in_page_navigation_theme(): array {
+  return [
+    'block__in_page_navigation' => [
+      'render element' => 'elements',
+      'template' => 'block--in-page-navigation',
+      'base hook' => 'block',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function in_page_navigation_form_block_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  /** @var \Drupal\block\BlockForm $block_form */
+  $block_form = $form_state->getFormObject();
+  /** @var \Drupal\block\Entity\Block $block */
+  $block = $block_form->getEntity();
+  $plugin = $block->getPlugin()->getBaseId();
+  if ($plugin !== 'system_menu_block') {
+    return;
+  }
+  $form['ip_navigation'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Use in-page navigation'),
+    '#default_value' => $block->getThirdPartySetting('in_page_navigation', 'ip_navigation', FALSE),
+    '#return_value' => 'attach_ip_navigation',
+  ];
+  // setThirdPartySettings needs to be added by the entity builder, not by the
+  // submit handler.
+  $form['#entity_builders'][] = '_in_page_navigation_form_builder';
+}
+
+/**
+ * Add the in-page navigation checkbox to the menu blocks.
+ *
+ * @param string $entity_type
+ *   The entity type.
+ * @param \Drupal\block\Entity\Block $block
+ *   The block entity that will have a third party setting added to it.
+ * @param array $form
+ *   The form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The state of the form.
+ */
+function _in_page_navigation_form_builder(string $entity_type, Block $block, array &$form, FormStateInterface $form_state): void {
+  if ($form_state->getValue('ip_navigation')) {
+    $block->setThirdPartySetting('in_page_navigation', 'ip_navigation', $form_state->getValue('ip_navigation'));
+  }
+  else {
+    $block->unsetThirdPartySetting('in_page_navigation', 'ip_navigation');
+  }
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function in_page_navigation_preprocess_block(array &$variables): void {
+  if (!empty($variables['elements']['#id'])) {
+    /** @var \Drupal\block\Entity\Block $block */
+    $block = Block::load($variables['elements']['#id']);
+    if ($block) {
+      $class = $block->getThirdPartySetting('in_page_navigation', 'ip_navigation');
+      if ($class) {
+        $variables['#attached']['library'][] = 'in_page_navigation/in_page_navigation';
+        $variables['attributes']['class'][] = $class;
+      }
+      /** @var \Drupal\in_page_navigation\Service\InPageNavigationConfigurationManagerInterface $in_page_nav_config_mgr */
+      $in_page_nav_config_mgr = \Drupal::service('in_page_navigation.configuration_manager');
+      $in_page_nav_configuration = $in_page_nav_config_mgr->getConfigurationForTheme(\Drupal::theme()->getActiveTheme()->getName());
+      $variables['#attached']['drupalSettings']['ip_navigation']['dom_element'] = $in_page_nav_configuration->domSelector();
+      $variables['#attached']['drupalSettings']['ip_navigation']['top_offset'] = $in_page_nav_configuration->scrollOffset();
+      $cacheable_metadata = CacheableMetadata::createFromRenderArray($variables)->merge(CacheableMetadata::createFromObject($in_page_nav_config_mgr));
+      $cacheable_metadata->applyTo($variables);
+      // @todo This should not be here. Find a way that allows external
+      // components to change selectors.
+      /** @var \Drupal\node\Entity\NodeInterface $node */
+      $node = \Drupal::routeMatch()->getParameter('node');
+      if ($node instanceof NodeInterface && $node->getType() === 'api_reference') {
+        $variables['#attached']['drupalSettings']['ip_navigation']['dom_element'] = 'h4.opblock-tag > a, section.models h4 > span';
+      }
+    }
+  }
+}
+
+/**
+ * Gets the DOM selector for a theme.
+ *
+ * phpcs:disable Drupal.Commenting.Deprecated.DeprecatedMissingSeeTag
+ *
+ * @param string $theme
+ *   The theme name.
+ *
+ * @return string
+ *   The DOM selector.
+ *
+ * @throws \Drupal\in_page_navigation\Exception\InvalidArgumentException
+ *   Thrown when the given theme name does not exist.
+ *
+ * @deprecated in in_page_navigation:2.8.0 and is removed from
+ * in_page_navigation:3.0.0. Use the in_page_navigation.configuration_manager
+ * service instead.
+ */
+function _in_page_navigation_get_dom_selector(string $theme): string {
+  /** @var \Drupal\in_page_navigation\Service\InPageNavigationConfigurationManagerInterface $config_manager */
+  $config_manager = \Drupal::service('in_page_navigation.configuration_manager');
+  return $config_manager->getConfigurationForTheme($theme)->domSelector();
+}
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function in_page_navigation_library_info_alter(array &$libraries, string $extension): void {
+  if ($extension === 'swagger_ui_formatter' && isset($libraries['swagger_ui_formatter.swagger_ui_integration'])) {
+    // Set the right dependency chain to Swagger UI and In-page navigation.
+    if (\Drupal::service('library.discovery')->getLibraryByName('in_page_navigation', 'in_page_navigation') !== FALSE) {
+      $libraries['swagger_ui_formatter.swagger_ui_integration']['dependencies'][] = 'in_page_navigation/in_page_navigation';
+    }
+  }
+}
+
+/**
+ * Implements hook_form_system_theme_settings_alter().
+ */
+function in_page_navigation_form_system_theme_settings_alter(array &$form, FormStateInterface $form_state): void {
+  if ($form['config_key']['#value'] === 'system.theme.global') {
+    return;
+  }
+
+  /** @var \Drupal\in_page_navigation\Service\InPageNavigationConfigurationManagerInterface $in_page_nav_config_manager */
+  $in_page_nav_config_manager = \Drupal::service('in_page_navigation.configuration_manager');
+  $in_page_nav_configuration = $in_page_nav_config_manager->getConfigurationForTheme($form_state->getBuildInfo()['args'][0]);
+
+  $form['in_page_navigation'] = [
+    '#type' => 'details',
+    '#title' => t('In page navigation'),
+    '#open' => TRUE,
+    '#description' => t('The In-page navigation module related settings.'),
+  ];
+  $form['in_page_navigation']['in_page_navigation_selector'] = [
+    '#type' => 'textfield',
+    '#title' => t('DOM element'),
+    '#description' => t('The selector where the navigation collects the headings from.'),
+    '#default_value' => $in_page_nav_configuration->domSelector(),
+  ];
+
+  $form['in_page_navigation']['in_page_navigation_scroll_offset'] = [
+    '#type' => 'number',
+    '#step' => 1,
+    '#title' => t('Scroll offset'),
+    '#default_value' => $in_page_nav_configuration->scrollOffset(),
+  ];
+
+  array_unshift($form['#submit'], '_in_page_navigation_system_theme_settings_submit');
+}
+
+/**
+ * Additional form submit handler for system_theme_settings form.
+ *
+ * @see in_page_navigation_form_system_theme_settings_alter()
+ */
+function _in_page_navigation_system_theme_settings_submit(array &$form, FormStateInterface $form_state): void {
+  $in_page_nav_dom_selector = trim($form_state->getValue('in_page_navigation_selector'));
+  $in_page_nav_scroll_offset = (int) $form_state->getValue('in_page_navigation_scroll_offset');
+  /** @var \Drupal\in_page_navigation\Service\InPageNavigationConfigurationManagerInterface $config_manager */
+  $config_manager = \Drupal::service('in_page_navigation.configuration_manager');
+  $config_manager->saveConfigurationForTheme($form_state->getBuildInfo()['args'][0], new InPageNavigationConfiguration($in_page_nav_dom_selector, $in_page_nav_scroll_offset));
+  // Unset the in_page_navigation_selector key, otherwise Drupal tries saving
+  // it into [THEME_NAME].settings.
+  // @see https://www.drupal.org/project/drupal/issues/2623146
+  $form_state->unsetValue('in_page_navigation_selector');
+  $form_state->unsetValue('in_page_navigation_scroll_offset');
+}

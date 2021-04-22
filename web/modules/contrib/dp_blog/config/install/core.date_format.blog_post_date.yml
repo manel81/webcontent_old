@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_blog
+id: blog_post_date
+label: 'Blog Post Date'
+locked: false
+pattern: m.d.Y

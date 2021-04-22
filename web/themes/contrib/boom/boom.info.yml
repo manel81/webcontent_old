@@ -1,0 +1,37 @@
+name: 'Big Boom'
+type: theme
+description: 'The Big Boom base theme.'
+core_version_requirement: ^8.9.1 || ^9.0
+package: DevPortal Standard
+screenshot: 'screenshot.png'
+base theme: stable
+hidden: true
+
+regions:
+  navigation: 'Navigation'
+  header: 'Header'
+  tabs: 'Tabs'
+  breadcrumb: 'Breadcrumb'
+  help: 'Help'
+  highlighted: 'Highlighted'
+  sidebar_first: 'Sidebar First'
+  content: 'Content'
+  sidebar_second: 'Sidebar Second'
+  bottom_navigation: 'Bottom Navigation'
+  footer: 'Footer'
+  hidden: 'Hidden region for referenced blocks'
+
+libraries:
+  - boom/boom
+  - boom/feather
+
+libraries-override:
+  # Remove individual stylesheets.
+  node/drupal.node.preview:
+    css:
+      theme:
+        css/node.preview.css: false
+
+ckeditor_stylesheets:
+  - /icons/feather/style.css
+version: 2.11.3

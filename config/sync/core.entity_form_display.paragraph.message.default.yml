@@ -1,0 +1,38 @@
+uuid: 6fa88ddd-1636-4d28-a65d-b9a6bf11185c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.message.field_message_type
+    - field.field.paragraph.message.field_text
+    - paragraphs.paragraphs_type.message
+  enforced:
+    module:
+      - page_builder
+  module:
+    - text
+_core:
+  default_config_hash: dghbP7wTPxOBZVGP71x75Ktw1qHIEN0JGtYyJQjtv1A
+id: paragraph.message.default
+targetEntityType: paragraph
+bundle: message
+mode: default
+content:
+  field_message_type:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_text:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

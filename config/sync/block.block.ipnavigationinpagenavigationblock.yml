@@ -1,0 +1,28 @@
+uuid: e36a5894-7d55-4e18-85a3-8186b531a80f
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - in_page_navigation
+  theme:
+    - allianz
+id: ipnavigationinpagenavigationblock
+theme: allianz
+region: sidebar_first
+weight: -11
+provider: null
+plugin: in_page_navigation_block
+settings:
+  id: in_page_navigation_block
+  label: 'IP Navigation: In-page navigation block'
+  provider: in_page_navigation
+  label_display: '0'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      api_reference: api_reference
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

@@ -1,0 +1,25 @@
+uuid: 7c2212ee-5657-43fb-bdec-74a638f167d8
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic_block:25e19869-1fce-4edf-8fae-84c8c4c20f7a'
+  module:
+    - block_content
+  theme:
+    - allianz
+id: apicatalog
+theme: allianz
+region: bottom_navigation
+weight: -10
+provider: null
+plugin: 'block_content:25e19869-1fce-4edf-8fae-84c8c4c20f7a'
+settings:
+  id: 'block_content:25e19869-1fce-4edf-8fae-84c8c4c20f7a'
+  label: 'API catalog'
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

@@ -1,0 +1,30 @@
+uuid: 20639a54-5f17-4af4-875e-247cfb703659
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_background_color
+    - paragraphs.paragraphs_type.grid
+  enforced:
+    module:
+      - page_builder
+  module:
+    - color_field
+_core:
+  default_config_hash: sZECBMfWVT9Cyvowf-9eP_5iJ44gW7Zt--T3VWbx6rA
+id: paragraph.grid.field_background_color
+field_name: field_background_color
+entity_type: paragraph
+bundle: grid
+label: 'Background color'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    color: '#ffffff'
+    opacity: !!float 1
+default_value_callback: ''
+settings:
+  opacity: 1
+field_type: color_field_type

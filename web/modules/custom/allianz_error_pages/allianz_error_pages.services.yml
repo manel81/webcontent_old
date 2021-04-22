@@ -1,0 +1,4 @@
+services:
+  logger.channel.allianz_error_pages:
+    parent: logger.channel_base
+    arguments: ['allianz_error_pages_enhancements']

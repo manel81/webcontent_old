@@ -1,0 +1,33 @@
+uuid: ad8599b2-f531-46c1-8b5c-f9717112ede1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.blog_post.body
+    - field.field.node.blog_post.field_blog_post_categories
+    - field.field.node.blog_post.field_teaser_picture
+    - node.type.blog_post
+  enforced:
+    module:
+      - dp_blog
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: Av0TyXeoQatYL3ipKdepCi8MCmBFxRnyoBkbsYiywBg
+id: node.blog_post.default
+targetEntityType: node
+bundle: blog_post
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_blog_post_categories: true
+  field_teaser_picture: true
+  links: true

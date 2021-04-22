@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+  config:
+    - field.storage.paragraph.field_api_reference
+    - node.type.api_reference
+    - paragraphs.paragraphs_type.featured_api
+id: paragraph.featured_api.field_api_reference
+field_name: field_api_reference
+entity_type: paragraph
+bundle: featured_api
+label: 'API Reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      api_reference: api_reference
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

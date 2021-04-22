@@ -1,0 +1,16 @@
+api_content_trigger.tokens.trigger:
+  path: '/dp-trigger/{token}/{node_type}'
+  defaults:
+    _controller: Drupal\api_content_trigger\Controller\TriggerController::trigger
+  methods:
+    - POST
+  requirements:
+    # \Drupal\dp_trigger\Routing\TokenParamConverter is responsible for the
+    # access control in this case.
+    # phpcs:ignore DrupalPractice.Yaml.RoutingAccess.OpenCallback
+    _access: 'TRUE'
+  options:
+    parameters:
+      token:
+        type: 'dp-trigger-token'
+

@@ -1,0 +1,22 @@
+uuid: 698f28b6-a998-4175-8e2b-ee4ca504abb3
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - allianz
+_core:
+  default_config_hash: HESUSbePSzAp6uXZkN7090xyLICpr2e9dz5na5SO8Ow
+id: allianz_help
+theme: allianz
+region: help
+weight: -6
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  provider: help
+  label_display: '0'
+visibility: {  }

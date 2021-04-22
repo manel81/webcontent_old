@@ -1,0 +1,87 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Buttons
+.btn {
+  @extend %button;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: $button--disabled__opacity;
+  }
+
+  &.authorize {
+    @extend %button--primary;
+
+    svg {
+      display: none;
+    }
+  }
+
+  &.execute {
+    @extend %button--primary;
+  }
+
+  &.try-out__btn {
+    @extend %button--secondary;
+  }
+}
+
+.btn-group,
+.execute-wrapper {
+  padding: $swaggerUi__opBlock__header__padding;
+
+  @include for-tablet-portrait-up {
+    .btn {
+      ~ .btn {
+        margin-left: $buttons__marginLeft;
+      }
+    }
+  }
+}
+
+.authorization__btn {
+  svg {
+    display: none;
+  }
+
+  &.locked {
+    &::after {
+      @include setFontIcon($swaggerUi__auth--locked__icon);
+      color: $swaggerUi__auth__fontIcon__color;
+      font-size: $icon__fontSize;
+    }
+  }
+
+  &.unlocked {
+    &::after {
+      @include setFontIcon($swaggerUi__auth--unlocked__icon);
+      color: $swaggerUi__auth__fontIcon__color;
+      font-size: $icon__fontSize;
+    }
+  }
+}
+
+.download-contents {
+  @extend %button;
+  @extend %button--secondary;
+  position: absolute;
+  // This is an approximate distance from the scrollbar. If the scrollbar would get themed eventually
+  // we could calculate the distance based on that value.
+  bottom: 20px;
+  right: 20px;
+}

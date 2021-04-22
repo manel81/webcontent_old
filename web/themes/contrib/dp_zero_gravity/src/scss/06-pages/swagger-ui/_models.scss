@@ -1,0 +1,178 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Models
+.model-toggle {
+  &::after {
+    padding-left: 0.5rem;
+    @include setFontIcon($swaggerUi__expand__icon);
+    color: $swaggerUi__icon--active__color;
+    font-size: $icon__fontSize;
+    position: relative;
+    top: 5px;
+  }
+
+  &.collapsed {
+    &::after {
+      @include setFontIcon($swaggerUi__model--closed__icon);
+      color: $swaggerUi__icon__color;
+    }
+  }
+}
+
+.model-title {
+  position: relative;
+
+  &:hover .model-hint {
+    visibility: visible;
+  }
+}
+
+.model-hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  padding: 0.5rem;
+  width: 100px;
+  z-index: 1;
+  white-space: normal;
+  word-wrap: break-word;
+  color: $swaggerUi__model__hint__color;
+  background: $swaggerUi__model__hint__backgroundColor;
+}
+
+.models {
+  &.is-open {
+    > h4 {
+      &::after {
+        @include setFontIcon($swaggerUi__model--open__icon);
+      }
+    }
+  }
+
+  > div {
+    box-shadow: $panel--hover__boxShadow;
+  }
+
+  > h4 {
+    @extend %swaggerUi__section__heading;
+
+    &::after {
+      @extend %expand-operation;
+      @extend %expand-operation__icon;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    svg {
+      display: none;
+    }
+  }
+}
+
+.model-container {
+  ~ .model-container {
+    border-top: 1px solid $swaggerUi__divider__borderColor;
+  }
+
+  .model-box {
+    margin: 0;
+  }
+
+  > .model-box {
+    position: relative;
+
+    > span {
+      &:first-child {
+        padding: $code--block__padding;
+        background-color: $code__backgroundColor;
+        display: flex;
+        align-items: center;
+
+        &::after {
+          @include setFontIcon($swaggerUi__model--closed__icon);
+          font-size: $icon__fontSize;
+          padding-left: 0.5rem;
+        }
+      }
+
+      &:last-child {
+        display: none;
+      }
+    }
+  }
+}
+
+.model-box {
+  .model-jump-to-path {
+    position: relative;
+    top: 4px;
+  }
+
+  &.deprecated {
+    opacity: 0.5;
+  }
+}
+
+.model-title {
+  @extend %text--lead;
+}
+
+// # Props
+.prop {
+  word-break: break-all;
+  white-space: normal;
+}
+
+.prop-type {
+  color: $swaggerUi__model__propType__color;
+}
+
+// # Table
+.parameter__name {
+  @include setFontFromStack($swaggerUi__opParam__font...);
+  color: $swaggerUi__opParam__color;
+
+  &.required {
+    span {
+      position: relative;
+      top: -0.66em;
+
+      &::after {
+        @include setFontFromStack($text--small__font...);
+        font-size: $fontSize--small;
+        content: 'required';
+        padding-left: 0.25em;
+        color: $swaggerUi__opParam--required__color;
+      }
+    }
+  }
+}
+
+.parameter__in,
+.parameter__type {
+  @include setFontFromStack($code__font...);
+}
+
+.parameter__in,
+.parameter__extension {
+  font-style: italic;
+  color: $text--small__color;
+}

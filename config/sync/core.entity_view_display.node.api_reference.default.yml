@@ -1,0 +1,57 @@
+uuid: 06ee9c46-7f1a-4d56-b22b-290bc53ee1cb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.api_reference.field_api_category
+    - field.field.node.api_reference.field_api_header_content
+    - field.field.node.api_reference.field_api_name
+    - field.field.node.api_reference.field_description
+    - field.field.node.api_reference.field_latest_version
+    - field.field.node.api_reference.field_project_id
+    - field.field.node.api_reference.field_source_file
+    - field.field.node.api_reference.field_version
+    - node.type.api_reference
+  module:
+    - swagger_ui_formatter
+    - user
+_core:
+  default_config_hash: QFK58dZo3LM40VA5NjrJOh7teDKxCeRtRi-7NpQ1oJA
+id: node.api_reference.default
+targetEntityType: node
+bundle: api_reference
+mode: default
+content:
+  field_source_file:
+    weight: 1
+    label: hidden
+    settings:
+      validator: default
+      validator_url: ''
+      doc_expansion: list
+      supported_submit_methods:
+        get: get
+        put: put
+        post: post
+        delete: delete
+        options: options
+        head: head
+        patch: patch
+      show_top_bar: false
+      sort_tags_by_name: false
+    third_party_settings: {  }
+    type: swagger_ui_file
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_api_category: true
+  field_api_header_content: true
+  field_api_name: true
+  field_description: true
+  field_latest_version: true
+  field_project_id: true
+  field_version: true

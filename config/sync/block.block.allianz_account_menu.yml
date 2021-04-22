@@ -1,0 +1,27 @@
+uuid: 26969edf-c330-4188-b4c8-e41e2ffbb14b
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - allianz
+_core:
+  default_config_hash: 6Vuqzl6TDe0PmmGBXN5cJFGkd2ixvqZw3yW03k-7oF4
+id: allianz_account_menu
+theme: allianz
+region: navigation
+weight: -4
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 1
+  expand_all_items: false
+visibility: {  }

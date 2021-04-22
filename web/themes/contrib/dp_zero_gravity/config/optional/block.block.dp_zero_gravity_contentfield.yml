@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_header
+  module:
+    - fieldblock
+    - text
+  theme:
+    - dp_zero_gravity
+id: dp_zero_gravity_contentfield
+theme: dp_zero_gravity
+region: header_first
+weight: -9
+provider: null
+plugin: 'fieldblock:node'
+settings:
+  id: 'fieldblock:node'
+  label: 'Header field'
+  provider: fieldblock
+  label_display: '0'
+  label_from_field: false
+  field_name: field_header
+  formatter_id: text_trimmed
+  formatter_settings:
+    trim_length: 600
+visibility: {  }

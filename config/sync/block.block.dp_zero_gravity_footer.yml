@@ -1,0 +1,27 @@
+uuid: 5f40d6d8-5c4a-46e0-a043-dc0b51ccedb0
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.footer
+  module:
+    - system
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: hVy2tQKOGIVgalv0IU6rtuoFpW4Yvj64xrAoVyukpgo
+id: dp_zero_gravity_footer
+theme: dp_zero_gravity
+region: footer
+weight: -6
+provider: null
+plugin: 'system_menu_block:footer'
+settings:
+  id: 'system_menu_block:footer'
+  label: 'Footer menu'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,30 @@
+uuid: f655bb41-44f9-4099-a191-263b37259e75
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_api.field_api_reference
+    - paragraphs.paragraphs_type.featured_api
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: 59dK4L8KvHU1yYkgBzHlxv9aUUZUtLls9HTbMgbrD3s
+id: paragraph.featured_api.default
+targetEntityType: paragraph
+bundle: featured_api
+mode: default
+content:
+  field_api_reference:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden:
+  created: true
+  status: true

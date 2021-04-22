@@ -1,0 +1,19 @@
+uuid: b0411c86-5c91-44eb-b1fa-1d9fe6b93991
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: JBaBZthaHhd277G7Bw58kIr6tJufAmbxv2qzGvWGJ04
+name: 'API Product'
+type: api_product
+description: 'Content type for API Products.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

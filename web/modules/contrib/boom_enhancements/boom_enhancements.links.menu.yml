@@ -1,0 +1,5 @@
+system.admin_boom_enhancements_settings:
+  title: 'Devportal Theme Enhancements Settings'
+  route_name: boom_enhancements.settings
+  parent: system.admin_devportal
+  description: 'Manage Devportal Theme Enhancements settings.'

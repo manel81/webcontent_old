@@ -1,0 +1,28 @@
+uuid: 37e75954-40a3-4161-889b-f732ec33654a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.icon.field_icon
+    - field.field.paragraph.icon.field_icon_bg_color
+    - field.field.paragraph.icon.field_icon_color
+    - paragraphs.paragraphs_type.icon
+  module:
+    - options
+_core:
+  default_config_hash: t_6xG9xOY9YAGcTYSkUSIXR70GIppwxv3_n3pn89xCk
+id: paragraph.icon.default
+targetEntityType: paragraph
+bundle: icon
+mode: default
+content:
+  field_icon:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+hidden:
+  field_icon_bg_color: true
+  field_icon_color: true

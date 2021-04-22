@@ -1,0 +1,19 @@
+uuid: 08e884dd-a3fd-401a-b753-63da225ae442
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: NX21xZghQqtJGCSqS6cvgIZrPxSrkNMVq-N0YleX5WQ
+name: 'API Product release note'
+type: api_product_release_note
+description: 'Content type for providing release notes for an API Product.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

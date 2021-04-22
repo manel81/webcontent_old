@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_latest_version
+    - node.type.api_reference
+id: node.api_reference.field_latest_version
+field_name: field_latest_version
+entity_type: node
+bundle: api_reference
+label: 'Latest version'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

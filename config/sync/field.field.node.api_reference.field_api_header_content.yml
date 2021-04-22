@@ -1,0 +1,26 @@
+uuid: 53e60fac-ce93-47ae-9e5d-7329d477eb98
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_header_content
+    - node.type.api_reference
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - text
+_core:
+  default_config_hash: IbwSNEc-9Om45KHghYs6a9g1zAdVX27vUX7eAFtE0no
+id: node.api_reference.field_api_header_content
+field_name: field_api_header_content
+entity_type: node
+bundle: api_reference
+label: 'API header'
+description: 'This text will be displayed on API related pages in the main header area.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,45 @@
+uuid: c6fa3ffd-db12-46f1-8dea-e557128fce14
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.cta.field_administrative_title
+    - field.field.paragraph.cta.field_background_color
+    - field.field.paragraph.cta.field_buttons
+    - field.field.paragraph.cta.field_text
+    - paragraphs.paragraphs_type.cta
+  enforced:
+    module:
+      - page_builder
+  module:
+    - link
+    - text
+_core:
+  default_config_hash: M2FDuqb0qq0GodyRbBiyT4eUEA8BUZy6i1VMk8zV6AU
+id: paragraph.cta.default
+targetEntityType: paragraph
+bundle: cta
+mode: default
+content:
+  field_buttons:
+    weight: 1
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_text:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  field_administrative_title: true
+  field_background_color: true

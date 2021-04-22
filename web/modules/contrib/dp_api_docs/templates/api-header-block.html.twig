@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * Default theme implementation for API header.
+ *
+ * Available variables:
+ * - attributes: The attribute object for the header.
+ * - title: The title of the API.
+ * - version: The version of the API.
+ * - tags: The tags on the API (API categories by default).
+ * - content: The content of the header.
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% block api_header_wrapper %}
+  <div {{ attributes }}>
+    {% block api_header_title %}
+      <h1 class="page-title page-title--api">{{ title }}</h1><span class="version">{{ version }}</span>
+    {% endblock %}
+    {% block api_header_tags %}
+      {% if tags %}
+        {{ tags }}
+      {% endif %}
+    {% endblock %}
+    {% block api_header_content %}
+      {{ content }}
+    {% endblock %}
+  </div>
+{% endblock %}

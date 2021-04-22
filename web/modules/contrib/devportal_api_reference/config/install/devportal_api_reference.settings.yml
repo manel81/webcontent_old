@@ -1,0 +1,3 @@
+allow_version_duplication: false
+manual_mode_default: false
+enable_validation: true

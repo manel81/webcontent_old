@@ -1,0 +1,7 @@
+name: API Reference version
+description: Provides versioning for API references.
+type: module
+package: API Reference
+core_version_requirement: ^8.9
+dependencies:
+  - devportal_api_reference:devportal_api_reference

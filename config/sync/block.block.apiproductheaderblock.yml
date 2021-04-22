@@ -1,0 +1,20 @@
+uuid: 24d66807-55a0-43ea-95a6-6d040d4b0a4a
+langcode: en
+status: true
+dependencies:
+  module:
+    - allianz_api_product
+  theme:
+    - allianz
+id: apiproductheaderblock
+theme: allianz
+region: header_first
+weight: -12
+provider: null
+plugin: api_product_header_block
+settings:
+  id: api_product_header_block
+  label: 'API Product Header block'
+  provider: allianz_api_product
+  label_display: '0'
+visibility: {  }

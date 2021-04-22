@@ -1,0 +1,30 @@
+uuid: 4215c14e-2aa9-46e5-a02f-008c61fddbad
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_reference
+    - node.type.api_page_builder
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: 6ROgGcjWf5DX6Ja_NwqhHRUK0dODC9aAdPHy_cNefdU
+id: node.api_page_builder.field_api_reference
+field_name: field_api_reference
+entity_type: node
+bundle: api_page_builder
+label: 'API Reference'
+description: 'The API this API Page Builder page is linked to.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: api_reference
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

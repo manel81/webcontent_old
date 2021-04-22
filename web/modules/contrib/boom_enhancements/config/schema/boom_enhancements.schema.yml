@@ -1,0 +1,15 @@
+boom_enhancements.settings:
+  type: config_object
+  label: 'Settings'
+  mapping:
+    node_types:
+      type: sequence
+      label: 'Page title exclude for CTs'
+      sequence:
+        type: string
+    colors_source:
+      type: string
+      label: 'Source of brand colors'
+    icons_source:
+      type: string
+      label: 'Source of brand icons'

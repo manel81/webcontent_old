@@ -1,0 +1,14 @@
+uuid: d35b2e6e-f4f5-4201-981e-fb27f4375be5
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.business_unit
+id: business_unit-anonymous
+label: Anonymous
+weight: -102
+internal: true
+audience: anonymous
+group_type: business_unit
+permissions_ui: true
+permissions: {  }

@@ -1,0 +1,20 @@
+uuid: d70ce2fe-e308-4a3c-b4f8-4503f11a9938
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: UZ9-fezEI-_Ncpl-cD5zcqYzygWb7jcJfIwWDXTDv0E
+name: large_rect
+label: 'Large rectangle (480×480)'
+effects:
+  9bc7a0a4-9a7c-4201-9749-dd1be6148e1e:
+    uuid: 9bc7a0a4-9a7c-4201-9749-dd1be6148e1e
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 480
+      height: 480
+      anchor: center-center

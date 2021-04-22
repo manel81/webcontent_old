@@ -1,0 +1,3 @@
+administer header background entity:
+  title: 'Administer Header Background entity'
+  restrict access: TRUE

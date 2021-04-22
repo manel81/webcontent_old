@@ -1,0 +1,6 @@
+dp_api_docs.content_overview:
+  title: API Pages
+  base_route: entity.node.canonical
+  route_name: view.api_pages.api_tabs_sorting
+  class: \Drupal\dp_api_docs\Plugin\Menu\DpApiDocsContentOverviewTab
+  weight: 30

@@ -1,0 +1,100 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Modal
+.dialog-ux {
+  @extend %zg-dialog;
+}
+
+.backdrop-ux {
+  @extend %zg-backdrop;
+}
+
+.modal-ux {
+  @extend %zg-modal;
+}
+
+.modal-ux-content {
+  @extend %zg-modal__content;
+
+  .scopes {
+    h2 {
+      font-size: $fontSize--large;
+      margin-top: 1rem;
+
+      a {
+        @extend %link;
+        font-size: $fontSize--base;
+        text-transform: none;
+        cursor: pointer;
+        padding-left: 1rem;
+      }
+    }
+
+    .checkbox {
+      display: flex;
+
+      input {
+        position: relative;
+        top: 5px;
+      }
+
+      label {
+        display: flex;
+      }
+    }
+  }
+}
+
+.close-modal {
+  &::before {
+    @include setFontIcon($swaggerUi__close__icon);
+    font-size: $icon__fontSize;
+  }
+
+  svg {
+    display: none;
+  }
+}
+
+.modal-ux-header {
+  padding: $swaggerUi__opBlock__header__padding;
+  display: flex;
+  border-bottom: 1px solid $swaggerUi__divider__borderColor;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-modal {
+  padding: 1rem;
+}
+
+// # Authorize
+.auth-btn-wrapper {
+  margin: {
+    top: 1rem;
+    bottom: 1rem;
+  }
+}
+
+.auth-container {
+  padding-top: 1rem;
+
+  ~ .auth-container {
+    border-top: 1px solid $swaggerUi__divider__borderColor;
+  }
+}

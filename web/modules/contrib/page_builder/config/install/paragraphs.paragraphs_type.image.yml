@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+id: image
+label: Image
+icon_uuid: null
+description: 'A simple image element.'
+behavior_plugins: {  }

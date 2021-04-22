@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @file
+ * Theme file for THEMENAME theme.
+ */
+
+declare(strict_types = 1);

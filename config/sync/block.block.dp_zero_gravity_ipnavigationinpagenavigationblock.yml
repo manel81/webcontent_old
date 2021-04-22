@@ -1,0 +1,30 @@
+uuid: ea2c2026-f98b-4e29-8ee8-7cba19da297e
+langcode: en
+status: true
+dependencies:
+  module:
+    - in_page_navigation
+    - node
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: Vs9hrfR6sNvZdvdqz69DV4fK6-WUfSqwd4UgX8AU2LI
+id: dp_zero_gravity_ipnavigationinpagenavigationblock
+theme: dp_zero_gravity
+region: content
+weight: -8
+provider: null
+plugin: in_page_navigation_block
+settings:
+  id: in_page_navigation_block
+  label: 'IP Navigation: In-page navigation block'
+  provider: in_page_navigation
+  label_display: '0'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      api_reference: api_reference
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

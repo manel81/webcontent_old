@@ -1,0 +1,30 @@
+uuid: 0b595772-8948-465d-8055-2b6f53d14f3d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_header
+  module:
+    - fieldblock
+    - text
+  theme:
+    - allianz
+_core:
+  default_config_hash: 9xqAeaDGMawI7jcVMXHPLqd5xwJMXomVe1AuT57G2Z8
+id: allianz_contentfield
+theme: allianz
+region: header_first
+weight: -10
+provider: null
+plugin: 'fieldblock:node'
+settings:
+  id: 'fieldblock:node'
+  label: 'Header field'
+  provider: fieldblock
+  label_display: '0'
+  label_from_field: false
+  field_name: field_header
+  formatter_id: text_trimmed
+  formatter_settings:
+    trim_length: 600
+visibility: {  }

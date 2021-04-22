@@ -1,0 +1,12 @@
+<main{{ main_attributes }}>
+  <div{{ wrapper_attributes }}>
+    <div{{ content_attributes }}>
+      {{ http_status_text|raw }}
+    </div>
+    {% if show_home_button %}
+    <div{{ button_wrapper_attributes }}>
+      <a{{ button_attributes }} href="{{ url('<front>') }}">{{ 'Back to home'|t }}</a>
+    </div>
+    {% endif %}
+  </div>
+</main>

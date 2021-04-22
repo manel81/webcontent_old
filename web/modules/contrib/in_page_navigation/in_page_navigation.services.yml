@@ -1,0 +1,4 @@
+services:
+  in_page_navigation.configuration_manager:
+    class: Drupal\in_page_navigation\Service\InPageNavigationConfigurationManager
+    arguments: ['@config.factory', '@theme_handler', '@theme.manager']

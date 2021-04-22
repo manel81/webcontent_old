@@ -1,0 +1,26 @@
+uuid: 2c3dfc07-b580-43bf-bad7-68da0bd465f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_header
+    - node.type.api_page_builder
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - text
+_core:
+  default_config_hash: 2Rwyx8_nroDXga5wOGXtwsxGl4vpcdzTCS6SikxJaY4
+id: node.api_page_builder.field_header
+field_name: field_header
+entity_type: node
+bundle: api_page_builder
+label: Header
+description: 'Text that appears in the header region below the page title.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

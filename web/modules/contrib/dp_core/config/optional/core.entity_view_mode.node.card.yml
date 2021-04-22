@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_core
+  module:
+    - node
+id: node.card
+label: Card
+targetEntityType: node
+cache: true

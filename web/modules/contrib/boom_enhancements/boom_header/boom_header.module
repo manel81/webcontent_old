@@ -1,0 +1,111 @@
+<?php
+
+/**
+ * @file
+ * Main module file for Boom Header.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\boom_header\Entity\HeaderBackground;
+use Drupal\crop\Entity\Crop;
+use Drupal\file\Entity\File;
+use Drupal\node\Entity\NodeType;
+use Drupal\user\Entity\Role;
+
+/**
+ * Implements template_preprocess_page().
+ */
+function boom_header_preprocess_page(array &$variables): void {
+  $header_backgrounds = [];
+  foreach (HeaderBackground::loadMultiple() as $header_background) {
+    /** @var \Drupal\Core\Access\AccessResultInterface $access */
+    $access = $header_background->access('view', NULL, TRUE);
+    if (!$access->isAllowed()) {
+      continue;
+    }
+
+    $header_backgrounds[] = $header_background;
+  }
+
+  if (count($header_backgrounds) <= 0) {
+    return;
+  }
+
+  HeaderBackground::sort($header_backgrounds);
+
+  $applied = reset($header_backgrounds);
+  $file_field_value = $applied->get('hbg_image')->first()->getValue();
+  $background_image = File::load($file_field_value['target_id']);
+  if (!$background_image) {
+    return;
+  }
+  // Save the image URL in 'header_image_path' variable.
+  $background_image_path = $background_image->getFileUri();
+  $file_path = file_create_url($background_image_path);
+  $variables['header_image_path'] = $file_path;
+
+  // Save the focal point of the image in 'header_image_focus' variable.
+  $crop_type = \Drupal::config('focal_point.settings')->get('crop_type');
+  $crop = Crop::findCrop($background_image_path, $crop_type);
+  if (!$crop) {
+    return;
+  }
+  $focus = \Drupal::service('focal_point.manager')->absoluteToRelative($crop->x->value, $crop->y->value, $file_field_value['width'], $file_field_value['height']);
+  $variables['header_image_focus'] = $focus;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete() for user_role entities.
+ *
+ * Removes deleted role from header backgrounds that use it.
+ */
+function boom_header_user_role_delete(Role $role): void {
+  foreach (HeaderBackground::loadMultiple() as $header_background) {
+    $visibility = $header_background->getVisibility();
+    if (!isset($visibility['user_role']['roles'][$role->id()])) {
+      continue;
+    }
+
+    unset($visibility['user_role']['roles'][$role->id()]);
+    $header_background->setVisibilityConfig('user_role', $visibility['user_role']);
+    $header_background->save();
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete() for node_type entities.
+ */
+function boom_header_node_type_delete(NodeType $node_type): void {
+  if (!$node_type->isSyncing()) {
+    foreach (HeaderBackground::loadMultiple() as $header_background) {
+      $visibility = $header_background->getVisibility();
+      if (!isset($visibility['node_type']['bundles'][$node_type->id()])) {
+        continue;
+      }
+
+      unset($visibility['node_type']['bundles'][$node_type->id()]);
+      $header_background->setVisibilityConfig('node_type', $visibility['node_type']);
+      $header_background->save();
+    }
+  }
+}

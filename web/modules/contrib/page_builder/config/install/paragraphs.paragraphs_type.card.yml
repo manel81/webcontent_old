@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+id: card
+label: Card
+icon_uuid: null
+description: 'A text element with uploadable background image and an optional link.'
+behavior_plugins: {  }

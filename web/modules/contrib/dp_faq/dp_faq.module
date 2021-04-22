@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Main module file for Devportal FAQ.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Component\Utility\Html;
+
+/**
+ * Implements hook_preprocess_HOOK() for block__dp_faq_block.
+ */
+function dp_faq_preprocess_block__dp_faq_block(array &$variables): void {
+  // When adding a block via block_field module, the block doesn't have an id,
+  // a unique id is generated for it.
+  $id = $variables['attributes']['id'] ?? Html::getUniqueId('dpfaqblock');
+  if (!isset($variables['content']['#attached']['drupalSettings'])) {
+    $variables['content']['#attached']['drupalSettings'] = [];
+  }
+  $variables['attributes']['id'] = $id;
+  // block_field module stores checkbox values as integers, need to convert them
+  // to boolean.
+  $variables['elements']['#configuration']['quicklinks'] = (bool) $variables['elements']['#configuration']['quicklinks'];
+  $variables['content']['#attached']['drupalSettings']['dp_faq'] = [
+    $id => [
+      'quicklinks' => $variables['elements']['#configuration']['quicklinks'],
+    ],
+  ];
+}

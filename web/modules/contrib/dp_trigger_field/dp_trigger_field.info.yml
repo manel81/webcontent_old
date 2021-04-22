@@ -1,0 +1,11 @@
+name: Devportal trigger field
+description: Supports updating a field on an API Reference
+package: Devportal Pro
+
+dependencies:
+  - dp_trigger:dp_trigger
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

@@ -1,0 +1,24 @@
+uuid: d5dda2d9-4b94-4b34-ab84-43f77e60c115
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.api_bundle.field_api_ref
+    - field.field.node.api_bundle.field_description
+    - node.type.api_bundle
+  module:
+    - user
+_core:
+  default_config_hash: VCNEGjF63dY7mSVlFKnVeWL7glCFy_Y4gczdu_vamys
+id: node.api_bundle.teaser
+targetEntityType: node
+bundle: api_bundle
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_api_ref: true
+  field_description: true

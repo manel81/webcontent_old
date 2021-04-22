@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * @file
+ * Theme file for boom theme.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function boom_page_attachments_alter(array &$attachments): void {
+  $attachments['#attached']['drupalSettings']['sticky_navigation'] = theme_get_setting('sticky_navigation');
+  // Allow to override Search block selector in mobile navigation.
+  $attachments['#attached']['drupalSettings']['nav_search_block'] = '.search-block-form';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for region.html.twig.
+ */
+function boom_preprocess_region(array &$variables): void {
+  if ($variables['region'] === 'navigation' && isset($variables['elements']['searchform'])) {
+    $variables['has_search'] = TRUE;
+  }
+
+  $variables['copyright'] = t('&copy; Copyright Devportal.io @year. All rights reserved.', [
+    '@year' => date('Y'),
+  ]);
+}
+
+/**
+ * Helper function to prepare clean css classes.
+ *
+ * @param string $string
+ *   The string to prepare.
+ *
+ * @return string
+ *   The lowercase cleaned class.
+ */
+function create_clean_html_attribute(string $string): string {
+  return strtolower(Html::cleanCssIdentifier($string));
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for search_block_form().
+ */
+function boom_form_search_block_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['actions']['submit']['#prefix'] = '<div class="search-submit-wrapper">';
+  $form['actions']['submit']['#suffix'] = '</div>';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu.html.twig.
+ */
+function boom_preprocess_menu(array &$variables): void {
+  if (isset($variables['menu_name'])) {
+    $variables['attributes']['class'][] = 'menu';
+    $variables['attributes']['class'][] = 'menu--' . str_replace('_', '-', $variables['menu_name']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for views-view.html.twig.
+ */
+function boom_preprocess_views_view(array &$variables): void {
+  if (isset($variables['css_class'])) {
+    $target_classes = explode(' ', $variables['css_class']);
+    $variables['attributes']['class'] = array_diff($variables['attributes']['class'], $target_classes);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for views_exposed_form().
+ */
+function boom_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $view_id = $form_state->get('view')->id();
+
+  $tabbed_views = [
+    'devportal_faq',
+    'blog_posts',
+    'api_catalog',
+  ];
+
+  if (!in_array($view_id, $tabbed_views)) {
+    return;
+  }
+
+  $form['#attached']['library'][] = 'boom/boom_tabs';
+  $form['#attached']['drupalSettings']['tabsConfig'] = [
+    'viewName' => Html::cleanCssIdentifier($view_id),
+    'filterToHideId' => "#{$form['#id']}",
+  ];
+  $form['#attributes']['class'][] = 'views-exposed-form--hidden';
+}

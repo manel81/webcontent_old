@@ -1,0 +1,9 @@
+.has-background-image {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.has-border {
+  border-left: 4px solid transparent;
+}

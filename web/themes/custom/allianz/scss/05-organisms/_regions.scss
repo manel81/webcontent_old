@@ -1,0 +1,16 @@
+.region--bottom-navigation img {
+  display: inline-block;
+}
+
+.region--content {
+  &.has-ip-navigation {
+    .block--in-page-navigation {
+      height: 100%;
+      overflow-y: unset;
+
+      .ip-navigation-item {
+        width: 2.5rem;
+      }
+    }
+  }
+}

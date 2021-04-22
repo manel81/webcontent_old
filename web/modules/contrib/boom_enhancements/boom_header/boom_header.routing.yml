@@ -1,0 +1,46 @@
+entity.boom_header.canonical:
+  path: '/admin/structure/boom_header/{boom_header}'
+  defaults:
+  # Calls the view controller, defined in the annotation of the header background entity
+    _entity_view: 'boom_header'
+    _title: 'Header Background Content'
+  requirements:
+  # Calls the access controller of the entity, $operation 'view'
+    _permission: 'administer header background entity'
+
+entity.boom_header.collection:
+  path: '/admin/structure/boom_header/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the header background entity.
+    _entity_list: 'boom_header'
+    _title: 'Header Background List'
+  requirements:
+  # Checks for permission directly.
+    _permission: 'administer header background entity'
+
+entity.boom_header.add_form:
+  path: '/admin/structure/boom_header/add'
+  defaults:
+  # Calls the form.add controller, defined in the header background entity.
+    _entity_form: boom_header.add
+    _title: 'Add Header Background'
+  requirements:
+    _permission: 'administer header background entity'
+
+entity.boom_header.edit_form:
+  path: '/admin/structure/boom_header/{boom_header}/edit'
+  defaults:
+  # Calls the form.edit controller, defined in the header background entity.
+    _entity_form: boom_header.edit
+    _title: 'Edit Header Background'
+  requirements:
+    _permission: 'administer header background entity'
+
+entity.boom_header.delete_form:
+  path: '/admin/structure/boom_header/{boom_header}/delete'
+  defaults:
+    # Calls the form.delete controller, defined in the header background entity.
+    _entity_form: boom_header.delete
+    _title: 'Delete Header Background'
+  requirements:
+    _permission: 'administer header background entity'

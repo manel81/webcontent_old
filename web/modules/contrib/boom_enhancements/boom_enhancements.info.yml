@@ -1,0 +1,14 @@
+name: Boom theme enhancements
+description: Module enhancements for Boom theme
+package: Boom
+
+dependencies:
+  - color_field:color_field
+  - drupal:editor
+  - drupal:ckeditor
+  - devportal:devportal
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

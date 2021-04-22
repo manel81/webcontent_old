@@ -1,0 +1,13 @@
+page_builder.select2:
+  version: 1.x
+  css:
+    theme:
+      css/page_builder.select2.css: {}
+  js:
+    js/page_builder.select2.js: {}
+
+page_builder:
+  version: 1.x
+  css:
+    theme:
+      css/page_builder.css: {}

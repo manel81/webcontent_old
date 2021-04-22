@@ -1,0 +1,8 @@
+name: Allianz Error pages
+description: Defines custom HTTP (403, 404) error pages and Maintenance page with custom content.
+package: Allianz
+
+configure: allianz_error_pages.settings
+
+type: module
+core_version_requirement: ^8.8.8

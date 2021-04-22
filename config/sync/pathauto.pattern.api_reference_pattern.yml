@@ -1,0 +1,24 @@
+uuid: 544e6719-9c51-4c7d-89ff-f23b1c637198
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: jAjMwLVFt153G6c1kaQvjdVYevnjG06ocuUsvTpWGqw
+id: api_reference_pattern
+label: 'API reference pattern'
+type: 'canonical_entities:node'
+pattern: '/api-catalog/[node:title]'
+selection_criteria:
+  b5f09600-42e2-4b6d-a49e-99570d5cf626:
+    id: node_type
+    bundles:
+      api_reference: api_reference
+    negate: false
+    context_mapping:
+      node: node
+    uuid: b5f09600-42e2-4b6d-a49e-99570d5cf626
+selection_logic: and
+weight: -5
+relationships: {  }

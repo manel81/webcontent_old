@@ -1,0 +1,37 @@
+uuid: 1c24d40f-7f06-4104-96e4-417a17b06167
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.api_basic_page.body
+    - field.field.node.api_basic_page.field_api_reference
+    - node.type.api_basic_page
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: jbFjf-OpPF7cPWJAYWacug4yz_c-lKKgtaN0ipoD0H8
+id: node.api_basic_page.teaser
+targetEntityType: node
+bundle: api_basic_page
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_api_reference: true

@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Partial for page header when navigation is inside the header.
+ *
+ * Available variables:
+ *   @see page.html.twig
+ */
+#}
+<header{{ header_attributes}}>
+  {% block region_navigation %}
+    {{ page.navigation }}
+  {% endblock %}
+  {% block region_header_first %}
+    {{ page.header_first }}
+  {% endblock %}
+  {% block region_header_second %}
+    {{ page.header_second }}
+  {% endblock %}
+</header>

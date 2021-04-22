@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+  config:
+    - field.field.paragraph.featured_api.field_api_reference
+    - paragraphs.paragraphs_type.featured_api
+id: paragraph.featured_api.default
+targetEntityType: paragraph
+bundle: featured_api
+mode: default
+content:
+  field_api_reference:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden:
+  created: true
+  status: true

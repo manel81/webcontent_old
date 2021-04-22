@@ -1,0 +1,6 @@
+403_content: '<h1 class="h1--hero">403</h1><p>Operation not allowed.</p>'
+403_show_home_button: TRUE
+404_content: '<h1 class="h1--hero">404</h1><p>Sorry, it looks like we have a problem.</p><p>Maybe the friction is caused by space debris or the page you are looking for is not exist.</p>'
+404_show_home_button: TRUE
+maintenance_content: '<h1 class="h1--hero">Under<br/>maintenance</h1><p>Updates are coming soon.</p><p>Thank you for your patience.</p><p>See you in the future!</p>'
+maintenance_show_home_button: TRUE

@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+id: featured_api
+label: 'Featured API'
+icon_uuid: null
+description: 'An API reference element.'
+behavior_plugins: {  }

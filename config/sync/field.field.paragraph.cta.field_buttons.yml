@@ -1,0 +1,28 @@
+uuid: 3964ee94-52ef-4702-8745-1e9cb63beaae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_buttons
+    - paragraphs.paragraphs_type.cta
+  enforced:
+    module:
+      - page_builder
+  module:
+    - link
+_core:
+  default_config_hash: q7OBvbMYF_21ffLELzeA7L4nXLnfSgSzHTjHDDc-yLY
+id: paragraph.cta.field_buttons
+field_name: field_buttons
+entity_type: paragraph
+bundle: cta
+label: Buttons
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

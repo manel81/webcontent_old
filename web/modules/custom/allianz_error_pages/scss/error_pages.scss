@@ -1,0 +1,27 @@
+.page {
+  &--http-status,
+  &--maintenance {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-top: 0;
+    height: 100%;
+
+    &,
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__wrapper {
+      max-width: 50%;
+      text-align: center;
+    }
+
+    &__text {
+      margin-bottom: 2rem;
+    }
+  }
+}

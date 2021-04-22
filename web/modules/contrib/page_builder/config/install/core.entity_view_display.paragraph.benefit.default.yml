@@ -1,0 +1,39 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.benefit.field_administrative_title
+    - field.field.paragraph.benefit.field_icon
+    - field.field.paragraph.benefit.field_icon_bg_color
+    - field.field.paragraph.benefit.field_icon_color
+    - field.field.paragraph.benefit.field_text
+    - paragraphs.paragraphs_type.benefit
+  module:
+    - options
+    - text
+  enforced:
+    module:
+      - page_builder
+id: paragraph.benefit.default
+targetEntityType: paragraph
+bundle: benefit
+mode: default
+content:
+  field_icon:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_text:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  field_administrative_title: true
+  field_icon_bg_color: true
+  field_icon_color: true

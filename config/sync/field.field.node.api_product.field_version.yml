@@ -1,0 +1,21 @@
+uuid: 9309d809-93af-4f65-a342-ea50bb35b999
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_version
+    - node.type.api_product
+_core:
+  default_config_hash: ydbO62JKV4DZIijHrp7YgkoFWIP2tmsU4r2Rj9rZR9U
+id: node.api_product.field_version
+field_name: field_version
+entity_type: node
+bundle: api_product
+label: Version
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

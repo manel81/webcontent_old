@@ -1,0 +1,15 @@
+boom_header.view:
+  route_name: entity.boom_header.canonical
+  base_route: entity.boom_header.canonical
+  title: View
+
+boom_header.page_edit:
+  route_name: entity.boom_header.edit_form
+  base_route: entity.boom_header.canonical
+  title: Edit
+
+boom_header.delete_confirm:
+  route_name:  entity.boom_header.delete_form
+  base_route:  entity.boom_header.canonical
+  title: Delete
+  weight: 10

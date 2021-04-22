@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Module file for the Devportal module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function devportal_toolbar_alter(array &$items): void {
+  $items['administration']['#attached']['library'][] = 'devportal/menu';
+}

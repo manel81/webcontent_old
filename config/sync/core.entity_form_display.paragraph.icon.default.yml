@@ -1,0 +1,45 @@
+uuid: 718c117b-2e6e-4c43-9b17-021008162b44
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.icon.field_icon
+    - field.field.paragraph.icon.field_icon_bg_color
+    - field.field.paragraph.icon.field_icon_color
+    - paragraphs.paragraphs_type.icon
+  module:
+    - color_field
+    - select2
+_core:
+  default_config_hash: cymhvxPltUR1tiInkSbtlQ8KXM_rcI4zSpyN4oI3jLM
+id: paragraph.icon.default
+targetEntityType: paragraph
+bundle: icon
+mode: default
+content:
+  field_icon:
+    weight: 0
+    settings:
+      width: 100%
+    third_party_settings: {  }
+    type: select2
+    region: content
+  field_icon_bg_color:
+    weight: 1
+    settings:
+      placeholder_color: ''
+      placeholder_opacity: ''
+    third_party_settings: {  }
+    type: color_field_widget_default
+    region: content
+  field_icon_color:
+    weight: 2
+    settings:
+      placeholder_color: ''
+      placeholder_opacity: ''
+    third_party_settings: {  }
+    type: color_field_widget_default
+    region: content
+hidden:
+  created: true
+  status: true

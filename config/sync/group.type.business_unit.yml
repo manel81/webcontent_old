@@ -1,0 +1,10 @@
+uuid: 7dc99ef8-b7a6-4251-a79f-5a7d58311ada
+langcode: en
+status: true
+dependencies: {  }
+id: business_unit
+label: 'Business unit'
+description: ''
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

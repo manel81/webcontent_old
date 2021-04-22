@@ -1,0 +1,28 @@
+name: Devportal
+type: profile
+description: 'Devportal install profile.'
+core_version_requirement: ^8.9.1 || ^9.0
+install:
+  - drupal:admin_toolbar
+  - drupal:admin_toolbar_tools
+  - drupal:admin_toolbar_links_access_filter
+  - drupal:block
+  - drupal:boom_enhancements
+  - drupal:contact_block
+  - drupal:dynamic_page_cache
+  - drupal:node
+  - drupal:page_cache
+  - drupal:devportal_api_bundle
+  - drupal:devportal
+  - drupal:dp_faq
+  - drupal:guides
+  - drupal:help
+themes:
+  - boom
+  - dp_zero_gravity
+  - seven
+distribution:
+  name: Devportal
+  install:
+    theme: dp_zero_gravity
+version: 2.11.3

@@ -1,0 +1,22 @@
+uuid: e051dde0-35cf-41ce-9855-35f23bd5124b
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - allianz
+_core:
+  default_config_hash: NC7MWeoQ3dQXrSQ7hsFSfP44R4dAA3jce9g-eUg3kKI
+id: allianz_content
+theme: allianz
+region: content
+weight: -9
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

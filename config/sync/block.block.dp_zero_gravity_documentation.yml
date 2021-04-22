@@ -1,0 +1,36 @@
+uuid: fcb67292-b8fc-4e21-b541-c0b445ffa2b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.documentation
+  module:
+    - in_page_navigation
+    - system
+  theme:
+    - dp_zero_gravity
+third_party_settings:
+  in_page_navigation:
+    ip_navigation: attach_ip_navigation
+_core:
+  default_config_hash: 6gKs1pPmVF5BFyCZeMvrgBoK2rEFwK1Is7aWttJxptc
+id: dp_zero_gravity_documentation
+theme: dp_zero_gravity
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'system_menu_block:documentation'
+settings:
+  id: 'system_menu_block:documentation'
+  label: Documentation
+  provider: system
+  label_display: visible
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    pages: '/docs/*'
+    negate: false
+    context_mapping: {  }

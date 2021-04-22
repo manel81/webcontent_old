@@ -1,0 +1,30 @@
+uuid: bfc9b74e-2cc0-48c1-bd14-11c56879bbe1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon_color
+    - paragraphs.paragraphs_type.benefit
+  enforced:
+    module:
+      - page_builder
+  module:
+    - color_field
+_core:
+  default_config_hash: AiFDhqpbVEJXWdL9qtb-tPOI5Q2tIwWdGCEI9tQKaGM
+id: paragraph.benefit.field_icon_color
+field_name: field_icon_color
+entity_type: paragraph
+bundle: benefit
+label: 'Icon color'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    color: '#ffffff'
+    opacity: !!float 1
+default_value_callback: ''
+settings:
+  opacity: 1
+field_type: color_field_type

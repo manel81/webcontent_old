@@ -1,0 +1,9 @@
+allianz_contact_info_block:
+  css:
+    theme:
+      dist/css/info_block.css: {}
+
+allianz_contact_contact_block:
+  css:
+    theme:
+      dist/css/contact_block.css: {}

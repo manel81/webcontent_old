@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+  enforced:
+    module:
+      - dp_blog
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Blog post
+type: blog_post
+description: 'Content type for creating Blog posts'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

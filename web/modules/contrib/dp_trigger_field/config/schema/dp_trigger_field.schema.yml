@@ -1,0 +1,8 @@
+dp_trigger_field.settings:
+  type: config_object
+  label: 'Trigger Field settings'
+  mapping:
+    whitelist:
+      type: sequence
+      sequence:
+        type: string

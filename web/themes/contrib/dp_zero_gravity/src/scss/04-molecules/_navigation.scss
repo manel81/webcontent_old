@@ -1,0 +1,496 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Navigation
+// -------------
+// Need to be this specific because the admin toolbar uses the `.menu` class and this rule would overwrite it without
+// the wrapper ID selector.
+#site-content {
+  .menu {
+    @include setFontFromStack($navigation__font...);
+  }
+}
+
+// ## Default (desktop) navigation
+.region--navigation {
+  position: relative;
+  height: $navigation__height;
+  z-index: $zindex--navbar;
+  background-color: $navigation__backgroundColor;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, $navigation__overlay__backgroundColor);
+  }
+
+  .container {
+    height: 100%;
+
+    .navigation {
+      position: relative;
+
+      @include for-tablet-portrait-up {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+      }
+
+      > nav {
+        @include for-tablet-portrait-up {
+          height: 100%;
+        }
+
+        &:first-of-type {
+          margin-left: auto;
+          padding-right: 1rem;
+          position: relative;
+
+          &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            height: 2rem;
+            border-right: $navigation__divider__borderWidth solid;
+            opacity: 0.3;
+            border-color: $navigation__divider__borderColor;
+          }
+        }
+
+        &:nth-of-type(2) {
+          margin-left: 1rem;
+        }
+      }
+    }
+
+    .menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      &,
+      > * {
+        @include for-tablet-portrait-up {
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      > li {
+        font-size: $navigation__fontSize;
+
+        > a:not(.button) {
+          padding: $navigation__link__padding;
+
+          @include for-mobile-only {
+            display: block;
+          }
+        }
+
+        > a {
+          color: $navigation__link__color;
+
+          &.is-active,
+          &:active,
+          &:focus,
+          &:hover {
+            color: $navigation__link--hover__color;
+            text-decoration: none;
+          }
+
+          span {
+            vertical-align: middle;
+          }
+        }
+      }
+
+      &--main {
+        > li {
+          position: relative;
+
+          > a {
+            &.is-active,
+            &:active,
+            &:focus,
+            &:hover {
+              &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: $button--secondary--hover__borderWidth;
+                background: linear-gradient(to right, $decorBar__gradient);
+              }
+            }
+          }
+        }
+      }
+
+      &--account {
+        a[href='/user/login'] {
+          @include for-mobile-only {
+            width: auto;
+          }
+
+          @include for-tablet-portrait-up {
+            margin-left: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include for-tablet-portrait-up {
+  .header-has-bg {
+    .region--header {
+      .block {
+        position: relative;
+      }
+
+      &::before {
+        background-color: $navigation--headerWithBackground__backgroundColor;
+      }
+    }
+
+    // Use different background color when there is a header background image.
+    .region--navigation {
+      .background--navigation {
+        background-color: $navigation--headerWithBackground__backgroundColor;
+      }
+    }
+  }
+}
+
+@include for-mobile-only {
+  .header-has-bg {
+    .region--header {
+      &::before {
+        background-color: $navigation--headerWithBackground__overlay--mobile__backgroundColor;
+      }
+    }
+  }
+}
+
+// ## Mobile navigation
+// Hide mobile-only elements on desktop.
+@include for-tablet-portrait-up {
+  .region--navigation {
+    .menu__item-title,
+    .navigation__buttons,
+    .search-block-form {
+      display: none;
+    }
+  }
+}
+
+// Mobile theming.
+@include for-mobile-only {
+  // Top buttons.
+  .navigation__buttons {
+    order: 1;
+
+    button {
+      border: none;
+      background-color: transparent;
+      padding: 0;
+      outline: none;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      align-items: center;
+
+      &.navigation__toggle--search {
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+          height: $navigation__buttonIcon__fontSize * 1.4;
+          border-right: $navigation--collapsed__divider__borderWidth solid;
+          opacity: 0.3;
+          border-color: $navigation__divider__borderColor;
+        }
+      }
+
+      &.active {
+        color: $navigation__link--hover__color;
+      }
+
+      // Animated Search icon.
+      .navigation__toggle-icon--search {
+        display: inline-block;
+        height: $navigation__buttonIcon__fontSize * 1.15;
+        width: $navigation__buttonIcon__fontSize * 1.15;
+        border-radius: 0;
+        transition: 0.3s;
+        background: transparent;
+        transform: rotate(-135deg);
+
+        &::before,
+        &::after {
+          display: inline-block;
+          transition: 0.3s;
+          background: transparent;
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+        }
+
+        &::before {
+          height: 3px;
+          left: 0;
+          background: $navigation__link__color;
+          border-radius: 10%;
+          width: 10px;
+        }
+
+        &::after {
+          right: 0;
+          background: transparent;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          border: 3px solid;
+          transform-origin: 50% 50%;
+          border-color: $navigation__link__color;
+        }
+      }
+
+      // Animated Menu icon.
+      .navigation__toggle-icon--nav {
+        position: relative;
+        display: inline-block;
+        height: 3px;
+        width: $navigation__buttonIcon__fontSize * 1.15;
+        border-radius: 10%;
+        background: $navigation__link__color;
+        transition: 0.3s;
+
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          display: inline-block;
+          height: $navigation__buttonIcon__fontSize / 8;
+          border-radius: 10%;
+          transition: 0.3s;
+          background: $navigation__link__color;
+          transform-origin: 50% 50%;
+          width: 100%;
+        }
+
+        &::before {
+          top: 250%;
+        }
+
+        &::after {
+          top: -250%;
+        }
+      }
+
+      &.active {
+        .navigation__toggle-icon--search {
+          &::before,
+          &::after {
+            border-radius: 10%;
+            background: $navigation__link--hover__color;
+            width: 100%;
+          }
+
+          &::after {
+            height: $navigation__buttonIcon__fontSize / 8;
+            border: 0;
+            transform: rotate3d(0, 0, 1, 90deg);
+          }
+        }
+
+        .navigation__toggle-icon--nav {
+          transform: scale3d(0.8, 0.8, 0.8);
+          background: transparent;
+
+          &::before,
+          &::after {
+            top: 0;
+            width: $navigation__buttonIcon__fontSize * 1.5;
+            height: $navigation__buttonIcon__fontSize / 6;
+            background: $navigation__link--hover__color;
+          }
+
+          &::before {
+            transform: rotate3d(0, 0, 1, 45deg);
+          }
+
+          &::after {
+            transform: rotate3d(0, 0, 1, -45deg);
+          }
+        }
+      }
+    }
+  }
+
+  .region--navigation {
+    height: $navigation__height--mobile;
+
+    #navigation {
+      .block--system-branding-block,
+      .navigation__buttons {
+        height: $navigation__height--mobile;
+        display: flex;
+        align-items: center;
+      }
+
+      .navigation {
+        display: flex;
+        height: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-left: -$gutter__width / 2;
+        margin-right: -$gutter__width / 2;
+
+        // Hide desktop only elements.
+        [data-route='search.view'],
+        .menu__item-icon {
+          display: none;
+        }
+
+        .block--system-branding-block {
+          img {
+            height: $navigation__height--mobile / 2;
+            margin-left: $gutter__width / 2;
+          }
+        }
+
+        // Collapsed menus.
+        nav {
+          width: $navigation--collapsed__width;
+          margin-left: auto;
+          transform: scaleX(0);
+          transform-origin: right;
+          background-color: $navigation--collapsed__backgroundColor;
+          order: 2;
+          box-shadow: $navigation--collapsed__boxShadow;
+          transition: all 0.5s;
+          opacity: 0;
+
+          &:not(:last-of-type) {
+            border-bottom: $navigation--collapsed__divider__borderWidth solid;
+            border-color: $navigation--collapsed__divider__borderColor;
+          }
+
+          > .menu {
+            > li {
+              > a:not(.button) {
+                padding: $navigation--collapsed__link__padding;
+              }
+
+              > a {
+                @include setFontFromStack($navigation--collapsed__link--font...);
+                color: $navigation--collapsed__color;
+                font-size: $navigation--collapsed__link__fontSize;
+
+                &:active,
+                &:focus,
+                &:hover {
+                  &::after,
+                  &::before {
+                    content: none;
+                  }
+                }
+              }
+            }
+          }
+
+          &.open {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Search form (mobile-only).
+@keyframes search-bar-open-zindex {
+  0% {
+    z-index: -1;
+  }
+  99% {
+    z-index: -1;
+  }
+  100% {
+    z-index: 0;
+  }
+}
+
+@keyframes search-bar-close-zindex {
+  0% {
+    z-index: 0;
+  }
+  1% {
+    z-index: -1;
+  }
+  100% {
+    z-index: -1;
+  }
+}
+
+.navigation {
+  .search-block-form {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(0);
+    transition: all 0.5s;
+    opacity: 0;
+    z-index: -1;
+    animation: search-bar-close-zindex 0.5s;
+
+    &.open {
+      transform: translateY(100%);
+      box-shadow: $sidebarNavigation__menu__boxShadow;
+      opacity: 1;
+      z-index: 1;
+      animation: search-bar-open-zindex 0.5s;
+    }
+
+    .zg-search {
+      background-color: $panel__backgroundColor;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+uuid: 543edf90-d641-4b50-9f71-724af52918ed
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.documentation
+  module:
+    - ctools
+    - in_page_navigation
+    - node
+    - system
+  theme:
+    - allianz
+third_party_settings:
+  in_page_navigation:
+    ip_navigation: attach_ip_navigation
+id: documentation_menu
+theme: allianz
+region: sidebar_first
+weight: -12
+provider: null
+plugin: 'system_menu_block:documentation'
+settings:
+  id: 'system_menu_block:documentation'
+  label: Documentation
+  provider: system
+  label_display: visible
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      documentation_page: documentation_page
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      documentation_page: documentation_page
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

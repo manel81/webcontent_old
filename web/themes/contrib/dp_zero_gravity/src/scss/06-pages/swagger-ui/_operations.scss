@@ -1,0 +1,374 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+.opblock-tag-section {
+  &.is-open {
+    .expand-operation {
+      &::after {
+        @include setFontIcon($swaggerUi__accordion--open__icon);
+      }
+    }
+  }
+}
+
+.opblock-tag {
+  @extend %swaggerUi__section__heading;
+
+  @include for-tablet-portrait-up {
+    > * {
+      &:first-child {
+        margin-right: $swaggerUi__heading__item__margin;
+      }
+
+      &:nth-child(2) {
+        margin-right: auto;
+      }
+
+      &:last-child {
+        margin-left: $swaggerUi__heading__item__margin;
+      }
+    }
+  }
+
+  small {
+    display: block;
+    line-height: $h1__fontSize;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &.no-desc {
+    span {
+      flex: 1;
+    }
+  }
+
+  svg {
+    display: none;
+  }
+
+  .expand-operation {
+    @extend %expand-operation;
+
+    &::after {
+      @extend %expand-operation__icon;
+    }
+  }
+
+  ~ div {
+    background-color: $swaggerUi__section__backgroundColor;
+    box-shadow: $panel--hover__boxShadow;
+
+    > span {
+      // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
+      // > You can't put block elements inside inline elements.
+      display: block;
+    }
+  }
+}
+
+.opblock-summary {
+  padding: $swaggerUi__opBlock__header__padding;
+  position: relative;
+  cursor: pointer;
+
+  > * {
+    display: block;
+  }
+
+  @include for-tablet-portrait-up {
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      @include decorBar('right', $height: 100%);
+      box-shadow: $swaggerUi__opBlock__summary--hover__boxShadow;
+
+      &::before {
+        content: none;
+      }
+    }
+
+    .opblock-summary-method {
+      flex-basis: $method__minWidth;
+    }
+
+    .opblock-summary-path,
+    .opblock-summary-path__deprecated {
+      flex-basis: 40%;
+    }
+
+    .authorization__btn {
+      margin-left: auto;
+      margin-right: 2rem;
+    }
+
+    .opblock-summary-description {
+      flex-grow: 1;
+      position: relative;
+
+      &::before {
+        content: '';
+        width: 1px;
+        position: absolute;
+        left: 0;
+        height: 2.5em;
+        background-color: $swaggerUi__divider__borderColor;
+        display: inline-block;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    > * {
+      z-index: 2;
+
+      &:not(:first-child) {
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  &::before {
+    content: '';
+    top: 0;
+    left: $swaggerUi__method__divider__left;
+    position: absolute;
+    width: calc(100% - #{$swaggerUi__method__divider__left} * 2);
+    height: 1px;
+    background-color: $swaggerUi__divider__borderColor;
+    z-index: 1;
+  }
+}
+
+.opblock-summary-path,
+.opblock-summary-path__deprecated {
+  @include setFontFromStack($method__path__font...);
+  color: $method__path__color;
+}
+
+.opblock {
+  position: relative;
+
+  // Ideally this should be on .opblock, but it already has an ::after element
+  // when hovered, so a child element's pseudo selector is needed.
+  .opblock-summary-method {
+    &::after {
+      @include setFontIcon($swaggerUi__accordion--closed__icon);
+      color: $swaggerUi__icon__color;
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: $icon__fontSize;
+
+      @include for-tablet-portrait-up {
+        top: 50%;
+        transform: translateY(-50%);
+        right: 1.5rem;
+      }
+    }
+  }
+
+  &.is-open {
+    .opblock-summary-method {
+      &::after {
+        @include setFontIcon($swaggerUi__accordion--open__icon);
+        color: $swaggerUi__icon--active__color;
+      }
+    }
+  }
+
+  .tab-header {
+    display: flex;
+    flex: 1;
+  }
+}
+
+.opblock-summary-path__deprecated {
+  text-decoration: line-through;
+}
+
+.opblock-schemes {
+  padding: 8px 20px;
+
+  .schemes-title {
+    padding: 0 10px 0 0;
+  }
+}
+
+.opblock-section-header {
+  @extend %caption;
+
+  > label {
+    display: block;
+  }
+
+  @include for-tablet-portrait-up {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.opblock-summary-method {
+  @include setFontFromStack($method__font...);
+  font-size: $method__fontSize;
+  min-width: $method__minWidth;
+  padding: $method__padding;
+  text-align: center;
+  color: $method__color;
+  display: inline-block;
+  background: $method__backgroundColor;
+}
+
+@each $method in $methods {
+  .opblock-summary-#{$method} {
+    .opblock-summary-method {
+      background: map-get($method__backgroundColors, $method);
+      border-color: map-get($method__borderColors, $method);
+    }
+  }
+}
+
+.opblock-deprecated {
+  opacity: $swaggerUi__disabled__opacity;
+}
+
+.opblock-description-wrapper,
+.opblock-external-docs-wrapper,
+.opblock-title_normal {
+  padding: $swaggerUi__opBlock__header__padding;
+}
+
+.opblock-external-docs-wrapper {
+  h4 {
+    padding-left: 0px;
+  }
+}
+
+.opblock-body {
+  background-color: $swaggerUi__opBlock__body__backgroundColor;
+
+  .opblock-loading-animation {
+    display: block;
+    margin: {
+      left: auto;
+      right: auto;
+    }
+  }
+}
+
+.responses-table,
+.table-container,
+.code-samples {
+  padding: $swaggerUi__opBlock__content__padding;
+}
+
+// # Responses
+.responses-inner {
+  .headers__title {
+    margin-top: 1rem;
+  }
+}
+
+.response-controls {
+  padding-top: 1em;
+  display: flex;
+}
+
+.response-control-media-type {
+  .content-type-wrapper {
+    margin: {
+      top: 0.5rem;
+      bottom: 1rem;
+    }
+  }
+}
+
+.response-control-media-type--accept-controller {
+  select {
+    border-color: $input--success__borderColor;
+  }
+}
+
+.response-control-media-type__accept-message {
+  color: $input--success__borderColor;
+}
+
+.response-control-examples__title,
+.response-control-media-type__title {
+  display: block;
+  margin-bottom: 0.2em;
+}
+
+div.model-box,
+pre.microlight,
+textarea.curl {
+  @extend %code;
+  @extend %code--block;
+}
+
+textarea.curl {
+  margin: {
+    top: 1rem;
+    bottom: 1rem;
+  }
+}
+
+.tab {
+  @extend %tabs;
+  margin: 0;
+
+  .tabitem {
+    @extend %tabs--primary__item;
+
+    &.active {
+      .tablinks {
+        @extend %tabs--primary__link--active;
+
+        &::after {
+          left: 0;
+          right: 0;
+        }
+      }
+    }
+
+    .tablinks {
+      @extend %tabs--primary__link;
+    }
+  }
+}
+
+.highlight-code {
+  position: relative;
+}
+
+textarea,
+.highlight-code > .microlight {
+  overflow-y: auto;
+  max-height: 500px;
+  min-height: 250px;
+}
+
+.body-param-edit {
+  margin: {
+    top: 1rem;
+    bottom: 1rem;
+  }
+}

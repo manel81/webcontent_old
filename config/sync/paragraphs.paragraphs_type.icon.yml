@@ -1,0 +1,12 @@
+uuid: 3d9b28a9-4f96-497c-a52a-2ef3d33d25dd
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: rQXCVWWwIPHWJ0hvvlTwRtMw6MGXcey69DsdKhCb7XQ
+id: icon
+label: Icon
+icon_uuid: null
+icon_default: null
+description: 'An uploadable icon element with configurable color.'
+behavior_plugins: {  }

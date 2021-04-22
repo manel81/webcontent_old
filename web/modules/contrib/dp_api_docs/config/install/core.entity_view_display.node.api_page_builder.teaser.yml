@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.api_page_builder.field_api_reference
+    - field.field.node.api_page_builder.field_header
+    - node.type.api_page_builder
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - user
+id: node.api_page_builder.teaser
+targetEntityType: node
+bundle: api_page_builder
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_api_reference: true
+  field_header: true

@@ -1,0 +1,373 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+form {
+  @include for-tablet-portrait-up {
+    margin-bottom: 1.5rem;
+  }
+
+  .description {
+    margin-top: 0.25em;
+    margin-left: 0.25em;
+    font-size: $fontSize--small;
+    color: $form__color;
+  }
+}
+
+.form__actions {
+  margin-top: $formActions__marginTop;
+  margin-bottom: $panel__paddingVertical;
+}
+
+
+.form-type--item {
+  label {
+    display: inline-block;
+    min-width: 20%;
+  }
+}
+
+.form-required {
+  position: relative;
+  display: flex;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+
+  &::before {
+    content: '*';
+    margin-right: 0.16rem;
+    font-size: 0.66em;
+    color: $required__color;
+  }
+}
+
+%checkmark--disabled {
+  border-color: $formItem--disabled__borderColor;
+}
+
+%input--disabled {
+  opacity: $formItem--disabled__opacity;
+  cursor: default;
+}
+
+.form-disabled {
+  .checkmark {
+    @extend %checkmark--disabled;
+  }
+
+  .option,
+  .checkbox-container,
+  select,
+  input {
+    @extend %input--disabled;
+  }
+}
+
+.option,
+.checkbox-container,
+select,
+input {
+  &:disabled {
+    @extend %input--disabled;
+  }
+}
+
+.checkmark {
+  &:disabled {
+    @extend %checkmark--disabled;
+  }
+}
+
+input,
+select,
+textarea {
+  min-height: $input__height;
+  width: 100%;
+  max-width: 100%;
+  min-width: 1%; // https://bugzilla.mozilla.org/show_bug.cgi?id=1088586
+  padding: 8px 20px;
+  border: $input__borderWidth solid;
+  border-radius: $input__borderRadius;
+  font-size: 1rem;
+  color: $input__color;
+  border-color: $input__borderColor;
+  background-color: $input__backgroundColor;
+
+  &:focus {
+    outline: 0;
+    border-color: $input--focus__borderColor;
+  }
+
+  &.error {
+    border-color: $input--error__borderColor;
+    @include icon__error($input--error__borderColor, calc(100% - 0.5rem) 50%);
+  }
+
+  &.success {
+    border-color: $input--success__borderColor;
+    @include icon__checked($input--success__borderColor, calc(100% - 0.5rem) 50%);
+  }
+
+  &.warning {
+    border-color: $input--warning__borderColor;
+  }
+}
+
+input,
+textarea {
+  @include setFontFromStack($body__font...);
+}
+
+textarea {
+  line-height: $lineHeight--base;
+  padding-top: 15px;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: $text--small__color;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+  color: $text--small__color;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: $text--small__color;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+  color: $text--small__color;
+}
+
+select {
+  background-image: url('#{$svg-path}/chevron-down.svg');
+  background-position: calc(100% - #{floor($icon__fontSize / 2)}) center;
+  background-size: $icon__fontSize;
+  background-repeat: no-repeat;
+  appearance: none;
+  padding-right: $icon__fontSize * 2;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  width: auto;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+  display: inline-block;
+  margin: 0 0.5em 0 0;
+
+  + label {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+input[type='checkbox'],
+input[type='radio'],
+select {
+  cursor: pointer;
+}
+
+.form-wrapper,
+.form-item {
+  & ~ & {
+    margin-top: $formItem__marginTop;
+  }
+
+  &:not(:last-child) {
+    .form-description {
+      margin-bottom: -0.5rem;
+    }
+  }
+}
+
+.form-description {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
+  text-align: right;
+
+  &__fields {
+    line-height: ($formDescription__icon__fontSize + 2px);
+  }
+
+  &__icon {
+    margin-left: 0.25rem;
+  }
+
+  // A stronger rule is required as feather icon pack's [class^="feather-"]
+  // cannot be changed by simply adding a class.
+  .form-description__icon {
+    font-size: $formDescription__icon__fontSize;
+  }
+}
+
+.form-type--checkbox,
+.form-type--radio {
+  display: flex;
+  align-items: center;
+
+  .form-description {
+    margin-left: auto;
+  }
+}
+
+button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  display: inline-block;
+  text-align: center;
+}
+
+%checkbox-container,
+.checkbox-container {
+  display: block;
+  position: relative;
+  user-select: none;
+
+  ~ label {
+    margin-left: 1rem;
+  }
+
+  input {
+    min-height: auto;
+    margin: 0;
+    opacity: 0;
+
+    &:checked {
+      ~ .checkmark {
+        &--checkbox {
+          background-color: $checkmark__backgroundColor;
+        }
+
+        &::after {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+%checkmark,
+.checkmark {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: $fontSize--large;
+  width: $fontSize--large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    display: block;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+%checkbox,
+.checkmark--checkbox {
+  border: $checkbox__borderWidth solid;
+  border-radius: $checkbox__borderRadius;
+  border-color: $checkmark__borderColor;
+
+  &::after {
+    font-family: $icon__fontFamily;
+    content: $feather-check;
+    color: $checkmark__color;
+    line-height: 1;
+  }
+}
+
+%radio,
+.checkmark--radio {
+  border: $radio__borderWidth solid;
+  border-radius: $radio__borderRadius;
+  border-color: $checkmark__borderColor;
+
+  &::after {
+    width: $fontSize--small;
+    height: $fontSize--small;
+    border-radius: $radio__borderRadius;
+    background-color: $checkmark__color;
+  }
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+
+  .login--icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $login-icon__backgroundColor;
+    width: $input__height;
+    min-width: $input__height;
+    height: $input__height;
+
+    [class^='feather-'],
+    [class*=' feather-'] {
+      color: $login-icon__color;
+    }
+  }
+}
+
+.form-actions {
+  @include for-mobile-only {
+    > * {
+      width: 100%;
+    }
+  }
+
+  @include for-tablet-portrait-up {
+    display: flex;
+    justify-content: flex-end;
+
+    > * {
+      + * {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  @include for-mobile-only {
+    > * {
+      + * {
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  #edit-actions-delete {
+    @extend %button--secondary;
+  }
+}

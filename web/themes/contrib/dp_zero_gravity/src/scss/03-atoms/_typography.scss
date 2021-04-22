@@ -1,0 +1,361 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Headings
+// ---------------
+.h1,
+h1,
+%h1,
+.h2,
+h2,
+%h2,
+.h3,
+h3,
+%h3,
+.h4,
+h4,
+%h4,
+.h5,
+h5,
+%h5,
+.h6,
+h6,
+%h6 {
+  text-transform: $textTransform--base;
+  color: $heading__color;
+  @include word-wrap();
+}
+
+.h1,
+h1,
+%h1 {
+  @include fluid-type($h1--mobile__fontSize, $h1__fontSize);
+  @include setFontFromStack($h1__font...);
+}
+
+.h1--page-title,
+.h1--hero {
+  position: relative;
+  padding-left: $gutter__width;
+}
+
+.h1--hero {
+  @include left-bar($height: 100% / $h1--hero__lineHeight);
+  @include fluid-type($h1--hero--mobile__fontSize, $h1--hero__fontSize);
+  color: $h1--hero__color;
+  line-height: $h1--hero__lineHeight;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.h1--page-title {
+  @include left-bar();
+  @include fluid-type($pageTitle--mobile__fontSize, $pageTitle__fontSize);
+  color: $pageTitle__color;
+}
+
+.h1--section {
+  position: relative;
+  margin-top: 6.5rem; // TODO: This distancing should probably come from the wrapper element. (padding > margin)
+  margin-bottom: 2rem;
+  @include left-bar();
+}
+
+.h2,
+h2,
+%h2 {
+  @include fluid-type($h2--mobile__fontSize, $h2__fontSize);
+  @include setFontFromStack($h2__font...);
+}
+
+.h3,
+h3,
+%h3 {
+  @include fluid-type($h3--mobile__fontSize, $h3__fontSize);
+  @include setFontFromStack($h3__font...);
+}
+
+.h4,
+h4,
+%h4 {
+  @include fluid-type($h4--mobile__fontSize, $h4__fontSize);
+  @include setFontFromStack($h4__font...);
+}
+
+.h5,
+h5,
+%h5 {
+  @include fluid-type($h5--mobile__fontSize, $h5__fontSize);
+  @include setFontFromStack($h5__font...);
+}
+
+.h6,
+h6,
+%h6 {
+  @include fluid-type($h6--mobile__fontSize, $h6__fontSize);
+  @include setFontFromStack($h6__font...);
+}
+
+// # Text
+// ---------------
+
+p {
+  margin: 1rem 0;
+}
+
+small,
+%text--small,
+.text--small {
+  color: $text--small__color;
+  text-transform: $text--small__textTransform;
+  font-size: $fontSize--small;
+  line-height: $text--small__lineHeight;
+  @include setFontFromStack($text--small__font...);
+}
+
+%text--lead,
+.text--lead {
+  @include setFontFromStack($text--lead__font...);
+  font-size: $text--lead__fontSize;
+  text-transform: $text--lead__textTransform;
+  color: $text--lead__color;
+}
+
+// # Icons
+// ---------------
+
+[class^='feather-'],
+[class*=' feather-'] {
+  font-size: $icon__fontSize;
+}
+
+// # Links
+a,
+.link:not(.button),
+%link {
+  color: $link__color;
+  text-decoration: none;
+  background-color: unset;
+  border: none;
+
+  &:hover,
+  &:focus {
+    color: $link--hover__color;
+    text-decoration: $link--hover__textDecoration;
+    outline: 0;
+  }
+
+  &.is-active {
+    color: $link--hover__color;
+  }
+}
+
+.link--only-hover,
+%link--only-hover {
+  @extend %link;
+  color: inherit;
+}
+
+// # Lists
+// ---------------
+// TODO: With the new list and list helper class these need to be added to places where the custom link style is used.
+%list,
+.list {
+  &,
+  ul,
+  ol {
+    padding: 0;
+    list-style: none;
+
+    > li {
+      line-height: $list__lineHeight;
+
+      li {
+        padding-left: 2rem;
+      }
+
+      &::before {
+        margin-right: $list__marker__marginRight;
+        text-align: center;
+        color: $list__indicator__color;
+        display: inline-block;
+        width: 2rem;
+      }
+    }
+
+    &--light {
+      &,
+      ul,
+      ol {
+        color: $text--light__color;
+
+        > li {
+          &::before {
+            color: $text--light__color;
+          }
+        }
+      }
+    }
+  }
+}
+
+%list--ul,
+ul.list {
+  &,
+  ul {
+    > li {
+      &::before {
+        content: '\2022';
+        font-size: 1.5rem;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+%list--ol,
+ol.list {
+  &,
+  ol {
+    counter-reset: li;
+
+    > li {
+      counter-increment: li;
+
+      &::before {
+        content: counter(li) '.';
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+%list--step-by-step,
+ol.list.list--step-by-step {
+  counter-reset: li;
+
+  &.list--light {
+    > li {
+      &::before {
+        color: $list__indicator__backgroundColor;
+        background-color: $list--stepByStep__indicator__color;
+      }
+    }
+  }
+
+  > li {
+    &::before {
+      content: counter(li);
+      color: $list--stepByStep__indicator__color;
+      background-color: $list__indicator__backgroundColor;
+      font-size: 0.8rem;
+      margin-left: 0.33rem;
+      margin-right: calc(0.33rem + #{$list__marker__marginRight});
+      width: 1.33rem;
+      height: 1.33rem;
+      border-radius: 50%;
+      line-height: 1.33rem;
+    }
+  }
+}
+
+// # Inline quote
+// ---------------
+q,
+.text--quote {
+  @include setFontFromStack($quote__font...);
+  font-size: $fontSize--large;
+}
+
+// # Blockquote
+// ---------------
+blockquote {
+  @include setFontFromStack($blockquote__font...);
+  font-size: $fontSize--large;
+  border-left: 3px solid;
+  margin-left: 0;
+  padding-left: 1em;
+  border-color: $blockquote__borderColor;
+}
+
+// # Code
+// ---------------
+code,
+%code,
+.code {
+  @include setFontFromStack($code__font...);
+  color: $code__color;
+}
+
+%code--block,
+.code--block {
+  display: block;
+  padding: $code--block__padding;
+  background-color: $code__backgroundColor;
+  white-space: pre-wrap;
+}
+
+%code--dark,
+.code--dark {
+  color: $text--light__color;
+  background-color: $code--dark__backgroundColor;
+}
+
+pre {
+  display: block;
+  padding: $gutter__width / 2;
+  color: $code__color;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: normal;
+  background-color: $code__backgroundColor;
+
+  // Account for some code outputs that place code tags in pre tags
+  code {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border-radius: 0;
+  }
+}
+
+// ## Wysiwyg color styles
+.text--light {
+  color: $text--light__color;
+}
+
+.cke_editable {
+  .text--light,
+  .list--light {
+    text-shadow: 1px 1px 0 $cke--textLight__textShadow, -1px -1px 0 $cke--textLight__textShadow,
+      1px -1px 0 $cke--textLight__textShadow, -1px 1px 0 $cke--textLight__textShadow;
+  }
+
+  .list--light {
+    &,
+    li::before {
+      text-shadow: 1px 1px 0 $cke--textLight__textShadow, -1px -1px 0 $cke--textLight__textShadow,
+        1px -1px 0 $cke--textLight__textShadow, -1px 1px 0 $cke--textLight__textShadow;
+    }
+  }
+}
+
+.text--dark {
+  color: $text--dark__color;
+}

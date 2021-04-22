@@ -1,0 +1,27 @@
+uuid: abd369a7-8811-4ca3-93d6-eaf4bfb2d6d9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_product
+    - node.type.api_product_release_note
+_core:
+  default_config_hash: d4BM-mdyFCfkgIFIiVJXUrP5yMKRcVc3aOirhyL3BSk
+id: node.api_product_release_note.field_api_product
+field_name: field_api_product
+entity_type: node
+bundle: api_product_release_note
+label: 'API Product'
+description: 'Select the API Product for what you want to create release notes.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: api_reference
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

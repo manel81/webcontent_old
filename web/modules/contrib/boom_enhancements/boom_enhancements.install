@@ -1,0 +1,314 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Boom Enhancements module.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\contact\Entity\ContactForm;
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+/**
+ * Update feedback Contact form type and the user profile.
+ */
+function boom_enhancements_install(): ?string {
+  $results = [
+    _boom_enhancements_user_profile(),
+  ];
+
+  $filtered = array_filter($results);
+  return $filtered ? implode(PHP_EOL, $filtered) : NULL;
+}
+
+/**
+ * Update fields with new classes.
+ */
+function boom_enhancements_update_8001(array &$sandbox): ?string {
+  $database = \Drupal::database();
+  // The list of strings we'll want to replace in the loaded texts.
+  $strings_to_replace = [
+    'class="page-title"' => 'class="h1--page-title"',
+    'class="page-title page-title--big"' => 'class="h1--hero"',
+    'class="section-title"' => 'class="h1--page-title"',
+    'class="section-title section-title--big"' => 'class="h1--hero"',
+  ];
+  $limit = 10;
+
+  // Initialize some variables during the first pass through.
+  if (!isset($sandbox['total'])) {
+    $bundles = [];
+    // Collect all the longtext fields.
+    $text_long = \Drupal::service('entity_field.manager')->getFieldMapByFieldType('text_long');
+    $text_with_summary = \Drupal::service('entity_field.manager')->getFieldMapByFieldType('text_with_summary');
+    // Only search for fields that are of our desired types.
+    $searched_types = [
+      'paragraph',
+      'node',
+      'block_content',
+    ];
+    $sandbox['total'] = 0;
+    $sandbox['current'] = 0;
+    $sandbox['limit'] = $limit;
+
+    // First we go through simple longtext fields and create
+    // a better manageable array out of the results.
+    foreach ($text_long as $entity_type_key => $entity_type) {
+      if (in_array($entity_type_key, $searched_types)) {
+        foreach ($entity_type as $field_key => $field) {
+          $sandbox['longtext_fields'][$field_key] = $field_key;
+          foreach ($field['bundles'] as $bundle) {
+            $bundles[$entity_type_key][$bundle] = $bundle;
+          }
+        }
+      }
+    }
+
+    // Then we go through longtext fields with summary and create
+    // a better manageable array out of the results.
+    foreach ($text_with_summary as $entity_type_key => $entity_type) {
+      if (in_array($entity_type_key, $searched_types)) {
+        foreach ($entity_type as $field_key => $field) {
+          $sandbox['longtext_fields'][$field_key] = $field_key;
+
+          foreach ($field['bundles'] as $bundle) {
+            $bundles[$entity_type_key][$bundle] = $bundle;
+          }
+        }
+      }
+    }
+
+    // We get the entity ids that we'll need to process and also count them
+    // to prepare for the batch process.
+    foreach ($bundles as $entity_type => $entiy_type_bundles) {
+      $sandbox['ids'][$entity_type] = [];
+
+      foreach ($entiy_type_bundles as $bundle) {
+        $sandbox['ids'][$entity_type] += \Drupal::entityQuery($entity_type)
+          ->condition('type', $bundle)
+          ->execute();
+      }
+      $sandbox['total'] += count($sandbox['ids'][$entity_type]);
+    }
+  }
+
+  if ($sandbox['total'] <= 0) {
+    $sandbox['#finished'] = 1;
+    return t('No entities with longtext fields found.')->render();
+  }
+
+  // Start a DB transaction in order to have some hopefully meaningful
+  // rollback option if anything goes wrong.
+  $transaction = $database->startTransaction();
+
+  try {
+    // Iterate through ids per entity type.
+    foreach ($sandbox['ids'] as $entity_type_name => $entity_type_ids) {
+      // Eventually the IDs are removed from the arrays so only non-empty
+      // ones are checked.
+      if (!empty($entity_type_ids)) {
+        foreach ($entity_type_ids as $id_key => $id) {
+          // Based on the entity_type, the right entity is loaded.
+          $entity = \Drupal::entityTypeManager()->getStorage($entity_type_name)->load($id);
+
+          // Load all fields but only modify longtext fields.
+          $entity_fields = array_keys($entity->getFieldDefinitions());
+          foreach ($entity_fields as $field) {
+            if (in_array($field, $sandbox['longtext_fields'])) {
+              $field_name = $field;
+              $field = $entity->$field_name;
+              if ($field) {
+                // If the format is not devportal_html, the replacement
+                // is pointless.
+                if (isset($field->format) && $field->format === 'devportal_html') {
+                  $new_value = $field->value;
+                  $new_value = strtr($new_value, $strings_to_replace);
+                  // Only modify the entity if the field changed.
+                  if ($new_value !== $field->value) {
+                    $entity->$field_name->value = $new_value;
+                    $entity->save();
+                  }
+                }
+              }
+            }
+          }
+          unset($sandbox['ids'][$entity_type_name][$id_key]);
+          $sandbox['current']++;
+          // Update our progress information.
+          $sandbox['#finished'] = $sandbox['current'] / $sandbox['total'];
+          // Check if we're finished, otherwise come back with the number of
+          // items processed so far.
+          if ($sandbox['#finished'] === 1) {
+            return t('All entities processed.')->render();
+          }
+
+          if ($sandbox['current'] === $sandbox['limit']) {
+            $sandbox['limit'] += $limit;
+            return t('@count entities processed.', ['@count' => $sandbox['current']])->render();
+          }
+        }
+      }
+    }
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('page_builder', $e);
+  }
+}
+
+/**
+ * Update feedback Contact form type.
+ */
+function boom_enhancements_update_8002(): ?string {
+  return _boom_enhancements_update_feedback_contact_form();
+}
+
+/**
+ * Update feedback Contact form type.
+ *
+ * Hide unnecessary fields, change label and add message placeholder to
+ * feedback Contact form type.
+ *
+ * @return string|null
+ *   The message after updating the feedback Contact form type or null
+ *   if the contact module is not enabled.
+ */
+function _boom_enhancements_update_feedback_contact_form(): ?string {
+  if (!\Drupal::moduleHandler()->moduleExists('contact')) {
+    return NULL;
+  }
+  try {
+    /** @var \Drupal\Core\Entity\EntityTypeManager $entity_type_manager */
+    $entity_type_manager = \Drupal::entityTypeManager();
+    /** @var \Drupal\Core\Entity\EntityStorageInterface $entity_storage */
+    if (!$entity_type_manager->getStorage('node')->loadByProperties(['bundle' => 'feedback'])) {
+      return NULL;
+    }
+    /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $form_display */
+    $form_display = $entity_type_manager
+      ->getStorage('entity_form_display')
+      ->load('contact_message.feedback.default');
+    if (!$form_display) {
+      // Create form display manually if it does not exist yet. This can
+      // happen when the related form hasn't been explicitly saved yet, see
+      // documentation of entity_get_form_display() for more info.
+      $values = [
+        'targetEntityType' => 'contact_message',
+        'bundle' => 'feedback',
+        'mode' => 'default',
+        'status' => TRUE,
+      ];
+      $form_display = \Drupal::entityTypeManager()
+        ->getStorage('entity_form_display')
+        ->create($values);
+    }
+    // Hide fields that should not be visible on the form.
+    $form_display->removeComponent('copy');
+    $form_display->removeComponent('preview');
+    // Set message placeholder if it's empty.
+    $message = $form_display->getComponent('message');
+    if ($message && empty($message['settings']['placeholder'])) {
+      $message['settings']['placeholder'] = t('Type here');
+      $form_display->setComponent('message', $message);
+    }
+    $form_display->save();
+    // Update Contact form label if it's still set to original.
+    $feedback_form = ContactForm::load('feedback');
+    if ($feedback_form && $feedback_form->label() === 'Website feedback') {
+      $feedback_form->set('label', t('Contact'))->save();
+    }
+    return t('Contact form settings updated.')->render();
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('boom_enhancements', $e);
+    return NULL;
+  }
+}
+
+/**
+ * Calling the user profile modifications.
+ */
+function boom_enhancements_update_8003(): ?string {
+  return _boom_enhancements_user_profile();
+}
+
+/**
+ * Hides timezone and contact field, and disables the personal contact forms.
+ */
+function _boom_enhancements_user_profile(): ?string {
+  try {
+    /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $form_display */
+    $form_display = \Drupal::entityTypeManager()
+      ->getStorage('entity_form_display')
+      ->load('user.user.default');
+    // The file core.entity_form_display.user.user.default.yml is present in the
+    // Standard profile, so this is another dependency on that. Let's bail out
+    // early if this is not present.
+    if (!$form_display) {
+      return NULL;
+    }
+    $form_display->removeComponent('timezone');
+    if (\Drupal::moduleHandler()->moduleExists('contact')) {
+      $form_display->removeComponent('contact');
+      \Drupal::configFactory()
+        ->getEditable('contact.settings')
+        ->set('user_default_enabled', FALSE)
+        ->save(TRUE);
+    }
+    $form_display->save();
+    return t('The user profile had been updated.')->render();
+  }
+  catch (Exception $e) {
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('boom_enhancements', $e);
+    return NULL;
+  }
+}
+
+/**
+ * Initialize default settings values if they don't exist.
+ */
+function boom_enhancements_update_8004(): ?string {
+  /** @var \Drupal\Core\Config\Config $config */
+  $config = \Drupal::configFactory()->getEditable('boom_enhancements.settings');
+  $data = $config->get();
+
+  if (!isset($data['node_types'])) {
+    $config->set('node_types', []);
+  }
+
+  if (!isset($data['colors_source'])) {
+    $config->set('colors_source', '');
+  }
+
+  if (!isset($data['icons_source'])) {
+    $config->set('icons_source', '');
+  }
+
+  $config->save();
+
+  return t('Boom Enhancements settings values initialized.')->render();
+}

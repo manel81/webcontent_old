@@ -1,0 +1,19 @@
+uuid: 350f80e4-37b5-4a76-9869-28937bb04a05
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: G0sQdB9vvkIIXoHwUx-eNUG4E8lLfnTJ-x58rzs92LM
+name: 'FAQ item'
+type: faq_item
+description: 'Frequently asked question.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

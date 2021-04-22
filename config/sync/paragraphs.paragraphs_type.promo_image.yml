@@ -1,0 +1,15 @@
+uuid: d36c6bca-d446-450b-ba36-cf4103d7964f
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: aRmYmddrrwPbKb97FksZmCP7iysGK7Pytnp1vE2lqBM
+id: promo_image
+label: 'Promo image'
+icon_uuid: null
+icon_default: null
+description: 'An image element for more prominent images.'
+behavior_plugins: {  }

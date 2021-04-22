@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - system
+  theme:
+    - dp_zero_gravity
+id: dp_zero_gravity_api_breadcrumbs
+theme: dp_zero_gravity
+region: header_second
+weight: -10
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: '0'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      api_basic_page: api_basic_page
+      api_description_page: api_description_page
+      api_page_builder: api_page_builder
+      api_reference: api_reference
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

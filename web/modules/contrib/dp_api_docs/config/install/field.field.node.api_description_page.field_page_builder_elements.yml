@@ -1,0 +1,53 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_page_builder_elements
+    - node.type.api_description_page
+    - paragraphs.paragraphs_type.cta
+    - paragraphs.paragraphs_type.grid
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - entity_reference_revisions
+id: node.api_description_page.field_page_builder_elements
+field_name: field_page_builder_elements
+entity_type: node
+bundle: api_description_page
+label: 'Page Builder Elements'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      cta: cta
+      grid: grid
+    target_bundles_drag_drop:
+      benefit:
+        weight: 9
+        enabled: false
+      block:
+        weight: 10
+        enabled: false
+      card:
+        weight: 11
+        enabled: false
+      cta:
+        enabled: true
+        weight: 12
+      grid:
+        enabled: true
+        weight: 13
+      image:
+        weight: 15
+        enabled: false
+      text:
+        weight: 16
+        enabled: false
+field_type: entity_reference_revisions

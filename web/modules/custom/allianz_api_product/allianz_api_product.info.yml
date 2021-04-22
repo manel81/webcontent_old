@@ -1,0 +1,9 @@
+name: Allianz API Product
+description: Provides enhancements for the API Products
+package: Allianz
+
+dependencies:
+  - page_builder:page_builder
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0

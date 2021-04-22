@@ -1,0 +1,16 @@
+name: Devportal API Docs
+description: Enhancements for API Documentation
+package: Devportal Standard
+
+dependencies:
+  - devportal_api_reference:devportal_api_reference
+  - page_builder:page_builder
+  - dp_core:dp_core
+  - draggableviews:draggableviews
+  - views_contextual_filters_or:views_contextual_filters_or
+  - drupal:menu_ui
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_administrative_title
+    - paragraphs.paragraphs_type.grid
+id: paragraph.grid.field_administrative_title
+field_name: field_administrative_title
+entity_type: paragraph
+bundle: grid
+label: 'Administrative title'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

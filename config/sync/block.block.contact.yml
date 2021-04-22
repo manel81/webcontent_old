@@ -1,0 +1,25 @@
+uuid: 6e1b8137-d8bc-46e9-a6c8-ab35b41373ee
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic_block:786281aa-394e-465a-b322-aa981f92a2d0'
+  module:
+    - block_content
+  theme:
+    - allianz
+id: contact
+theme: allianz
+region: bottom_navigation
+weight: -9
+provider: null
+plugin: 'block_content:786281aa-394e-465a-b322-aa981f92a2d0'
+settings:
+  id: 'block_content:786281aa-394e-465a-b322-aa981f92a2d0'
+  label: Contact
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

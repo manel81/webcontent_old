@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: api_page_builder_pattern
+label: 'Api Page Builder pattern'
+type: 'canonical_entities:node'
+pattern: '/api-catalog/[node:field_api_ref]/[node:title]'
+selection_criteria:
+  544840ec-f61e-4d5e-807a-ee81046b43ad:
+    id: node_type
+    bundles:
+      api_page_builder: api_page_builder
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 544840ec-f61e-4d5e-807a-ee81046b43ad
+selection_logic: and
+weight: -5
+relationships: {  }

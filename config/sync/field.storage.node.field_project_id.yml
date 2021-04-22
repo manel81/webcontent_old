@@ -1,0 +1,26 @@
+uuid: 3b3ead1d-4fd0-4381-9ed0-55f1d69b16a4
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - devportal_api_reference
+  module:
+    - node
+_core:
+  default_config_hash: TsR641V4iaATvDZZ7qQZ8FHfK6BOIPZP1THqeZfKnB0
+id: node.field_project_id
+field_name: field_project_id
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

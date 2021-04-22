@@ -1,0 +1,33 @@
+uuid: 8418f904-a3b1-499c-ab91-7ba6df1d3ff3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.page_builder.field_header
+    - field.field.node.page_builder.field_page_builder_elements
+    - node.type.page_builder
+  enforced:
+    module:
+      - page_builder
+  module:
+    - entity_reference_revisions
+    - user
+_core:
+  default_config_hash: AHmqiy8qdm_D1FEwhvjf1XyezHqDMiNmFauMDAMq7sA
+id: node.page_builder.default
+targetEntityType: node
+bundle: page_builder
+mode: default
+content:
+  field_page_builder_elements:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_header: true
+  links: true

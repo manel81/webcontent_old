@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+id: cta
+label: CTA
+icon_uuid: null
+description: 'A full width row with text and buttons.'
+behavior_plugins: {  }

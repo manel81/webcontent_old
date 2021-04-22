@@ -1,0 +1,185 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+%button,
+.button {
+  @include setFontFromStack($button__font...);
+  font-size: $button__fontSize;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: $button__textTransform;
+  cursor: pointer;
+  padding: $button__padding;
+  height: auto;
+  min-height: $button__minHeight;
+  min-width: $button__minWidth;
+  border: $button__borderWidth solid $button__borderColor;
+  border-radius: $button__radius;
+  color: $button__color;
+  background-color: $button__backgroundColor;
+
+  &__icon {
+    margin-right: 0.5rem;
+  }
+
+  @include for-tablet-portrait-up {
+    width: auto;
+  }
+
+  &:active,
+  &:focus,
+  &:hover {
+    text-decoration: none;
+  }
+
+  &--primary {
+    border: $button__borderWidth solid $button--primary__borderColor;
+    color: $button--primary__color;
+    background-color: $button--primary__backgroundColor;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $button--primary__color;
+      box-shadow: $button__boxShadow;
+    }
+  }
+
+  // TODO: This color classes will need to be refactored into simpler names along with all their usages.
+  &--primary--inverted {
+    border: $button__borderWidth solid $button--primary--inverted__borderColor;
+    color: $button--primary--inverted__color;
+    background-color: $button--primary--inverted__backgroundColor;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $button--primary--inverted__color;
+      box-shadow: $button__boxShadow;
+    }
+  }
+
+  &--secondary {
+    border: $button__borderWidth solid;
+    color: $button--secondary__color;
+    background-color: $button--secondary__backgroundColor;
+    border-image: linear-gradient(to right, $button--secondary__borderColor) 1;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $button--secondary__color;
+      border-width: $button--secondary--hover__borderWidth;
+      padding: $button--secondary--hover__padding;
+    }
+  }
+
+  &--secondary--inverted {
+    border: $button__borderWidth solid;
+    color: $button--secondary--inverted__color;
+    background-color: $button--secondary--inverted__backgroundColor;
+    border-image: linear-gradient(to right, $button--secondary--inverted__borderColor) 1;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $button--secondary--inverted__color;
+      border-width: $button--secondary--hover__borderWidth;
+      padding: $button--secondary--hover__padding;
+    }
+  }
+
+  &--postman {
+    border: $button__borderWidth solid $button--postman__borderColor;
+    color: $button--postman__color;
+    background-color: $button--postman__backgroundColor;
+    padding-left: $button--postman__paddingLeft;
+    position: relative;
+
+    &::before {
+      @include setFontIcon($button--postman__icon);
+      font-size: $button--postman__icon__fontSize;
+      position: absolute;
+      left: $button--postman__icon__left;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $button--postman__color;
+      box-shadow: $button__boxShadow;
+    }
+  }
+
+  // <DEPRECATED>
+  &--link {
+    @include setFontFromStack($navigation__font...);
+    position: relative;
+    border-style: solid;
+    border-width: 0 0 $button--link--hover__borderWidth;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: $fontSize--small;
+    color: $button__color--link;
+    background-color: $button__backgroundColor--link;
+    border-color: $button__borderColor--link;
+
+    &:hover,
+    &:focus,
+    &:active {
+      &::before {
+        content: '';
+        position: absolute;
+        top: 2rem;
+        left: 0;
+        width: 100%;
+        height: $button--secondary--hover__borderWidth;
+        background: linear-gradient(to right, $decorBar__gradient);
+      }
+    }
+
+    &--arrow {
+      position: relative;
+      line-height: 1;
+
+      &::after {
+        position: relative;
+        top: -0.1em;
+        margin-left: 0.5rem;
+        font-family: $icon__fontFamily;
+        content: $feather-chevron-right;
+        font-size: $button--link__arrow__fontSize;
+        font-weight: normal;
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        &::before {
+          width: calc(100% - 24px - 0.5rem);
+        }
+      }
+    }
+  }
+  // </DEPRECATED>
+}
+
+.button + .button {
+  margin-left: $buttons__marginLeft;
+}

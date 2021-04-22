@@ -1,0 +1,44 @@
+// # Colors
+// -------------
+$colors: (
+  color__brand-1: #003781,
+  color__brand-2: #007AB3,
+  color__brand-3: #075994,
+  color__brand-4: #006192,
+  color__brand-5: #407D71,
+  color__black: #000000,
+  color__white: #FFFFFF,
+  color__gray-1: #F8F8F8,
+  color__gray-2: #F5F5F5,
+  color__gray-3: #D9D9D9,
+  color__gray-4: #C2C2C2,
+  color__gray--dark-1: #EFE8E6,
+  color__gray--dark-2: #414141,
+  color__gray--dark-3: #5B5B5B,
+  color__error: #DC3149,
+  color__success: #1E8927,
+  color__info: #496EBD,
+  color__warning: #EFBE25,
+  color__method-patch: #7FE4E0,
+  color__method-head: #8A679C,
+  color__method-options: #49648C,
+  color__postman: #FF6C37,
+  color__soft-1: #DFEEDE,
+  color__soft-2: #EFF6EE,
+  color__soft-3: #F3E5DF,
+  color__soft-4: #F9F2EF,
+  color__soft-5: #E6F4F6,
+  color__soft-6: #F1F9FA,
+  color__soft-7: #F5F0E0,
+  color__soft-8: #FAF7EF,
+  color__soft-9: #F6E5EA,
+  color__soft-10: #FBF2F4,
+  color__soft-11: #EBE7DB,
+  color__soft-12: #F5F3ED,
+);
+
+$colorComponentsExport: export('./brandColors-lock.json', $colors);
+
+@function brandColor($color) {
+  @return map-get($colors, $color);
+}

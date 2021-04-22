@@ -1,0 +1,168 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Boom Header module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\boom_header\Entity\HeaderBackground;
+
+/**
+ * Enables focal_point module with its dependencies.
+ */
+function boom_header_update_8001(): void {
+  \Drupal::service('module_installer')->install(['focal_point']);
+}
+
+/**
+ * Add new access handler and base fields for context-based visibility.
+ */
+function boom_header_update_8701(): void {
+  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  // New field: 'admin_label'.
+  $field_storage_definition = BaseFieldDefinition::create('string')
+    ->setLabel(t('Admin label'))
+    ->setDescription(t('Administrative label for the background image.'))
+    ->setRequired(TRUE)
+    ->setSettings([
+      'default_value' => '',
+      'max_length' => 255,
+      'text_processing' => 0,
+    ])
+    ->setDisplayOptions('view', [
+      'label' => 'inline',
+      'type' => 'string',
+      'weight' => -9,
+    ])
+    ->setDisplayOptions('form', [
+      'type' => 'string_textfield',
+      'weight' => -9,
+    ])
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+  $entity_definition_update_manager
+    ->installFieldStorageDefinition('admin_label', 'boom_header', 'boom_header', $field_storage_definition);
+
+  // New field: 'visibility'.
+  $field_storage_definition = BaseFieldDefinition::create('map')
+    ->setLabel(t('Visibility'))
+    ->setDescription(t('The visibility settings for the entity.'));
+  $entity_definition_update_manager
+    ->installFieldStorageDefinition('visibility', 'boom_header', 'boom_header', $field_storage_definition);
+
+  // New field: 'weight'.
+  $field_storage_definition = BaseFieldDefinition::create('integer')
+    ->setLabel(t('Weight'))
+    ->setDescription(t('The weight of the entity.'))
+    ->setRequired(TRUE)
+    ->setDefaultValue(0)
+    ->setDisplayOptions('view', [
+      'label' => 'hidden',
+      'type' => 'hidden',
+    ])
+    ->setDisplayOptions('form', [
+      'label' => 'inline',
+      'type' => 'number',
+      'weight' => -5,
+    ])
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+  $entity_definition_update_manager
+    ->installFieldStorageDefinition('weight', 'boom_header', 'boom_header', $field_storage_definition);
+
+  // Add "access" = "Drupal\boom_header\HeaderBackgroundAccessControlHandler".
+  $entity_type = $entity_definition_update_manager->getEntityType('boom_header');
+  $entity_type->setHandlerClass('access', 'Drupal\boom_header\HeaderBackgroundAccessControlHandler');
+  $entity_definition_update_manager->updateEntityType($entity_type);
+}
+
+/**
+ * Migrate content from old field to new ones.
+ */
+function boom_header_update_8702(array &$sandbox): void {
+  $database = \Drupal::database();
+  if (!isset($sandbox['count'])) {
+    // As HeaderBackground::baseFieldDefinitions() is already updated, there's
+    // no way to get the old data via HeaderBackground::loadMultiple(). Let's
+    // get it directly from the DB instead.
+    $sandbox['url_patterns'] = $database->select('header', 'h')
+      ->fields('h', ['id', 'url_pattern'])
+      ->execute()
+      ->fetchAllKeyed();
+    $sandbox['count'] = \Drupal::entityQuery('boom_header')
+      ->count()
+      ->execute();
+    $sandbox['current'] = 0;
+  }
+
+  if ($sandbox['count']) {
+    $header_backgrounds = \Drupal::entityQuery('boom_header')
+      ->sort('hbg_image__target_id')
+      ->range($sandbox['current'], 10)
+      ->execute();
+    $specials = [
+      '*',
+      '~',
+    ];
+    /** @var \Drupal\boom_header\Entity\HeaderBackground $header_background */
+    foreach (HeaderBackground::loadMultiple($header_backgrounds) as $header_background) {
+      $strength = 0;
+      $pattern = $sandbox['url_patterns'][$header_background->id()];
+      $pattern_crumb = explode('/', $pattern);
+      foreach ($pattern_crumb as $crumb) {
+        if (in_array($crumb, $specials)) {
+          $strength += 1;
+        }
+        else {
+          $strength += 3;
+        }
+      }
+      $header_background->set('weight', -$strength);
+      $header_background->set('admin_label', 'Header background for the ' . $pattern . ' URL');
+      $header_background->setVisibilityConfig('request_path', [
+        'pages' => $pattern,
+        'negate' => FALSE,
+      ]);
+      // This save effectively removes the content of the url_pattern field from
+      // the DB table, as this field is no longer known to baseFieldDefitions().
+      $header_background->save();
+      $sandbox['current']++;
+    }
+  }
+  $sandbox['#finished'] = empty($sandbox['count']) ? 1 : ($sandbox['current'] / $sandbox['count']);
+}
+
+/**
+ * Remove the url_pattern field as it's no longer needed.
+ */
+function boom_header_update_8703(): void {
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $storage_definition = $definition_update_manager->getFieldStorageDefinition('url_pattern', 'boom_header');
+  if (!$storage_definition) {
+    return;
+  }
+  $definition_update_manager->uninstallFieldStorageDefinition($storage_definition);
+}

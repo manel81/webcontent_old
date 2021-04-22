@@ -1,0 +1,38 @@
+name: Allianz
+type: theme
+description: Allianz theme for devportals.
+core_version_requirement: ^8.9.1 || ^9.0
+package: Custom
+base theme: dp_zero_gravity
+logo: logo.svg
+
+regions:
+  navigation: 'Navigation'
+  header_first: 'Header First'
+  header_second: 'Header Second'
+  breadcrumb: 'Breadcrumb'
+  help: 'Help'
+  top_bar: 'Top Bar'
+  sidebar_first: 'Sidebar First'
+  content: 'Content'
+  sidebar_second: 'Sidebar Second'
+  trusted: 'Trusted By'
+  bottom_navigation: 'Bottom navigation'
+  footer: 'Footer'
+  hidden: 'Hidden region for referenced blocks'
+
+libraries:
+  - allianz/global-styling
+  - allianz/font-faces
+
+ckeditor_stylesheets:
+  - dist/css/style.css
+
+custom_ckeditor_js: 'dist/js/allianz_ckeditor.js'
+
+libraries-override:
+  # Remove individual stylesheets.
+  dp_zero_gravity/global-styling:
+    css:
+      theme:
+        dist/css/style.css: false

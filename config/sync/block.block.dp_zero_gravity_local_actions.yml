@@ -1,0 +1,20 @@
+uuid: b93a5b47-1bf9-4ac5-a9dc-af0fac0721ce
+langcode: en
+status: true
+dependencies:
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: UkX1OfNY-65IikF3fz3hJpp_MWk0lCVTNma8yN_92YY
+id: dp_zero_gravity_local_actions
+theme: dp_zero_gravity
+region: content
+weight: -20
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

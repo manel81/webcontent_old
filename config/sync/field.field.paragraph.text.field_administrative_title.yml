@@ -1,0 +1,21 @@
+uuid: c207eb12-2d2b-4891-bf1e-544c00040da2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_administrative_title
+    - paragraphs.paragraphs_type.text
+_core:
+  default_config_hash: 8EUTJvO_Q81o_0xBL2QDZaVGhVnv5A7UiaBobr1Mkgg
+id: paragraph.text.field_administrative_title
+field_name: field_administrative_title
+entity_type: paragraph
+bundle: text
+label: 'Administrative title'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

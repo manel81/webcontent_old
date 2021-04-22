@@ -1,0 +1,14 @@
+dp_trigger.tokens.trigger.field:
+  path: '/dp-trigger/{entity}/{field_name}'
+  defaults:
+    _controller: \Drupal\dp_trigger_field\Controller\TriggerFieldController::triggerField
+  methods: [POST]
+  requirements:
+    # \Drupal\dp_trigger\Routing\TokenParamConverter is responsible for the
+    # access control in this case.
+    # phpcs:ignore DrupalPractice.Yaml.RoutingAccess.OpenCallback
+    _access: 'TRUE'
+  options:
+    parameters:
+      entity:
+        type: 'dp-trigger-token'

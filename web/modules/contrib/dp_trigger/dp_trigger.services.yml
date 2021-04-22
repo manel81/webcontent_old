@@ -1,0 +1,16 @@
+services:
+  plugin.manager.dp_trigger_resolver:
+    class: Drupal\dp_trigger\ResolverManager
+    parent: default_plugin_manager
+  dp_trigger.exception:
+    class: Drupal\dp_trigger\EventSubscriber\DPTriggerHttpExceptionSubscriber
+    tags:
+      - { name: event_subscriber }
+    arguments:
+      ['@current_route_match']
+  dp_trigger.token_param_converter:
+    class: Drupal\dp_trigger\Routing\TokenParamConverter
+    tags:
+      - { name: paramconverter }
+    arguments:
+      ['@database', '@entity_type.manager']

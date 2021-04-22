@@ -1,0 +1,60 @@
+uuid: 0d7080c9-a9ed-40c1-bc19-5fa3302b82ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.grid.field_administrative_title
+    - field.field.paragraph.grid.field_background_color
+    - field.field.paragraph.grid.field_border_color
+    - field.field.paragraph.grid.field_grid_button
+    - field.field.paragraph.grid.field_grid_elements
+    - field.field.paragraph.grid.field_grid_layout
+    - field.field.paragraph.grid.field_grid_title
+    - paragraphs.paragraphs_type.grid
+  enforced:
+    module:
+      - page_builder
+  module:
+    - entity_reference_revisions
+    - link
+_core:
+  default_config_hash: QBRVD-HaBfwqgKlj1d7VhRiGV9DhQjl3VQV6Df5Oq1Q
+id: paragraph.grid.default
+targetEntityType: paragraph
+bundle: grid
+mode: default
+content:
+  field_grid_button:
+    weight: 1
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_grid_elements:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_grid_title:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  field_administrative_title: true
+  field_background_color: true
+  field_border_color: true
+  field_grid_layout: true

@@ -1,0 +1,56 @@
+uuid: ecaedb5e-5984-47af-8a89-21fe1cfaed31
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_page_builder_elements
+    - node.type.api_page_builder
+    - paragraphs.paragraphs_type.cta
+    - paragraphs.paragraphs_type.grid
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: hMMdjgm1FzXCEkLpFpE0QrDfOYFoS1zcqXkq9zee1VU
+id: node.api_page_builder.field_page_builder_elements
+field_name: field_page_builder_elements
+entity_type: node
+bundle: api_page_builder
+label: 'Page Builder Elements'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      cta: cta
+      grid: grid
+    target_bundles_drag_drop:
+      benefit:
+        weight: 8
+        enabled: false
+      block:
+        weight: 9
+        enabled: false
+      card:
+        weight: 10
+        enabled: false
+      cta:
+        enabled: true
+        weight: 11
+      grid:
+        enabled: true
+        weight: 12
+      image:
+        weight: 13
+        enabled: false
+      text:
+        weight: 14
+        enabled: false
+field_type: entity_reference_revisions

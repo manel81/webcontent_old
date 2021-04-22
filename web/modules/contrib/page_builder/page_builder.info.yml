@@ -1,0 +1,23 @@
+name: Page Builder Kit
+description: Extension to Paragraphs to create a page builder content type.
+package: Page Builder
+
+dependencies:
+  - drupal:breakpoint
+  - drupal:image
+  - drupal:node
+  - paragraphs:paragraphs
+  - paragraphs_collapsible:paragraphs_collapsible
+  - color_field:color_field
+  - svg_image:svg_image
+  - link_class:link_class
+  - fieldblock:fieldblock
+  - select2:select2
+  - block_field:block_field
+  - drupal:options
+  - drupal:menu_ui
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

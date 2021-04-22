@@ -1,0 +1,30 @@
+uuid: 3756986b-8eee-4f40-8013-ef6e8aac1c48
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_reference
+    - node.type.api_description_page
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: diLt59AQTfKS619u9rIyeGJKzrUNBhytUnkxBtkXBdU
+id: node.api_description_page.field_api_reference
+field_name: field_api_reference
+entity_type: node
+bundle: api_description_page
+label: 'API Reference'
+description: 'The API this API Description page is linked to.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: api_reference
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

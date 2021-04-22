@@ -1,0 +1,22 @@
+uuid: 62eff0dd-b716-4686-918d-471faa993d98
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_background_color
+    - paragraphs.paragraphs_type.benefit
+  module:
+    - color_field
+id: paragraph.benefit.field_background_color
+field_name: field_background_color
+entity_type: paragraph
+bundle: benefit
+label: 'Background color'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  opacity: 1
+field_type: color_field_type

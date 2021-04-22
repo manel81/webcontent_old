@@ -1,0 +1,25 @@
+uuid: 1641e4a6-12bd-441f-9624-4a4dc228347f
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic_block:ded91b3b-3dc8-4a1c-86af-37027b56d700'
+  module:
+    - block_content
+  theme:
+    - allianz
+id: aboutus
+theme: allianz
+region: bottom_navigation
+weight: -12
+provider: null
+plugin: 'block_content:ded91b3b-3dc8-4a1c-86af-37027b56d700'
+settings:
+  id: 'block_content:ded91b3b-3dc8-4a1c-86af-37027b56d700'
+  label: 'About us'
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

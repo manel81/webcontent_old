@@ -1,0 +1,29 @@
+uuid: 8372081f-9606-4b83-b742-5580451ef2fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.personal
+  module:
+    - contact_block
+    - system
+  theme:
+    - allianz
+id: contactblock_2
+theme: allianz
+region: content
+weight: -8
+provider: null
+plugin: contact_block
+settings:
+  id: contact_block
+  label: 'Contact block'
+  provider: contact_block
+  label_display: visible
+  contact_form: personal
+visibility:
+  request_path:
+    id: request_path
+    pages: /contact
+    negate: false
+    context_mapping: {  }

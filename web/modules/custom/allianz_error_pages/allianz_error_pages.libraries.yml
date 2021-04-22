@@ -1,0 +1,4 @@
+error_pages:
+  css:
+    theme:
+      dist/css/error_pages.css: {}

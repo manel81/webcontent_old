@@ -1,0 +1,24 @@
+uuid: 6d57f077-5f5e-425c-a384-9722f5312687
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - node
+    - text
+_core:
+  default_config_hash: zkndlY4Cx_ut49vjtl9BtVVmeEL9Ol39IVBJvcnD70M
+id: node.field_api_header_content
+field_name: field_api_header_content
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

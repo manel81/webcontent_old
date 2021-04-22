@@ -1,0 +1,76 @@
+global-styling:
+  version: 1.x
+  css:
+    theme:
+      dist/css/style.css: {}
+
+font-faces:
+  version: 1.x
+  css:
+    theme:
+      dist/css/font-faces.css: {}
+
+polyfills:
+  js:
+    dist/js/polyfills.js: {}
+
+zero_gravity_active_links:
+  js:
+    dist/js/zero_gravity_active_links.js: {}
+
+zero_gravity_cards:
+  js:
+    dist/js/zero_gravity_cards.js: {}
+
+zero_gravity_swagger_ui:
+  js:
+    dist/js/zero_gravity_swagger_ui.js: {}
+  dependencies:
+    - core/jquery
+
+faq:
+  footer: true
+  js:
+    dist/js/faq.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalsettings
+    - dp_zero_gravity/swagger_ui_plugins.vendor
+    - dp_zero_gravity/polyfills
+
+swagger_ui_plugins.vendor:
+  js:
+    dist/js/vendor.js: {}
+
+swagger_ui_plugins.highlight:
+  js:
+    dist/js/SwaggerUiCodeHighlightPlugin.js: {}
+  dependencies:
+    - dp_zero_gravity/swagger_ui_plugins.vendor
+
+swagger_ui_plugins.info:
+  js:
+    dist/js/SwaggerUiInfoPlugin.js: {}
+  dependencies:
+    - dp_zero_gravity/swagger_ui_plugins.vendor
+
+swagger_ui_plugins.code_samples:
+  js:
+    dist/js/SwaggerUiCodeSamplesPlugin.js: {}
+  dependencies:
+    - dp_zero_gravity/swagger_ui_plugins.vendor
+
+shift_homepage_content:
+  css:
+    layout:
+      dist/css/shift-homepage-content.css: {}
+
+views_accordion_quicklink:
+  js:
+    dist/js/zero_gravity_views_accordion_quicklink.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/jquery.ui.accordion
+    - core/drupal
+    - core/drupalsettings

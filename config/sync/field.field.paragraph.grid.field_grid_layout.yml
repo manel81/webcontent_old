@@ -1,0 +1,26 @@
+uuid: c0d722fc-5805-48ca-8253-8fcd20312cc3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_grid_layout
+    - paragraphs.paragraphs_type.grid
+  enforced:
+    module:
+      - page_builder
+  module:
+    - options
+_core:
+  default_config_hash: _xf7wlSjFpRd5AH6d7R4_oXeHCCDorDw3CZeE7Pcuzs
+id: paragraph.grid.field_grid_layout
+field_name: field_grid_layout
+entity_type: paragraph
+bundle: grid
+label: 'Grid layout'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,779 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Scaffolding
+// ---------------
+// ## Element fonts
+$fontSize--base: 15px !default; // = 1rem
+$fontSize--small: 12px !default;
+$fontSize--medium: 14px !default;
+$fontSize--large: 20px !default;
+
+// ## Body
+$body__color: var(--colorBundle__text) !default;
+$body__backgroundColor: var(--colorBundle__pageBackground) !default;
+$body__font: Avenir, Roman !default;
+
+// # Typography
+// ---------------
+$lineHeight--base: 1.6 !default;
+$textTransform--base: uppercase !default;
+$text--small__color: var(--colorBundle__smallText) !default;
+$text--small__textTransform: $textTransform--base !default;
+$text--small__lineHeight: 1 !default;
+$text--small__font: Avenir, Medium !default;
+$text--dark__color: var(--colorBundle__darkText) !default;
+$text--light__color: var(--colorBundle__lightText) !default;
+
+// Text - Lead
+$text--lead__color: var(--colorBundle__darkText) !default;
+$text--lead__font: Avenir, Heavy !default;
+$text--lead__fontSize: $fontSize--base !default;
+$text--lead__textTransform: none !default;
+
+// ## Icons
+$icon__fontSize: 24px !default;
+/// @deprecated in 2.11, will be removed in 2.12. Use $icon__fontSize instead.
+$fontSize__icon: $icon__fontSize !default;
+$icon__fontFamily: 'feather' !default;
+/// @deprecated in 2.11, will be removed in 2.12. Use $icon__fontFamily instead.
+$fontFamily--icons: $icon__fontFamily !default;
+$icon--chevronUp: $feather-chevron-up !default;
+$icon--chevronDown: $feather-chevron-down !default;
+$icon--chevronRight: $feather-chevron-right !default;
+$icon--arrowRight: $feather-arrow-right !default;
+$icon--unlock: $feather-unlock !default;
+$icon--lock: $feather-lock !default;
+$icon--atSign: $feather-at-sign !default;
+$icon--server: $feather-server !default;
+$icon--file: $feather-file !default;
+$icon--fileText: $feather-file-text !default;
+$icon--externalLink: $feather-external-link !default;
+$icon--close: $feather-x !default;
+$icon--globe: $feather-globe !default;
+$icon--play: $feather-play !default;
+$icon--copy: $feather-copy !default;
+$icon--info: $feather-info !default;
+$icon--search: $feather-search !default;
+$icon--view: $feather-eye !default;
+$icon--edit: $feather-edit-3 !default;
+$icon--delete: $feather-trash-2 !default;
+$icon--analytics: $feather-trending-up !default;
+$icon--user: $feather-user !default;
+$icon--members: $feather-users !default;
+$icon--add: $feather-plus !default;
+$icon--revoke: $feather-slash !default;
+$icon--grid: $feather-grid !default;
+$icon--logOut: $feather-log-out !default;
+
+// ## Headings
+$heading__color: var(--colorBundle__headings) !default;
+
+// ### H1
+$h1__fontSize: 40px !default;
+$h1--mobile__fontSize: $h1__fontSize * 0.7 !default;
+$h1__font: Ubuntu, Regular !default;
+// ### H1 - Hero variant
+$h1--hero__color: $heading__color !default;
+$h1--hero__fontSize: 60px !default;
+$h1--hero--mobile__fontSize: $h1--hero__fontSize * 0.6 !default;
+$h1--hero__lineHeight: 1.14 !default;
+
+// ### H2
+$h2__fontSize: 30px !default;
+$h2--mobile__fontSize: $h2__fontSize * 0.7 !default;
+$h2__font: Ubuntu, Medium !default;
+
+// ### H3
+$h3__fontSize: 30px !default;
+$h3--mobile__fontSize: $h3__fontSize * 0.7 !default;
+$h3__font: Ubuntu, Light !default;
+
+// ### H4
+$h4__fontSize: 18px !default;
+$h4--mobile__fontSize: $h4__fontSize !default;
+$h4__font: Ubuntu, Medium !default;
+
+// ### H5
+$h5__fontSize: 18px !default;
+$h5--mobile__fontSize: $h5__fontSize !default;
+$h5__font: Ubuntu, Regular !default;
+
+// ### H6
+$h6__fontSize: 16px !default;
+$h6--mobile__fontSize: $h6__fontSize !default;
+$h6__font: Ubuntu, Medium !default;
+
+// ## Links
+$link__color: var(--colorBundle__link) !default;
+$link--hover__color: var(--colorBundle__link) !default;
+$link--hover__textDecoration: underline !default;
+
+// ## Page title
+$pageTitle__color: var(--colorBundle__headings) !default;
+$pageTitle__backgroundColor: var(--colorBundle__pageTitleBarBackground) !default;
+$pageTitle__fontSize: $h1__fontSize !default;
+$pageTitle--mobile__fontSize: $h1--mobile__fontSize !default;
+$pageTitle__height: 100px !default;
+
+// ## CKEditor
+$cke--textLight__textShadow: var(--colorBundle__darkText) !default;
+
+// # Media queries breakpoints
+// ---------------
+$screen--widescreen: 1800px !default;
+$screen--desktop: 1200px !default;
+$screen--tabletLandscape: 900px !default;
+$screen--tabletPortait: 600px !default;
+$screen--mobileOnly: ($screen--tabletPortait - 1) !default;
+
+// Min and max viewport width values for fluid typography
+$viewportWidth--min: 300px !default;
+$viewportWidth--max: $screen--desktop !default;
+
+// # Box Shadows
+// ---------------
+// These values are according to the UI Kit in figma.
+$boxShadow--normal: 0 1px 2px var(--colorBundle__shadow) !default;
+$boxShadow--normal--hover: 0 50px 50px var(--colorBundle__shadow) !default;
+
+// <DEPRECATED>
+$boxShadow--larger: 0 50px 50px -10px var(--colorBundle__shadow) !default;
+$boxShadow--larger--hover: 0 20px 50px 10px var(--colorBundle__shadow) !default;
+// </DEPRECATED>
+
+// # Transitions
+// ----------------
+$transition-duration: 0.15s !default;
+
+// # Grid
+// ----------------
+$grid-columns: 12 !default;
+$grid__gutter: 0 !default;
+$grid__borderColor: transparent !default;
+
+// # Layout
+// ---------------
+$container__width: 1280px !default;
+$gutter__width: 30px !default;
+$divider__width: $gutter__width * 2 / 3 !default;
+$hr__borderColor: var(--colorBundle__divider) !default;
+
+// # Element sizes.
+// ---------------
+// Some elements require a smaller width, like center aligned forms on user
+// pages or contact forms.
+$elementSize--thin: calc(#{2 / 3 * $grid-columns} / #{$grid-columns} * #{$container__width}) !default;
+$elementSize--thinner: calc(#{0.5 * $grid-columns} / #{$grid-columns} * #{$container__width}) !default;
+
+// # Z-index
+// ----------------
+$zindex--navbar: 500 !default;
+
+// # Bottom Navigation
+// ---------------
+$bottomNavigation__color: var(--colorBundle__text) !default;
+$bottomNavigation__backgroundColor: var(--colorBundle__footerBackground) !default;
+$bottomNavigation__borderColor: var(--colorBundle__divider) !default;
+$bottomNavigation__blockTitle__fontSize: $h5__fontSize !default;
+$bottomNavigation__blockTitle__font: Ubuntu, Medium !default;
+$bottomNavigation__blockTitle__leftBar__height: 45px !default;
+
+// # Decor Bar
+// ---------------
+$decorBar__gradient: var(--gradient__border) !default;
+$decorBar__width: 5px !default;
+
+// # Footer
+// ---------------
+$footer__color: var(--colorBundle__text) !default;
+$footer__backgroundColor: var(--colorBundle__pageBackground) !default;
+$footer__link__color: var(--colorBundle__text) !default;
+$footer__link--hover__color: var(--colorBundle__text) !default;
+
+// # Breadcrumb
+// ---------------
+$breadcrumb__color: var(--colorBundle__smallText) !default;
+$breadcrumb--active__color: var(--colorBundle__smallText) !default;
+$breadcrumb__backgroundColor: var(--colorBundle__panelBackground) !default;
+$breadcrumb__border__width: 5px !default;
+$breadcrumb__padding: 1em 0.5em !default;
+$breadcrumb__fontSize: $fontSize--small !default;
+$breadcrumb__icon__color: var(--colorBundle__uiIcon) !default;
+$breadcrumb__font: Avenir, Medium !default;
+
+// # Buttons
+// ---------------
+$button__minHeight: 46px !default;
+$button__minWidth: 95px !default;
+$button__paddingVertical: 0.5rem !default;
+$button__paddingHorizontal: 1rem !default;
+$button__padding: $button__paddingVertical $button__paddingHorizontal !default;
+$button__borderWidth: 3px !default;
+$button__radius: 0 !default;
+$button__font: Ubuntu, Medium !default;
+$button__fontSize: $fontSize--medium !default;
+$button__textTransform: $textTransform--base !default;
+$buttons__marginLeft: 20px !default;
+$button__boxShadow: 0 12px 20px 0 var(--colorBundle__shadowDarker) !default;
+$button--icon__width: 46px !default;
+$button--icon__height: 46px !default;
+$button--disabled__opacity: 0.5 !default;
+
+// #### States
+$button--secondary--hover__borderWidth: 5px !default;
+$button--secondary--hover__borderWidthDifference: $button--secondary--hover__borderWidth - $button__borderWidth !default;
+$button--secondary--hover__padding: calc(
+    #{$button__paddingVertical} - #{$button--secondary--hover__borderWidthDifference}
+  )
+  calc(#{$button__paddingHorizontal} - #{$button--secondary--hover__borderWidthDifference}) !default;
+$button--link--hover__borderWidth: 5px !default;
+
+// ## Default
+$button__color: var(--colorBundle__primaryButton) !default;
+$button__backgroundColor: var(--colorBundle__primaryInvertedButtonBackground) !default;
+$button__borderColor: var(--colorBundle__primaryButton) !default;
+
+// ## Primary
+$button--primary__color: var(--colorBundle__primaryButton) !default;
+$button--primary__backgroundColor: var(--colorBundle__primaryButtonBackground) !default;
+$button--primary__borderColor: var(--colorBundle__primaryButtonBorder) !default;
+
+// ## Primary - Inverted
+$button--primary--inverted__color: var(--colorBundle__primaryInvertedButton) !default;
+$button--primary--inverted__backgroundColor: var(--colorBundle__primaryInvertedButtonBackground) !default;
+$button--primary--inverted__borderColor: var(--colorBundle__primaryInvertedButtonBorder) !default;
+
+// ## Secondary
+$button--secondary__color: var(--colorBundle__secondaryButton) !default;
+$button--secondary__backgroundColor: var(--colorBundle__secondaryButtonBackground) !default;
+// Requires two comma separated colors.
+$button--secondary__borderColor: var(--colorBundle__secondaryButtonBorder) !default;
+
+// ## Secondary - Inverted
+$button--secondary--inverted__color: var(--colorBundle__secondaryInvertedButton) !default;
+$button--secondary--inverted__backgroundColor: var(--colorBundle__secondaryInvertedButtonBackground) !default;
+// Requires two comma separated colors.
+$button--secondary--inverted__borderColor: var(--colorBundle__secondaryInvertedButtonBorder) !default;
+
+// ## Postman
+$button--postman__color: var(--colorBundle__postmanButton) !default;
+$button--postman__backgroundColor: var(--colorBundle__postmanButtonBackground) !default;
+$button--postman__borderColor: var(--colorBundle__postmanButtonBorder) !default;
+$button--postman__paddingLeft: 3 * $button__paddingHorizontal !default;
+$button--postman__icon: $icon--play !default;
+$button--postman__icon__fontSize: 18px !default;
+$button--postman__icon__left: $button__paddingHorizontal !default;
+
+// <DEPRECATED>
+// ### ButtonLink
+$button__color--link: var(--colorBundle__link) !default;
+$button__backgroundColor--link: transparent !default;
+$button__borderColor--link: transparent !default;
+// ### Link
+$button--link__arrow__fontSize: 2em !default;
+// </DEPRECATED>
+
+// Requires two comma separated colors.
+$button__borderColor--link--hover: $decorBar__gradient !default;
+
+// # Cards
+// ---------------
+$card__borderRadius: 0 !default;
+$card__backgroundColor: var(--colorBundle__panelBackground) !default;
+$card__targetIconColor: var(--colorBundle__link) !default;
+$card__padding: 40px !default;
+$card__scale: 1.25 !default;
+$card__scale--small: 1.125 !default;
+$card__author__fontSize: $fontSize--small !default;
+$card__author__fontColor: var(--colorBundle__smallText) !default;
+$card--quicklink__color: var(--colorBundle__text) !default;
+$card--quicklink__icon__borderColor: var(--colorBundle__lightText) !default;
+$card--quicklink__title__color: var(--colorBundle__lightText) !default;
+$card--quicklink__titleLink__color: var(--colorBundle__headings) !default;
+// ### Link
+$card__link__arrow__fontSize: 2em !default;
+$card__link__font: Avenir, Heavy !default;
+$card__link__lineHeight: 1 !default;
+$card__link__textTransform: $textTransform--base !default;
+$card__link--hover__borderWidth: 5px !default;
+$card__link--arrow__paddingRight: $icon__fontSize + 8px !default;
+
+// # Accordion
+// ---------------
+$accordion__color: var(--colorBundle__text) !default;
+$accordion__backgroundColor: var(--colorBundle__panelBackground) !default;
+$accordion__textTransform: $textTransform--base !default;
+$accordion--active__boxShadow: 0 2px 18px 0 var(--colorBundle__shadow) !default;
+$accordion__content__boxShadow: $boxShadow--normal !default;
+$accordion__header__fontSize: 13px !default;
+$accordion__header__font: Avenir, Heavy !default;
+$accordion__header__borderColor: var(--colorBundle__divider) !default;
+$accordion__header--active__color: var(--colorBundle__headings) !default;
+$accordion__header__paddingVertical: 12px !default;
+$accordion__header__paddingHorizontal: 20px !default;
+$accordion__header__padding: $accordion__header__paddingVertical $accordion__header__paddingHorizontal !default;
+$accordion__toggle__color: var(--colorBundle__uiIcon) !default;
+/// @deprecated in 2.11, will be removed in 2.12. Use $accordion__toggle__color instead.
+$accordion__headerIcon__color: $accordion__toggle__color !default;
+$accordion__toggle--active__color: var(--colorBundle__uiIconActive) !default;
+/// @deprecated in 2.11, will be removed in 2.12. Use $accordion__toggle--active__color instead.
+$accordion__headerIcon--active__color: $accordion__toggle--active__color !default;
+// <DEPRECATED>
+$accordion__headerIcon--fontSize: $fontSize--large !default;
+// </DEPRECATED>
+
+// # Developer app
+// ---------------
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerApp__productsLabel__textTransform: none !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerApp__productsLabel__fontSize: $fontSize--base !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerApp__productsLabel__color: var(--colorBundle__headings) !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerApp__productsLabel__font: Avenir, Heavy !default;
+
+// ## Developer app list
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerAppList__header__textTransform: $textTransform--base !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerAppList__app__backgroundColor: var(--colorBundle__panelBackground) !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerAppList__operation__color: var(--colorBundle__uiIcon) !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerAppList__operation--active__color: var(--colorBundle__uiIconActive) !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerAppList__info__color: var(--colorBundle__text) !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerAppList__infoIcon__color: var(--colorBundle__uiIcon) !default;
+/// @deprecated in 2.12, will be removed in 2.13.
+$developerAppList__row__boxShadow: $accordion--active__boxShadow !default;
+
+// # Operations
+$operation__color: var(--colorBundle__uiIcon) !default;
+$operation--active__color: var(--colorBundle__uiIconActive) !default;
+
+// # Forms
+// ---------------
+$form__backgroundColor: transparent !default;
+$form__borderColor: transparent !default;
+// This color is not specified in the UI kit but a variable is added so it can
+// easily changed if neccessary.
+$required__color: var(--colorBundle__inputErrorBorder) !default;
+$form__color: var(--colorBundle__text) !default;
+
+// ## Form Items
+// ---------------
+$formItem--disabled__opacity: 0.3 !default;
+$formItem--disabled__borderColor: var(--colorBundle__inputBorder) !default;
+$formDescription__icon__fontSize: $fontSize--large !default;
+$formItem__marginTop: 25px !default;
+$formActions__marginTop: 50px !default;
+
+// ## Input
+$input__borderRadius: 0 !default;
+$input__borderWidth: 1px !default;
+$input__height: 46px !default;
+$input__color: var(--colorBundle__text) !default;
+$input__backgroundColor: var(--colorBundle__inputBackground) !default;
+$input__borderColor: var(--colorBundle__inputBorder) !default;
+$input--error__borderColor: var(--colorBundle__inputErrorBorder) !default;
+$input--success__borderColor: var(--colorBundle__inputSuccessBorder) !default;
+$input--warning__borderColor: var(--colorBundle__inputWarningBorder) !default;
+$input--focus__borderColor: var(--colorBundle__inputFocusBorder) !default;
+
+// ### Checkbox
+$checkbox__borderWidth: 2px !default;
+$checkbox__borderRadius: 2px !default;
+$checkmark__color: var(--colorBundle__choiceActiveIndicator) !default;
+$checkmark__backgroundColor: var(--colorBundle__choiceBorder) !default;
+$checkmark__borderColor: var(--colorBundle__choiceBorder) !default;
+// ### Radio
+$radio__borderWidth: 2px !default;
+$radio__borderRadius: 50% !default;
+
+// ## Login
+$login-icon__backgroundColor: var(--colorBundle__uiIconActive) !default;
+$login-icon__color: var(--colorBundle__lightText) !default;
+
+// # Header
+// ---------------
+$pageHeader__opacity: 0.7 !default;
+$pageHeader__color: var(--colorBundle__lightText) !default;
+$pageHeader__backgroundColor: var(--colorBundle__headerOverlay) !default;
+$pageHeader--minHeight: 460px !default;
+/// @deprecated in 2.11, will be removed in 2.12. Use $pageHeader--minHeight instead.
+$pageHeader--small__height: $pageHeader--minHeight !default;
+$pageHeader--maxHeight: 720px !default;
+/// @deprecated in 2.11, will be removed in 2.12. Use $pageHeader--maxHeight instead.
+$pageHeader--large__height: $pageHeader--maxHeight !default;
+$pageHeader__overlay__backgroundColor: var(--colorBundle__headerOverlay) !default;
+$pageHeader__first__marginTop: 65px !default;
+
+// # Paragraphs
+// ---------------
+$paragraphsGrid__borderWidth: 4px !default;
+
+// # Navigation
+// -------------
+$navigation__font: Avenir, Heavy !default;
+// # In-page Navigation
+// -------------
+$inPageNavigation__font: Avenir, Medium !default;
+// # Sidebar Navigation
+// -------------
+$sidebarNavigation__link__color: var(--colorBundle__text) !default;
+$sidebarNavigation__link--hover__color: var(--colorBundle__headings) !default;
+$sidebarNavigation__icon__color: var(--colorBundle__uiIcon) !default;
+$sidebarNavigation__icon--active__color: var(--colorBundle__uiIconActive) !default;
+$sidebarNavigation--active__backgroundColor: var(--colorBundle__panelBackground) !default;
+$sidebarNavigation__fontSize: 13px !default;
+$sidebarNavigation__textTransform: $textTransform--base !default;
+$sidebarNavigation__lineHeight: 50px !default;
+$sidebarNavigation__icon__fontSize: 24px !default;
+$sidebarNavigation__menuIndentation: $gutter__width * 2 / 3 !default;
+$sidebarNavigation__menuIndentation--levelOne: $sidebarNavigation__menuIndentation !default;
+$sidebarNavigation__menuIndentation--levelTwo: $sidebarNavigation__menuIndentation * 2 !default;
+$sidebarNavigation__menuIndentation--levelThree: $sidebarNavigation__menuIndentation * 3 !default;
+$sidebarNavigation__menuIndentation--levelFour: $sidebarNavigation__menuIndentation * 4 !default;
+$sidebarNavigation__menuIndentation--levelFive: $sidebarNavigation__menuIndentation * 5 !default;
+$sidebarNavigation__menuIndentation--vertical: $sidebarNavigation__menuIndentation / 2 !default;
+$sidebarNavigation__menuMiscellaneous--activeIndicator-width: $sidebarNavigation__menuIndentation / 4 !default;
+$sidebarNavigation__menu__boxShadow: $accordion--active__boxShadow !default;
+$sidebarNavigation__menuPadding--vertical: $sidebarNavigation__menuIndentation--vertical !default;
+$sidebarNavigation__menuMargin--vertical: $sidebarNavigation__menuIndentation !default;
+$sidebarNavigation__title__margin: 22px !default;
+// ## Main Navigation
+$navigation__height: 145px !default;
+$navigation__height--mobile: 75px !default;
+$navigation__borderWidth: 3px !default;
+$navigation__fontSize: 14px !default;
+$navigation__link__padding: 0.5rem 1rem !default;
+$navigation__divider__borderWidth: 3px !default;
+$navigation__buttonIcon__fontSize: $icon__fontSize !default;
+$navigation__link__color: var(--colorBundle__navigationItem) !default;
+$navigation__link--hover__color: var(--colorBundle__navigationItemActive) !default;
+$navigation__pageTitle__color: var(--colorBundle__lightText) !default;
+$navigation__backgroundColor: var(--colorBundle__navigationBackground) !default;
+
+// ## Collapsed Main Navigation
+$navigation--collapsed__width: 75% !default;
+$navigation--collapsed__boxShadow: $accordion--active__boxShadow !default;
+$navigation--collapsed__link__font: Avenir, Medium !default;
+$navigation--collapsed__link__fontSize: $fontSize--base !default;
+$navigation--collapsed__link__padding: 0.75rem 1rem !default;
+$navigation--collapsed__divider__borderWidth: 2px !default;
+// TODO: Have a colorbundle for this?
+$navigation--headerWithBackground__backgroundColor: var(--colorBundle__navigationBackgroundHeaderHasBg) !default;
+$navigation__overlay__backgroundColor: var(--gradient__navigationOverlay) !default;
+$navigation--headerWithBackground__overlay__backgroundColor: var(--colorBundle__headerOverlay) !default;
+$navigation--headerWithBackground__overlay--mobile__backgroundColor: var(--colorBundle__headerOverlayMobile) !default;
+$navigation__divider__borderColor: var(--colorBundle__navigationItem) !default;
+$navigation--collapsed__color: var(--colorBundle__link) !default;
+$navigation--collapsed__backgroundColor: var(--colorBundle__pageBackground) !default;
+$navigation--collapsed__divider__borderColor: var(--colorBundle__divider) !default;
+
+// # Site Branding
+// -------------
+$siteBranding__logo__maxHeight: 60px !default;
+$siteBranding__name__fontSize--large: 30px !default;
+$siteBranding__name__fontSize--small: 18px !default;
+$siteBranding__name__font: Avenir, Medium !default;
+$siteBranding__slogan--light: var(--colorBundle__lightText) !default;
+$siteBranding__slogan--dark: var(--colorBundle__text) !default;
+
+// # Status
+// ---------------
+$status__fontSize: $fontSize--small !default;
+$status__padding: 4px 10px !default;
+$status__margin: 0 !default;
+$status__borderRadius: 0.5rem !default;
+$status__borderRadius: 0.5rem !default;
+$status__textTransform: $textTransform--base !default;
+
+// ## OK
+$status--ok__color: var(--colorBundle__utilityTextColor) !default;
+$status--ok__backgroundColor: var(--colorBundle__statusOkBackground) !default;
+// ## Error
+$status--error__color: var(--colorBundle__utilityTextColor) !default;
+$status--error__backgroundColor: var(--colorBundle__statusErrorBackground) !default;
+// ## Warning
+$status--warning__color: var(--colorBundle__utilityTextColor) !default;
+$status--warning__backgroundColor: var(--colorBundle__statusWarningBackground) !default;
+
+// # Messages
+// -------------
+$message__margin-top: 1rem !default;
+$message__right: 1.5rem !default;
+$message__padding: 2rem 3rem !default;
+$message__textDecoration: underline !default;
+$message__color: var(--colorBundle__utilityTextColor) !default;
+$message--success__backgroundColor: var(--colorBundle__messageSuccessBackground) !default;
+$message--warning__backgroundColor: var(--colorBundle__messageWarningBackground) !default;
+$message--error__backgroundColor: var(--colorBundle__messageErrorBackground) !default;
+$message--info__backgroundColor: var(--colorBundle__messageInfoBackground) !default;
+$message__link__color: var(--colorBundle__utilityTextColor) !default;
+$message__link--hover__color: var(--colorBundle__utilityTextColor) !default;
+$message__icon__color: var(--colorBundle__utilityTextColor) !default;
+$message__iconBackground__opacity: 0.7 !default;
+/// @deprecated in 2.10, will be removed in 2.11.
+$message__iconBackground__backgroundColor: var(--colorBundle__utilityTextColor) !default;
+$message__icon__borderColor: var(--colorBundle__utilityTextColor) !default;
+
+// # Tables
+// ---------------
+// TODO: Theme tables.
+$table__borderColor: var(--colorBundle__divider) !default;
+$table__border: 1px solid $table__borderColor !default;
+$table--hover: var(--colorBundle__smallText) !default;
+$table__striped: transparent !default;
+$caption__padding: 18px 20px 18px 15px !default;
+$caption__backgroundColor: var(--colorBundle__sectionBackground) !default;
+$table__backgroundColor: var(--colorBundle__tableBackground) !default;
+$th__padding: 10px 15px !default;
+$td__padding: 7px 15px !default;
+$th__textTransform: $textTransform--base !default;
+$th__fontSize: $fontSize--small !default;
+$th__color: var(--colorBundle__smallText) !default;
+$th__font: Avenir, Medium !default;
+
+// # Tabs
+// -------------
+// ## Primary tabs
+$primaryTabs__color: var(--colorBundle__headings) !default;
+$primaryTabs--active__color: var(--colorBundle__headings) !default;
+$primaryTabs__padding--horizontal: 1.5rem !default;
+$primaryTabs__padding--vertical: 1rem !default;
+$primaryTabs__font: Ubuntu, Medium !default;
+$primaryTabs__textTransform: $textTransform--base !default;
+$primaryTabs__borderColor: var(--colorBundle__divider) !default;
+
+// ## Secondary tabs
+$secondaryTabs__color: var(--colorBundle__headings) !default;
+$secondaryTabs--active__color: var(--colorBundle__headings) !default;
+$secondaryTabs__padding--horizontal: 30px !default;
+$secondaryTabs__padding--vertical: 16px !default;
+$secondaryTabs__font: Ubuntu, Medium !default;
+$secondaryTabs__fontSize: $fontSize--medium !default;
+$secondaryTabs__textTransform: $textTransform--base !default;
+$secondaryTabs__lineHeight: 16px !default;
+$secondaryTabs__li__backgroundColor: var(--colorBundle__pageBackground) !default;
+$secondaryTabs__li--active__backgroundColor: var(--colorBundle__pageBackground) !default;
+
+// # Tags
+// ---------------
+$tag__font: Avenir, Medium !default;
+$tag__padding: 0.5rem 1rem !default;
+$tag__margin: 0.5rem !default;
+$tag__margin--bottom: 25px !default;
+$tag__borderRadius: 20px !default;
+$tag__color: var(--colorBundle__tagLabel) !default;
+$tag__background-color: var(--colorBundle__tagBackground) !default;
+$tag__borderColor: var(--colorBundle__tagBorder) !default;
+$tag--hover__boxShadow: $button__boxShadow !default;
+$tag--hover__textDecoration: $link--hover__textDecoration !default;
+
+// # Tooltip
+// ---------------
+$tooltip__color: var(--colorBundle__utilityTextColor) !default;
+$tooltip__backgroundColor: var(--colorBundle__tooltipBackground) !default;
+$tooltip__padding: 0.3rem 0.6rem !default;
+$tooltip__borderRadius: 3px !default;
+$tooltip__textTransform: $textTransform--base !default;
+
+// # Version
+// ---------------
+$version__font: Avenir, Medium !default;
+$version__color: var(--colorBundle__utilityTextColor) !default;
+$version__backgroundColor: var(--colorBundle__versionBackground) !default;
+$version__fontSize: $fontSize--small !default;
+$version__padding: 0.3rem 0.6rem 0.2rem !default;
+$version__margin: 0 0 0 0.5rem !default;
+$version__borderRadius: 0.5rem !default;
+$version--hover__boxShadow: $button__boxShadow !default;
+$version--hover__textDecoration: $link--hover__textDecoration !default;
+
+// # Code
+// ---------------
+$code__color: var(--colorBundle__text) !default;
+$code__backgroundColor: var(--colorBundle__lightCodeBackground) !default;
+$code--dark__backgroundColor: var(--colorBundle__darkCodeBackground) !default;
+$code__font: AnonymousPro, Regular !default;
+$code--block__padding: 2rem !default;
+
+// # Search page
+// ---------------
+$search__backgroundColor: var(--colorBundle__panelBackground) !default;
+$search__divider__borderColor: var(--colorBundle__divider) !default;
+$search__highlight__backgroundColor: var(--colorBundle__inputWarningBorder) !default;
+$search__heading__color: var(--colorBundle__link) !default;
+$searchPager__color: var(--colorBundle__headings) !default;
+$searchPager--active__boxShadow: $button__boxShadow !default;
+$searchPager__borderColor: var(--colorBundle__divider) !default;
+// Search block
+$searchBlock__submit__icon: $icon--search !default;
+
+// # Pager
+// ---------------
+$pager--active__backgroundColor: var(--colorBundle__pagerItemActiveBackground) !default;
+$pager__fontSize: $fontSize--medium !default;
+$pager__font: Ubuntu, Regular !default;
+
+// # Tablesort
+// ---------------
+$tablesort__link__color: var(--colorBundle__smallText) !default;
+$tablesort__arrow__color: var(--colorBundle__uiIcon) !default;
+$tablesort__arrow--active__color: var(--colorBundle__uiIconActive) !default;
+
+// # Trusted
+// ---------------
+$trusted__backgroundColor: var(--colorBundle__pageBackground) !default;
+
+// # Panel
+// ---------------
+$panel__paddingVertical: 1.5rem !default;
+$panel__paddingHorizontal: 2rem !default;
+$panel__margin: 1.5rem !default;
+$panel__boxShadow: $boxShadow--normal !default;
+$panel--hover__boxShadow: $boxShadow--normal--hover !default;
+$panel__backgroundColor: var(--colorBundle__panelBackground) !default;
+$panel__title__backgroundColor: var(--colorBundle__sectionBackground) !default;
+$panel__item__borderColor: var(--colorBundle__divider) !default;
+$panel--thinner__padding: 30px 50px 50px !default;
+$panel__items__gutter: 3rem !default;
+
+// # Modal
+// ---------------
+$modal__backgroundColor: var(--colorBundle__sectionBackground) !default;
+$modal__boxShadow: $boxShadow--normal--hover !default;
+$modal__content__padding: 0 20px !default;
+$backdrop__backgroundColor: var(--colorBundle__backdropBackground) !default;
+
+// # Lists
+// ---------------
+$list__lineHeight: calc(1em + 12px) !default;
+$list__marker__marginRight: 6px !default;
+$list__indicator__color: var(--colorBundle__formattedTextIndicator) !default;
+$list--stepByStep__indicator__color: var(--colorBundle__utilityTextColor) !default;
+$list__indicator__backgroundColor: var(--colorBundle__formattedTextIndicator) !default;
+
+// # Quote
+// ---------------
+$quote__font: Ubuntu, Italic !default;
+
+// # Blockquote
+// ---------------
+$blockquote__borderColor: var(--colorBundle__formattedTextIndicator) !default;
+$blockquote__font: Ubuntu, Italic !default;
+
+// # Loader
+// ---------------
+$loader__borderColor: var(--colorBundle__divider) !default;
+$loader__borderTopColor: $link__color !default;
+$loader__width: 56px !default;
+$loader__borderWidth: 8px !default;
+$loader__animationDuration: 1s !default;
+
+// ## Methods
+// ---------------
+$methods: get, post, delete, put, patch, options, head !default;
+$method__fontSize: $fontSize--medium !default;
+$method__padding: 1rem !default;
+$method__minWidth: 100px !default;
+$method__backgroundColor: var(--colorBundle__tooltipBackground) !default;
+$method__font: Ubuntu, Medium !default;
+$method__color: var(--colorBundle__utilityTextColor) !default;
+$method__path__font: AnonymousPro, Bold !default;
+$method__path__color: var(--colorBundle__darkText) !default;
+$method__backgroundColors: (
+  get: var(--colorBundle__methodGetBackground),
+  post: var(--colorBundle__methodPostBackground),
+  delete: var(--colorBundle__methodDeleteBackground),
+  put: var(--colorBundle__methodPutBackground),
+  patch: var(--colorBundle__methodPatchBackground),
+  options: var(--colorBundle__methodOptionsBackground),
+  head: var(--colorBundle__methodHeadBackground),
+) !default;
+$method__borderColors: (
+  get: var(--colorBundle__methodGetBackground),
+  post: var(--colorBundle__methodPostBackground),
+  delete: var(--colorBundle__methodDeleteBackground),
+  put: var(--colorBundle__methodPutBackground),
+  patch: var(--colorBundle__methodPatchBackground),
+  options: var(--colorBundle__methodOptionsBackground),
+  head: var(--colorBundle__methodHeadBackground),
+) !default;
+// ## Swagger UI
+// ---------------
+// ### Common
+$swaggerUi__divider__borderColor: var(--colorBundle__divider) !default;
+$swaggerUi__disabled__opacity: 0.3 !default;
+$swaggerUi__section__paddingTop: 70px !default;
+$swaggerUi__section__backgroundColor: var(--colorBundle__panelBackground) !default;
+$swaggerUi__section--closed__boxShadow: 0px 2px 4px var(--colorBundle__shadow) !default;
+$swaggerUi__heading__marginBottom: 40px !default;
+
+// ### Schemes
+$swaggerUi__schemes__padding: 20px 20px 20px 30px !default;
+$swaggerUi__schemes__backgroundColor: $panel__backgroundColor !default;
+
+// ### Operations
+$swaggerUi__heading__item__margin: 20px !default;
+$swaggerUi__method__divider__left: 10px !default;
+$swaggerUi__opBlock__header__padding: $caption__padding !default;
+$swaggerUi__opBlock__summary--hover__boxShadow: $accordion--active__boxShadow !default;
+$swaggerUi__opBlock__body__padding: 15px 20px !default;
+$swaggerUi__opBlock__body__backgroundColor: $table__backgroundColor !default;
+$swaggerUi__opBlock__content__padding: 16px 32px !default;
+$swaggerUi__opBlock__header__font: Ubuntu, Medium !default;
+$swaggerUi__opBlock__header__backgroundColor: var(--colorBundle__sectionBackground) !default;
+$swaggerUi__opParam__font: $text--lead__font !default;
+$swaggerUi__opParam__color: $text--lead__color !default;
+$swaggerUi__opParam--required__color: var(--colorBundle__inputErrorBorder) !default;
+
+// ### Code samples
+$swaggerUi__codeSamples__select__margin: 10px 0 28px !default;
+$swaggerUi__codeSamples__select__minWidth: 25% !default;
+
+// ### SwaggerUI icons
+$swaggerUi__icon__color: var(--colorBundle__uiIcon) !default;
+$swaggerUi__icon--active__color: var(--colorBundle__uiIconActive) !default;
+$swaggerUi__auth__fontIcon__color: var(--colorBundle__uiIconActive) !default;
+$swaggerUi__auth--locked__icon: $icon--lock !default;
+$swaggerUi__auth--unlocked__icon: $icon--unlock !default;
+$swaggerUi__expand__icon: $icon--chevronDown !default;
+$swaggerUi__close__icon: $icon--close !default;
+$swaggerUi__accordion--open__icon: $icon--chevronUp !default;
+$swaggerUi__accordion--closed__icon: $icon--chevronDown !default;
+$swaggerUi__model--open__icon: $icon--chevronUp !default;
+$swaggerUi__model--closed__icon: $icon--chevronRight !default;
+
+// ### Models
+$swaggerUi__model__propType__color: var(--colorBundle__darkText) !default;
+$swaggerUi__model__hint__color: var(--colorBundle__lightText) !default;
+$swaggerUi__model__hint__backgroundColor: var(--colorBundle__darkCodeBackground) !default;
+
+// ### Loader
+// These values are left here without a colorBundle as they are not part of the ZG design.
+$swaggerUi__loader__borderColor: rgba(brandColor(color__black), 0.2) !default;
+$swaggerUi__loader__borderTopColor: rgba(brandColor(color__black), 0.6) !default;
+$swaggerUi__info__tos__icon: $icon--fileText !default;
+$swaggerUi__info__email__icon: $icon--atSign !default;
+$swaggerUi__info__website__icon: $icon--globe !default;
+$swaggerUi__info__license__icon: $icon--server !default;
+$swaggerUi__info__extdocs__icon: $icon--externalLink !default;

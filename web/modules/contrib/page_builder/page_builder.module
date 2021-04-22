@@ -1,0 +1,356 @@
+<?php
+
+/**
+ * @file
+ * Page Builder Kit module for Drupal.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Component\Utility\Color;
+use Drupal\Component\Utility\Xss;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\boom_enhancements\Exceptions\InvalidJsonException;
+use Drupal\field\Entity\FieldStorageConfig;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function page_builder_theme_registry_alter(array &$theme_registry): void {
+  // Add helper variable for allowing templates to hide close button in
+  // paragraph messages.
+  $theme_registry['status_messages']['variables']['hide_close_button'] = FALSE;
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * Alters entity_reference_paragraphs widget to display administrative title.
+ */
+function page_builder_field_widget_entity_reference_paragraphs_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
+  if (!$context['items']->isEmpty() && $context['items']->get($context['delta']) !== NULL) {
+    $paragraphs_entity = $context['items']->get($context['delta'])->entity;
+
+    if ($paragraphs_entity !== NULL) {
+      foreach ($paragraphs_entity->getFieldDefinitions() as $key => $value) {
+        if ($key === 'field_administrative_title' && !empty($paragraphs_entity->get($key)->value)) {
+          $summary = $paragraphs_entity->get($key)->value;
+          $element['top']['paragraph_summary']['fields_info']['#markup'] = $summary;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter() for select2 widget.
+ */
+function page_builder_field_widget_select2_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
+  if ($context['items']->getName() === 'field_icon') {
+    $element['#attached']['library'][] = 'page_builder/page_builder.select2';
+    /** @var \Drupal\Core\Extension\ModuleHandler $module_handler */
+    $module_handler = \Drupal::service('module_handler');
+    /** @var \Drupal\Core\Extension\ThemeHandler $theme_handler */
+    $theme_handler = \Drupal::service('theme_handler');
+
+    // Return if `boom_enhancements` module doesn't exist.
+    if (!$module_handler->moduleExists('boom_enhancements')) {
+      return;
+    }
+
+    /** @var \Drupal\Core\Config\ConfigFactory $config_factory */
+    $config_factory = \Drupal::configFactory();
+
+    if ($config_factory->get('boom_enhancements.settings')->get('icons_source') !== '') {
+      $element['#attached']['library'][] = 'boom_enhancements/boom_enhancements.custom_icons';
+      return;
+    }
+
+    // Return if `boom` theme doesn't exist.
+    if (!$theme_handler->themeExists('boom')) {
+      return;
+    }
+
+    $element['#attached']['library'][] = 'boom/feather';
+  }
+}
+
+/**
+ * Provides allowed values for field_icon field.
+ *
+ * @param \Drupal\field\Entity\FieldStorageConfig $definition
+ *   The field definition.
+ * @param \Drupal\Core\Entity\ContentEntityInterface|null $entity
+ *   The entity being created if applicable.
+ * @param bool $cacheable
+ *   Boolean indicating if the results are cacheable.
+ *
+ * @return array
+ *   The list of allowed values.
+ */
+function _page_builder_field_icon_allowed_values(FieldStorageConfig $definition, ContentEntityInterface $entity, bool $cacheable): array {
+  /** @var \Drupal\Core\Extension\ModuleHandler $module_handler */
+  $module_handler = \Drupal::service('module_handler');
+  $options = [];
+
+  // @todo There is no fallback if there are no icons.
+  // @see https://project.pronovix.net/issues/6566
+  if (!$module_handler->moduleExists('boom_enhancements')) {
+    return [];
+  }
+
+  /** @var \Drupal\boom_enhancements\BoomEnhancementsManager $boom_enhancements_manager */
+  $boom_enhancements_manager = \Drupal::service('boom_enhancements.manager');
+  /** @var \Drupal\Core\Messenger\Messenger $messenger */
+  $messenger = \Drupal::service('messenger');
+  /** @var \Drupal\Core\Logger\LoggerChannelInterface $logger */
+  $logger = \Drupal::service('logger.channel.boom_enhancements');
+  $contact_admin_translatable = t('Please contact the site administrator.');
+
+  // Try to get the icon definitions, if an exception is caught
+  // return with an empty array.
+  try {
+    $icon_definitions = $boom_enhancements_manager->getBrandIcons();
+  }
+  catch (InvalidArgumentException $e) {
+    $logger->error('The icons source directory is invalid. Please review the Devportal Theme Enhancements Settings.', [
+      'link' => $boom_enhancements_manager->getSettingsLink()->toString(),
+    ]);
+    $messenger->addError(t('No valid icons source directory exists.') . ' ' . $contact_admin_translatable);
+    return [];
+  }
+  catch (FileNotFoundException $e) {
+    $logger->error('File: %file_path not found. Please review the Devportal Theme Enhancements Settings.', [
+      'link' => $boom_enhancements_manager->getSettingsLink()->toString(),
+      '%file_path' => $e->getMessage(),
+    ]);
+    $messenger->addError(t('Brand colors JSON file not found.') . ' ' . $contact_admin_translatable);
+    return [];
+  }
+  catch (InvalidJsonException $e) {
+    $logger->error('An error occurred when parsing the JSON file. Please review the Devportal Theme Enhancements Settings', [
+      'link' => $boom_enhancements_manager->getSettingsLink()->toString(),
+    ]);
+    $messenger->addError(t('An error occurred when parsing the JSON file.') . ' ' . $contact_admin_translatable);
+    return [];
+  }
+
+  foreach ($icon_definitions['icons'] as $icon) {
+    $icon_name = $icon['properties']['name'];
+    $icon_class = $icon_definitions['preferences']['fontPref']['prefix'] . $icon_name;
+    $options[$icon_class] = $icon_name;
+  }
+
+  return $options;
+}
+
+/**
+ * Returns allowed values for grid layout.
+ *
+ * @param \Drupal\field\Entity\FieldStorageConfig $definition
+ *   The field definition.
+ * @param \Drupal\Core\Entity\ContentEntityInterface|null $entity
+ *   The entity being created if applicable.
+ * @param bool $cacheable
+ *   Boolean indicating if the results are cacheable.
+ *
+ * @return array
+ *   The list of allowed values.
+ */
+function _page_builder_field_grid_layout_allowed_values(FieldStorageConfig $definition, ContentEntityInterface $entity, bool $cacheable): array {
+  $options = [];
+
+  $options['one-column'] = t('One Column - 100%');
+  $options['two-columns'] = t('Two Columns - 50% 50%');
+  $options['two-columns-33-66'] = t('Two Columns - 33% 66%');
+  $options['two-columns-66-33'] = t('Two Columns - 66% 33%');
+  $options['three-columns'] = t('Three Columns - 33% 33% 33%');
+  $options['four-columns'] = t('Four Columns - 25% 25% 25% 25%');
+
+  return $options;
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function page_builder_preprocess_paragraph(array &$variables): void {
+  $paragraph = $variables['paragraph'];
+  $bundle = $paragraph->bundle();
+  $style = '';
+  $card_bundles = [
+    'card',
+    'benefit',
+  ];
+  $variables['background_attributes'] = new Attribute();
+
+  // Add background image to the paragraph if it has a field_background_image
+  // field.
+  if ($paragraph->hasField('field_background_image')) {
+    $field = $paragraph->get('field_background_image')->first();
+    if ($field) {
+      if (!empty($field)) {
+        $image_url = file_create_url($field->entity->getFileUri());
+        if (in_array($bundle, $card_bundles)) {
+          $variables['background_attributes']->addClass('card--has-background-image');
+        }
+        else {
+          $variables['attributes']['class'][] = 'has-background-image';
+        }
+        $style .= 'background-image: url("' . $image_url . '");';
+      }
+    }
+  }
+
+  // Add border color to the paragraph if it has a field_border_color field.
+  // Themes have to tell the border style.
+  if ($paragraph->hasField('field_border_color')) {
+    $field = $paragraph->get('field_border_color')->first();
+    if ($field) {
+      $color = $field->color;
+      $opacity = $field->opacity;
+      if ($opacity) {
+        if (in_array($bundle, $card_bundles)) {
+          $variables['background_attributes']->addClass('has-border');
+        }
+        else {
+          $variables['attributes']['class'][] = 'has-border';
+        }
+        // Opacity comes from a float field.
+        $style .= 'border-color: rgba(' . implode(',', Color::hexToRgb($color)) . ',' . $opacity . ');';
+      }
+    }
+  }
+
+  // Add background color to the paragraph if it has a field_background_color
+  // field.
+  if ($paragraph->hasField('field_background_color')) {
+    $field = $paragraph->get('field_background_color')->first();
+    if ($field) {
+      $color = $field->color;
+      $opacity = $field->opacity;
+      if ($opacity) {
+        $style .= 'background-color: rgba(' . implode(',', Color::hexToRgb($color)) . ',' . $opacity . ');';
+      }
+    }
+  }
+
+  switch ($bundle) {
+    case 'card':
+      $image_as_bg = $paragraph->get('field_image_as_background')
+        ->first()->value;
+
+      if ($image_as_bg) {
+        $image = $paragraph->get('field_image')->first();
+
+        if (!empty($image)) {
+          unset($variables['content']['field_image']);
+          $image_original_url = $image->entity->getFileUri();
+          $image_url_card = file_create_url($image_original_url);
+          $variables['attributes']['class'][] = 'card--has-background-image';
+          $variables['background_attributes']->addClass('has-background-image');
+          $style .= "background-image:url({$image_url_card});";
+        }
+      }
+      break;
+
+    case 'message':
+      $type = $paragraph->get('field_message_type')->value;
+      $message_list = [
+        $type => [
+          0 => [
+            '#markup' => $paragraph->get('field_text')->value,
+          ],
+        ],
+      ];
+      // Show the content using 'Status messages' render element.
+      $variables['content']['field_text'] = [
+        '#theme' => 'status_messages',
+        '#message_list' => $message_list,
+        '#hide_close_button' => TRUE,
+      ];
+      break;
+  }
+
+  if ($style === '') {
+    return;
+  }
+
+  if (in_array($bundle, $card_bundles)) {
+    $variables['background_attributes']->setAttribute('style', $style);
+  }
+  else {
+    $variables['attributes']['style'] = $style;
+  }
+}
+
+/**
+ * Implements template_preprocess_field().
+ */
+function page_builder_preprocess_field(array &$variables): void {
+  $function = __FUNCTION__ . '__' . $variables['field_name'];
+  if (!function_exists($function)) {
+    return;
+  }
+
+  $function($variables);
+}
+
+/**
+ * Implements template_preprocess_field() for field_grid_title.
+ */
+function page_builder_preprocess_field__field_icon(array &$variables): void {
+  foreach ($variables['items'] as &$item) {
+    $icon_class = Xss::filter($variables['element']['#items']->first()->value);
+    $item['content']['#markup'] = "<span class=\"{$icon_class}\"></span>";
+  }
+
+  $style = '';
+  $entity = $variables['element']['#object'];
+  if ($entity->hasField('field_icon_color')) {
+    $field = $entity->get('field_icon_color')->first();
+    if ($field) {
+      $opacity = $field->opacity;
+      if ($opacity) {
+        // Opacity comes from a float field.
+        $style .= 'color:rgba(' . implode(',', Color::hexToRgb($field->color)) . ',' . $opacity . ');';
+      }
+    }
+  }
+  if ($entity->hasField('field_icon_bg_color')) {
+    $field = $entity->get('field_icon_bg_color')->first();
+    if ($field) {
+      $opacity = $field->opacity;
+      if ($opacity) {
+        // Opacity comes from a float field.
+        $style .= 'background-color:rgba(' . implode(',', Color::hexToRgb($field->color)) . ',' . $opacity . ');';
+      }
+    }
+  }
+  if (empty($style)) {
+    return;
+  }
+
+  $variables['attributes']['style'] = $style;
+}

@@ -1,0 +1,34 @@
+uuid: 69d97a56-f62c-4685-a2d8-1cc358c0bd35
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.api_product_release_note.body
+    - field.field.node.api_product_release_note.field_api_product
+    - node.type.api_product_release_note
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: gyqdq7XkKKztdwGwBJzPNSADeeD4d-XHQQnGV9b90cg
+id: node.api_product_release_note.teaser
+targetEntityType: node
+bundle: api_product_release_note
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_api_product: true

@@ -1,0 +1,7 @@
+langcode: en
+status: true
+name: 'API categories'
+vid: api_categories_test
+description: 'Tags to categorize APIs.'
+hierarchy: 0
+weight: 0

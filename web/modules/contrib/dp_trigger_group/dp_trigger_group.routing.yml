@@ -1,0 +1,35 @@
+entity.group.tokens.list:
+  path: '/group/{group}/tokens'
+  defaults:
+    _controller: Drupal\dp_trigger\Controller\TokenController::listTokens
+    _title: Tokens
+  requirements:
+    _permission: 'list trigger tokens'
+  options:
+    parameters:
+      group:
+        type: entity:group
+
+entity.group.tokens.add:
+  path: '/group/{group}/tokens/add'
+  defaults:
+    _form: Drupal\dp_trigger\Form\TokenForm
+    _title: Create token
+  requirements:
+    _permission: 'create trigger token'
+  options:
+    parameters:
+      group:
+        type: entity:group
+
+entity.group.tokens.delete:
+  path: '/group/{group}/token/{token}/delete'
+  defaults:
+    _form: Drupal\dp_trigger\Form\TokenDeleteForm
+    _title: Delete token
+  requirements:
+    _permission: 'revoke trigger token'
+  options:
+    parameters:
+      group:
+        type: entity:group

@@ -1,0 +1,59 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_page_builder_elements
+    - node.type.page_builder
+    - paragraphs.paragraphs_type.cta
+    - paragraphs.paragraphs_type.grid
+  module:
+    - entity_reference_revisions
+  enforced:
+    module:
+      - page_builder
+id: node.page_builder.field_page_builder_elements
+field_name: field_page_builder_elements
+entity_type: node
+bundle: page_builder
+label: 'Page Builder Elements'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      grid: grid
+      cta: cta
+    target_bundles_drag_drop:
+      block:
+        weight: 3
+        enabled: false
+      text:
+        weight: 4
+        enabled: false
+      grid:
+        enabled: true
+        weight: 5
+      card:
+        weight: 8
+        enabled: false
+      image:
+        weight: 8
+        enabled: false
+      benefit:
+        weight: 9
+        enabled: false
+      cta:
+        enabled: true
+        weight: 9
+      message:
+        weight: 16
+        enabled: false
+      promo_image:
+        weight: 17
+        enabled: false
+field_type: entity_reference_revisions

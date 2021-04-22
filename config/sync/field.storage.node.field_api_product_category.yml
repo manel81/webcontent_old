@@ -1,0 +1,22 @@
+uuid: d181307e-85c9-40db-a6b4-6e47482ae28a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+_core:
+  default_config_hash: XHvx-ctr_YcHEKWR0Jc-RapEhNLFTJt9dXGrHwGE5q4
+id: node.field_api_product_category
+field_name: field_api_product_category
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

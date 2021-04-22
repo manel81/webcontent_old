@@ -1,0 +1,29 @@
+uuid: db8958e2-25a4-4945-b9cf-6cfb6e975177
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.text.field_administrative_title
+    - field.field.paragraph.text.field_text
+    - paragraphs.paragraphs_type.text
+  enforced:
+    module:
+      - page_builder
+  module:
+    - text
+_core:
+  default_config_hash: Bxr0BJjSGvpJKlSWJtLJNrwn6RN9sJTwaQh42WDmRcE
+id: paragraph.text.default
+targetEntityType: paragraph
+bundle: text
+mode: default
+content:
+  field_text:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  field_administrative_title: true

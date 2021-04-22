@@ -1,0 +1,6 @@
+'*':
+  root: /app/web
+  host: ssh.lagoon.amazeeio.cloud
+  user: ${env.LAGOON_PROJECT}-${env-name}
+  ssh:
+    options: '-o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 32222'

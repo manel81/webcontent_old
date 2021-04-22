@@ -1,0 +1,8 @@
+boom_enhancements.settings:
+  path: '/admin/devportal/themes'
+  defaults:
+    link_id: 'boom_enhancements.settings'
+    _title: 'Devportal Theme Enhancements Settings'
+    _form: '\Drupal\boom_enhancements\Form\BoomEnhancementsSettingsForm'
+  requirements:
+    _permission: 'administer site configuration'

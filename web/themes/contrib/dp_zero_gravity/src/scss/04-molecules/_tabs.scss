@@ -1,0 +1,165 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+.zg-tabs,
+%tabs,
+.tabs {
+  list-style: none;
+  padding-left: 0;
+}
+
+%tabs--primary__item {
+  @include for-tablet-portrait-up {
+    display: inline-block;
+  }
+}
+
+%tabs--primary__link--active {
+  opacity: 1;
+  color: $primaryTabs--active__color;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: $primaryTabs__padding--horizontal;
+    right: $primaryTabs__padding--horizontal;
+    height: 4px;
+    background: linear-gradient(to right, $decorBar__gradient);
+  }
+}
+
+%tabs--primary__link {
+  @include setFontFromStack($primaryTabs__font...);
+  color: $primaryTabs__color;
+  padding: $primaryTabs__padding--vertical $primaryTabs__padding--horizontal;
+  display: inline-block;
+  text-transform: $textTransform--base;
+  position: relative;
+  cursor: pointer;
+  opacity: 0.5;
+
+  &:active,
+  &:focus,
+  &:hover {
+    opacity: 1;
+    text-decoration: none;
+    color: $primaryTabs--active__color;
+  }
+
+  &:visited {
+    color: $primaryTabs__color;
+  }
+
+  &.active,
+  &.is-active,
+  &.zg-active {
+    @extend %tabs--primary__link--active;
+  }
+}
+
+.zg-tabs--primary,
+%tabs--primary,
+.tabs--primary {
+  text-transform: $primaryTabs__textTransform;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid;
+  border-color: $primaryTabs__borderColor;
+
+  @include for-tablet-portrait-up {
+    display: flex;
+    justify-content: center;
+  }
+
+  > li {
+    @extend %tabs--primary__item;
+
+    > a,
+    > button {
+      @extend %tabs--primary__link;
+    }
+  }
+}
+
+%tabs--secondary__item {
+  background-color: $secondaryTabs__li__backgroundColor;
+  opacity: 0.5;
+
+  &:hover,
+  &:focus,
+  &:active {
+    opacity: 1;
+  }
+
+  &.active,
+  &.is-active,
+  &.zg-active {
+    background-color: $secondaryTabs__li--active__backgroundColor;
+    opacity: 1;
+
+    a,
+    button {
+      color: $secondaryTabs--active__color;
+    }
+  }
+
+  @include for-tablet-portrait-up {
+    display: inline-block;
+
+    &:not(:last-child) {
+      margin-right: 1px;
+    }
+  }
+}
+
+%tabs--secondary__link {
+  @include setFontFromStack($secondaryTabs__font...);
+  color: $secondaryTabs__color;
+  padding: $secondaryTabs__padding--vertical $secondaryTabs__padding--horizontal;
+  display: inline-block;
+  line-height: $secondaryTabs__lineHeight;
+  position: relative;
+  cursor: pointer;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+  }
+}
+
+.zg-tabs--secondary,
+%tabs--secondary,
+.tabs--secondary {
+  font-size: $secondaryTabs__fontSize;
+  text-transform: $secondaryTabs__textTransform;
+  margin: 0;
+
+  @include for-tablet-portrait-up {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  > li {
+    @extend %tabs--secondary__item;
+
+    > a,
+    > button {
+      @extend %tabs--secondary__link;
+    }
+  }
+}

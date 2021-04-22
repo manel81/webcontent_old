@@ -1,0 +1,73 @@
+.search-block-form {
+  &.open {
+    box-shadow: unset;
+  }
+}
+
+@include for-tablet-portrait-up {
+  .region--navigation {
+    .container {
+      .navigation {
+        > nav {
+          &:first-of-type {
+            margin-left: unset;
+            margin-right: auto;
+            padding-right: unset;
+            padding-left: 1rem;
+
+            &:after {
+              content: unset;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.region--footer {
+  #block-allianz-footer {
+    margin-right: auto;
+    padding-left: 1rem;
+  }
+}
+
+.region--navigation {
+  .container {
+    .menu {
+      >li {
+        > a:not(.button) {
+          padding: unset;
+          margin: $navigation__link__margin;
+        }
+      }
+
+      &--main {
+        > li {
+          > a {
+            position: relative;
+
+            &.is-active,
+            &:active,
+            &:focus,
+            &:hover {
+              &::after {
+                content: none;
+              }
+
+              &::before {
+                content: '';
+                position: absolute;
+                bottom: -3px;
+                left: 0;
+                width: 100%;
+                height: $button--secondary--hover__borderWidth;
+                background: linear-gradient(to right, $decorBar__gradient);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

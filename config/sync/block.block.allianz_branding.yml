@@ -1,0 +1,25 @@
+uuid: f8e1e9ab-636e-41be-ad1c-b300b6714321
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - allianz
+_core:
+  default_config_hash: 2y6eJK1nen0FYLgdJMwB9rnDaA-NGWeoU1ABn25d6Xc
+id: allianz_branding
+theme: allianz
+region: navigation
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  provider: system
+  label_display: '0'
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

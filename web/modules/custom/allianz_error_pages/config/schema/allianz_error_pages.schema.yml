@@ -1,0 +1,22 @@
+allianz_error_pages.settings:
+  type: config_object
+  label: HTTP Error pages Settings
+  mapping:
+    403_content:
+      type: text
+      label: 403 Content
+    403_show_home_button:
+      type: boolean
+      label: Show the default home button
+    404_content:
+      type: text
+      label: 404 Content
+    404_show_home_button:
+      type: boolean
+      label: Show the default home button
+    maintenance_content:
+      type: text
+      label: Maintenance Content
+    maintenance_show_home_button:
+      type: boolean
+      label: Show the default home button

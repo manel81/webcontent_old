@@ -1,0 +1,30 @@
+uuid: c7bdb33d-ad35-4672-bf3b-7964518da39e
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_blog
+    - node
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: m3mjlW4sfhsaKHX0v76UeVSY9vFP79QE6405l6Jo0Cg
+id: dp_zero_gravity_authoranddateblock
+theme: dp_zero_gravity
+region: breadcrumb
+weight: 0
+provider: null
+plugin: author_and_date_block
+settings:
+  id: author_and_date_block
+  label: 'Author and date block'
+  provider: dp_blog
+  label_display: '0'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      blog_post: blog_post
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

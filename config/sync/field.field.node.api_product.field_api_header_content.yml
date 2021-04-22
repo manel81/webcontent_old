@@ -1,0 +1,23 @@
+uuid: 30f7abc8-2dbd-4680-a614-4d4accff7de2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_header_content
+    - node.type.api_product
+  module:
+    - text
+_core:
+  default_config_hash: CvwYtf9L-FL2rhoXUsacjfn8wCp8UI3JHEa2Wr3u5_E
+id: node.api_product.field_api_header_content
+field_name: field_api_header_content
+entity_type: node
+bundle: api_product
+label: 'API header'
+description: 'This text will be displayed on API related pages in the main header area.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

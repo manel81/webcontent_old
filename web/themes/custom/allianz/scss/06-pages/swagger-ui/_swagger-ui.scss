@@ -1,0 +1,23 @@
+%swaggerUi__section__heading {
+  @include left-bar(0);
+  padding-left: 0;
+}
+
+.swagger-ui {
+  .info {
+    margin-top: unset;
+  }
+
+  .brace-open,
+  .brace-close {
+    display: none;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .highlighted-code__buttons {
+    right: 1rem;
+  }
+}

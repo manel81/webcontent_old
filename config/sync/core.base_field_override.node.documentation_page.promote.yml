@@ -1,0 +1,27 @@
+uuid: 03c2ca8a-b54f-4450-9614-bc304b810b17
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.documentation_page
+  enforced:
+    module:
+      - dp_docs
+_core:
+  default_config_hash: Fudl7pt3zYg3PYR3Jy_y_7wOIwbJlZsGF54HCZfqsDw
+id: node.documentation_page.promote
+field_name: promote
+entity_type: node
+bundle: documentation_page
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

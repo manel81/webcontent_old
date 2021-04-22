@@ -1,0 +1,9 @@
+ignored_config_entities:
+  - 'system.site:page.front'
+  - 'openid_connect.settings.windows_aad:settings.client_id'
+  - 'openid_connect.settings.windows_aad:settings.client_secret'
+  - 'openid_connect.settings.windows_aad:settings.authorization_endpoint_wa'
+  - 'openid_connect.settings.windows_aad:settings.token_endpoint_wa'
+  - 'openid_connect.settings.windows_aad:settings.userinfo_endpoint_wa'
+_core:
+  default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk

@@ -1,0 +1,24 @@
+uuid: b30aabd6-3c94-4bb3-a1de-20fc250629e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon_color
+    - paragraphs.paragraphs_type.icon
+  module:
+    - color_field
+_core:
+  default_config_hash: AdDq_WRTzHA3hXpBeJW_Lq8hYXfFH_H5zEJUIxCHo5E
+id: paragraph.icon.field_icon_color
+field_name: field_icon_color
+entity_type: paragraph
+bundle: icon
+label: 'Icon color'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  opacity: 1
+field_type: color_field_type

@@ -1,0 +1,5 @@
+allianz_error_pages.settings:
+  title: Error pages settings
+  route_name: allianz_error_pages.settings
+  parent: system.admin_config_system
+  description: Configure the HTTP 403/404 error pages content.

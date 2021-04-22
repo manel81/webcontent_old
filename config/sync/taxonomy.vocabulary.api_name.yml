@@ -1,0 +1,10 @@
+uuid: 2599df63-6680-4238-803c-2ca1ada04a1d
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: x0SLYP8mUon12qrLUpfgZIC_3m15PCj_ADte2BGf_zo
+name: 'API Name'
+vid: api_name
+description: 'Common name for grouping together different versions of API references.'
+weight: 0

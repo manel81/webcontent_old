@@ -1,0 +1,90 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+.region--content {
+  &.has-ip-navigation {
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      flex-basis: 100%;
+    }
+
+    .block--in-page-navigation {
+      border-left: 1px solid;
+      border-color: $bottomNavigation__borderColor;
+      margin-right: 4 * $sidebarNavigation__menuIndentation--vertical;
+      flex-basis: auto;
+
+      @include for-mobile-only {
+        display: none;
+      }
+
+      ul.ip-navigation {
+        @include setFontFromStack($primaryTabs__font...);
+        border-top: none;
+        padding-left: 0;
+        margin-top: 0;
+        text-transform: $primaryTabs__textTransform;
+
+        > li.ip-navigation-item {
+          display: flex;
+
+          a {
+            writing-mode: vertical-lr;
+            text-decoration: none;
+            border-left: none;
+            margin-left: 0;
+            padding-left: $sidebarNavigation__menuIndentation--vertical +
+              $sidebarNavigation__menuMiscellaneous--activeIndicator-width;
+            padding-top: $sidebarNavigation__menuPadding--vertical;
+            padding-bottom: $sidebarNavigation__menuPadding--vertical;
+            margin-bottom: $sidebarNavigation__menuMargin--vertical;
+            display: block;
+            white-space: nowrap;
+            color: $primaryTabs__color;
+            text-transform: $textTransform--base;
+            opacity: 0.5;
+
+            &:hover,
+            &:visited,
+            &:active {
+              text-decoration: none;
+              color: $primaryTabs--active__color;
+              opacity: 1;
+            }
+
+            &.is-active {
+              opacity: 1;
+              padding-left: $sidebarNavigation__menuIndentation--vertical;
+              border-left-width: $sidebarNavigation__menuMiscellaneous--activeIndicator-width;
+              border-left-style: solid;
+              color: $primaryTabs--active__color;
+              border-image: linear-gradient(to bottom, $button--secondary__borderColor) 1;
+            }
+          }
+        }
+      }
+    }
+
+    .block--system-main-block {
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0;
+    }
+  }
+}

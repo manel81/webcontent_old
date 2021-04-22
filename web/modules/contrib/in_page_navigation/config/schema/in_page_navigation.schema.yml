@@ -1,0 +1,26 @@
+block.block.*.third_party.in_page_navigation:
+  type: mapping
+  label: 'In page navigation settings'
+  mapping:
+    ip_navigation:
+      type: string
+      label: 'Use in-page navigation'
+
+in_page_navigation.settings:
+  type: config_object
+  label: 'In page navigation settings'
+  mapping:
+    in_page_navigation_selector:
+      type: sequence
+      label: 'Theme specific DOM selectors'
+      sequence:
+        type: string
+        label: 'Theme specific DOM selector'
+
+theme_settings.third_party.in_page_navigation:
+  type: mapping
+  label: 'In-page navigation settings'
+  mapping:
+    top_offset:
+      type: integer
+      label: 'Scroll offset in pixels'

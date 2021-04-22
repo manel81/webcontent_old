@@ -1,0 +1,21 @@
+uuid: fe1ab2d7-6c3f-4f8a-a617-d03c444099a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_grid_title
+    - paragraphs.paragraphs_type.grid
+_core:
+  default_config_hash: rU7Hidzdlnde4r-DB6kh5_wppe_37bZJcbOHQHq8zu0
+id: paragraph.grid.field_grid_title
+field_name: field_grid_title
+entity_type: paragraph
+bundle: grid
+label: 'Grid title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

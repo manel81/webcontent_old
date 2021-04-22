@@ -1,0 +1,15 @@
+uuid: 39e3f82e-ae7e-46ab-8575-d11e1be40f6a
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: Bo42XVia0aU_Fh9ZOBMy0BBmDsTaLwgU5cm57PX_WmE
+id: image
+label: Image
+icon_uuid: null
+icon_default: null
+description: 'A simple image element.'
+behavior_plugins: {  }

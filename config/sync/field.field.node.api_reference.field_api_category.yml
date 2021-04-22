@@ -1,0 +1,34 @@
+uuid: 1697fd52-4697-473f-8be4-40c7c6108430
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_api_category
+    - node.type.api_reference
+    - taxonomy.vocabulary.api_categories
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: DQOE3_LVAuAniLHF6a_TELEIo3M8KEEc1x6rVAkyk7s
+id: node.api_reference.field_api_category
+field_name: field_api_category
+entity_type: node
+bundle: api_reference
+label: 'API category'
+description: 'Tags to categorize APIs.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      api_categories: api_categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

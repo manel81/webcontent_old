@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Default theme implementation for API navigation tabs.
+ *
+ * Available variables:
+ * - nav_attributes: The attribute object for the nav element.
+ * - attributes: The attribute object for the list element.
+ * - tabs: List of renderable tab items.
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% if tabs %}
+  <nav {{ nav_attributes.setAttribute('role', 'navigation').setAttribute('aria-label', 'Tabs'|t) }}>
+    <h2 class="visually-hidden">{{ 'API navigation tabs'|t }}</h2>
+    <ul{{ attributes.addClass('tabs') }}>
+      {% for tab in tabs %}
+        <li{{ tab.attributes.addClass(tab.is_active ? 'is-active' : '') }}>{{ tab.link }}</li>
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}

@@ -1,0 +1,67 @@
+.card__link--arrow {
+  padding-right: unset;
+  padding-left: $card__link--arrow__paddingLeft;
+
+  &::after {
+    content: $feather-arrow-right;
+    right: auto;
+    left: 0;
+  }
+}
+
+.card__link {
+  &:hover,
+  &:focus,
+  &:active {
+
+    &::before {
+      left: unset;
+      right: 0;
+    }
+  }
+}
+
+.card__body {
+  .field--field-icon {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .field--field-image {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.card {
+  text-align: center;
+}
+
+.paragraph--card img {
+  height: 240px;
+  width: auto;
+}
+
+.block--allianz-contact-contact-block {
+  .card {
+    text-align: initial;
+  }
+
+  .field--field-icon {
+    margin-left: 0;
+    margin-right: 1.267rem;
+  }
+}
+
+.card--interactive {
+  @include for-desktop-up {
+    &:hover,
+    &:focus,
+    &:active {
+      .card__background {
+        top: -$card__padding--animation;
+        bottom: -$card__padding--animation;
+      }
+    }
+  }
+}

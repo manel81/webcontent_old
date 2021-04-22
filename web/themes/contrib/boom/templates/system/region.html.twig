@@ -1,0 +1,66 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a region.
+ *
+ * Available variables:
+ * - content: The content for this region, typically blocks.
+ * - attributes: HTML attributes for the region <div>.
+ * - region: The name of the region variable as defined in the theme's
+ *   .info.yml file.
+ * - has_search: Indicates whether a search form is added to the Navigation region. By default the Drupal core Search
+ *   form is used, but you can modify it by setting this value accordingly in template_preprocess_region() and
+ *   overriding 'nav_search_block' drupalSetting in hook_page_attachments_alter().
+ *
+ * @see template_preprocess_region()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if content %}
+  {% if region_footer %}
+    <footer{{ attributes }}>
+      <div class="container">
+        <div class="copyright">
+          {{ copyright }}
+        </div>
+        {{ content }}
+      </div>
+    </footer>
+  {% elseif region_navigation %}
+    <nav{{ attributes }}>
+      <div class="background--navigation"></div>
+      <div id="navigation" class="container">
+        <div class="navigation">
+          <div class="navigation__buttons">
+            {% if has_search %}
+              <button type="button" class="navigation__toggle--search"><span class="navigation__toggle-icon--search"></span></button>
+            {% endif %}
+            <button type="button" class="navigation__toggle--nav"><span class="navigation__toggle-icon--nav"></span></button>
+          </div>
+          {{ content }}
+        </div>
+      </div>
+    </nav>
+  {% elseif region_sidebar_first or region_sidebar_second %}
+    <aside{{ attributes }}>
+      {{ content }}
+    </aside>
+  {% elseif region_content %}
+    <section{{ attributes }}>
+      {{ content }}
+    </section>
+  {% elseif region_header %}
+    <header{{ attributes }}>
+      <div class="container">
+        {{ content }}
+      </div>
+    </header>
+  {% else %}
+    <section{{ attributes }}>
+      <div class="container">
+        {{ content }}
+      </div>
+    </section>
+  {% endif %}
+{% endif %}

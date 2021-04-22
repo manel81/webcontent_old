@@ -1,0 +1,28 @@
+uuid: f3c57a7a-77fb-4cb1-bccb-e848293d4231
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_target
+    - paragraphs.paragraphs_type.card
+  enforced:
+    module:
+      - page_builder
+  module:
+    - link
+_core:
+  default_config_hash: KKIXS9KSEl8jI4PdaB4UcTp25teJjuMDy4ZWLFiIWdA
+id: paragraph.card.field_target
+field_name: field_target
+entity_type: paragraph
+bundle: card
+label: Target
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

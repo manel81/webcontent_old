@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @file
+ * Main module file for Allianz Contact.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Implements hook_theme().
+ */
+function allianz_contact_theme(): array {
+  return [
+    'info_block' => [
+      'template' => 'info-block',
+      'variables' => [
+        'icon' => NULL,
+        'icon_color' => NULL,
+        'icon_background_color' => NULL,
+        'title' => NULL,
+        'content' => NULL,
+      ],
+    ],
+    'contact_block' => [
+      'template' => 'contact-block',
+      'variables' => [
+        'title' => NULL,
+        'address_icon' => NULL,
+        'address_text' => NULL,
+        'phone_icon' => NULL,
+        'phone_text' => NULL,
+        'email_icon' => NULL,
+        'email_text' => NULL,
+        'facebook' => NULL,
+        'twitter' => NULL,
+        'linked_in' => NULL,
+        'github' => NULL,
+        'icon_color' => NULL,
+        'icon_background_color' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for contact_message_form.
+ */
+function allianz_contact_form_contact_message_form_alter(array &$form): void {
+  $form['actions']['preview']['#access'] = FALSE;
+}
+
+/**
+ * Implements template_preprocess_HOOK() for info-block.
+ */
+function template_preprocess_info_block(array &$variables): void {
+  $variables['content_attributes'] = new Attribute(['class' => ['question-panel']]);
+  $variables['body_attributes'] = new Attribute();
+  $variables['icon_wrapper_attributes'] = new Attribute();
+  if (isset($variables['icon_background_color'])) {
+    $variables['icon_wrapper_attributes']->setAttribute('style', "background-color:{$variables['icon_background_color']}");
+  }
+  $variables['icon_attributes'] = new Attribute(['class' => $variables['icon']]);
+  if (isset($variables['icon_color'])) {
+    $variables['icon_attributes']->setAttribute('style', "color:{$variables['icon_color']}");
+  }
+  $variables['body_wrapper_attributes'] = new Attribute();
+  $variables['title_attributes'] = new Attribute();
+}
+
+/**
+ * Implements template_preprocess_HOOK() for contact-block.
+ */
+function template_preprocess_contact_block(array &$variables): void {
+  $variables['content_attributes'] = new Attribute(['class' => ['contact-block-panel']]);
+  $variables['body_attributes'] = new Attribute(['class' => ['contact-block__body']]);
+  $variables['icon_wrapper_attributes'] = new Attribute(['class' => ['contact-block__icon']]);
+  if (isset($variables['icon_background_color'])) {
+    $variables['icon_wrapper_attributes']->setAttribute('style', "background-color:{$variables['icon_background_color']}");
+  }
+  $variables['icon_attributes'] = new Attribute();
+  if (isset($variables['icon_color'])) {
+    $variables['icon_attributes']->setAttribute('style', "color:{$variables['icon_color']}");
+  }
+  $variables['body_wrapper_attributes'] = new Attribute();
+  $variables['title_attributes'] = new Attribute(['class' => ['contact-block__title']]);
+}

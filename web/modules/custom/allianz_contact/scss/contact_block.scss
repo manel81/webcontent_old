@@ -1,0 +1,73 @@
+.block--allianz-contact-contact-block {
+  .contact-block__title {
+    margin-bottom: 0.933rem;
+  }
+
+  .contact-block-panel {
+    padding: 2.667rem 1.067rem 1.333rem 2.667rem;
+    margin-top: 2rem;
+  }
+
+  .contact-block__icon {
+    margin-right: 1.267rem;
+    min-width: 3.067rem;
+    height: 3.067rem;
+    width: 3.067rem;
+  }
+
+  .contact-block__body {
+    .contact-block-panel--inline {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      margin-bottom: 0.667rem;
+      word-break: break-word;
+    }
+
+    .contact-block-panel__social {
+      justify-content: center;
+      margin: unset;
+    }
+
+    .contact-block-panel__divider {
+      border: none;
+      height: 1px;
+      margin: 0.6rem 0 1.113rem;
+    }
+  }
+
+  .contact-social-link {
+    margin-left: 0.6rem;
+    height: 1.6rem;
+    width: 1.6rem;
+
+    &:first-of-type {
+      margin-left: unset;
+    }
+  }
+
+  span[class*="fa-"] {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: block;
+    height: inherit;
+    width: inherit;
+  }
+
+  .fa-facebook {
+    background-image: url(../../images/facebook.svg);
+  }
+
+  .fa-twitter {
+    background-image: url(../../images/twitter.svg);
+  }
+
+  .fa-linked-in {
+    background-image: url(../../images/linkedin-in.svg);
+  }
+
+  .fa-github {
+    background-image: url(../../images/github-alt.svg);
+  }
+}

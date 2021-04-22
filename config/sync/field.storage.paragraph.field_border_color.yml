@@ -1,0 +1,25 @@
+uuid: 1d4bce35-e058-4f06-86da-3976ec8f7e1b
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+  module:
+    - color_field
+    - paragraphs
+_core:
+  default_config_hash: 2Ule14BjuimwAc6o-tAFPcYDihQzt_RVKgRVHqg0edE
+id: paragraph.field_border_color
+field_name: field_border_color
+entity_type: paragraph
+type: color_field_type
+settings:
+  format: '#hexhex'
+module: color_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

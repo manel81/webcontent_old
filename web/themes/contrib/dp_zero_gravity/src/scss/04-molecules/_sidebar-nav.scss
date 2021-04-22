@@ -1,0 +1,183 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+aside {
+  nav {
+    position: relative;
+    z-index: 1;
+    margin-right: $gutter__width;
+
+    .block-title {
+      @extend %h4;
+      margin: {
+        top: $sidebarNavigation__title__margin;
+        bottom: $sidebarNavigation__title__margin;
+      }
+    }
+
+    > ul {
+      > li {
+        > a {
+          padding-left: $sidebarNavigation__menuIndentation--levelOne;
+        }
+
+        > ul {
+          > li {
+            > a {
+              padding-left: $sidebarNavigation__menuIndentation--levelTwo;
+            }
+
+            > ul {
+              > li {
+                > a {
+                  padding-left: $sidebarNavigation__menuIndentation--levelThree;
+                }
+
+                > ul {
+                  > li {
+                    > a {
+                      padding-left: $sidebarNavigation__menuIndentation--levelFour;
+                    }
+
+                    > ul {
+                      > li {
+                        > a {
+                          padding-left: $sidebarNavigation__menuIndentation--levelFive;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    ul {
+      margin-top: 0;
+
+      li {
+        border-top: 1px solid;
+        border-color: $bottomNavigation__borderColor;
+      }
+    }
+
+    > ul {
+      ul:not(.ip-navigation) {
+        > li {
+          > a {
+            &::after {
+              font-family: $icon__fontFamily;
+              content: $icon--arrowRight;
+              font-size: $sidebarNavigation__icon__fontSize;
+              color: $sidebarNavigation__icon__color;
+              line-height: 1;
+              margin-left: 0.5rem;
+            }
+          }
+        }
+      }
+    }
+
+    // TODO: What is this used for?
+    > ul {
+      &:first-of-type {
+        > li {
+          text-transform: $sidebarNavigation__textTransform;
+        }
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+
+      > li {
+        text-transform: none;
+        font-size: $sidebarNavigation__fontSize;
+
+        &.is-expanded {
+          > a {
+            color: $sidebarNavigation__link--hover__color;
+          }
+        }
+
+        &.in-active-trail {
+          background-color: $sidebarNavigation--active__backgroundColor;
+          box-shadow: $sidebarNavigation__menu__boxShadow;
+          border: none;
+
+          > a {
+            box-shadow: $sidebarNavigation__menu__boxShadow;
+          }
+
+          > ul {
+            > li:not(.ip-navigation-item) {
+              > a {
+                border-bottom: 1px solid;
+                border-color: $bottomNavigation__borderColor;
+              }
+            }
+          }
+        }
+
+        a {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+          padding-right: 0.75rem;
+          color: $sidebarNavigation__link__color;
+
+          &.is-active {
+            color: $sidebarNavigation__link--hover__color;
+          }
+
+          &:active,
+          &:hover,
+          &:focus {
+            color: $sidebarNavigation__link--hover__color;
+            text-decoration: none;
+          }
+        }
+
+        &.ip-navigation-item {
+          border-top: none;
+          @include setFontFromStack($inPageNavigation__font...);
+
+          a {
+            border-image: none;
+            border-left: 1px solid;
+            padding-left: $sidebarNavigation__menuIndentation--levelOne +
+              ($sidebarNavigation__menuMiscellaneous--activeIndicator-width - 1);
+            margin-left: $sidebarNavigation__menuIndentation--levelOne;
+            border-color: $bottomNavigation__borderColor;
+
+            &.is-active {
+              border-left: $sidebarNavigation__menuMiscellaneous--activeIndicator-width solid;
+              padding-left: $sidebarNavigation__menuIndentation--levelOne;
+              border-image: linear-gradient(to bottom, $button--secondary__borderColor) 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

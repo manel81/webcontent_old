@@ -1,0 +1,123 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+%icon,
+.icon {
+  // TODO: This should be '__'.
+  &--content {
+    position: relative;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+
+    > span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      max-width: 66%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+}
+
+[class^='zg-icon-'],
+[class*=' zg-icon-'] {
+  font-size: $icon__fontSize;
+  font-family: $icon__fontFamily;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.zg-icon--search {
+  &::before {
+    content: $icon--search;
+  }
+}
+
+.zg-icon--copy {
+  &::before {
+    content: $icon--copy;
+  }
+}
+
+.zg-icon--info {
+  &::before {
+    content: $icon--info;
+  }
+}
+
+.zg-icon--view {
+  &::before {
+    content: $icon--view;
+  }
+}
+
+.zg-icon--edit {
+  &::before {
+    content: $icon--edit;
+  }
+}
+
+.zg-icon--remove,
+.zg-icon--delete {
+  &::before {
+    content: $icon--delete;
+  }
+}
+
+.zg-icon--analytics {
+  &::before {
+    content: $icon--analytics;
+  }
+}
+
+.zg-icon--grid,
+.zg-icon--apps {
+  &::before {
+    content: $icon--grid;
+  }
+}
+
+.zg-icon--members {
+  &::before {
+    content: $icon--members;
+  }
+}
+
+.zg-icon--add {
+  &::before {
+    content: $icon--add;
+  }
+}
+
+.zg-icon--revoke {
+  &::before {
+    content: $icon--revoke;
+  }
+}
+
+.zg-icon--log-out {
+  &::before {
+    content: $icon--logOut;
+  }
+}
+
+.zg-icon--user {
+  &::before {
+    content: $icon--user;
+  }
+}

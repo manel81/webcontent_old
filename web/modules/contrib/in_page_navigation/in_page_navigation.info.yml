@@ -1,0 +1,12 @@
+name: In-page navigation
+description: Simple in-page navigation.
+package: Custom
+
+dependencies:
+  - drupal:block
+  - drupal:node
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

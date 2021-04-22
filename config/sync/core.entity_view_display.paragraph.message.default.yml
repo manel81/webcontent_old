@@ -1,0 +1,29 @@
+uuid: 6d750fe7-4d23-4fcc-a352-e32cbed37c65
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.message.field_message_type
+    - field.field.paragraph.message.field_text
+    - paragraphs.paragraphs_type.message
+  enforced:
+    module:
+      - page_builder
+  module:
+    - text
+_core:
+  default_config_hash: m7Qu86UVRTg7Vf4OELVuu4LJI0dU5gj6BeR5oTiRnOw
+id: paragraph.message.default
+targetEntityType: paragraph
+bundle: message
+mode: default
+content:
+  field_text:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  field_message_type: true

@@ -1,0 +1,17 @@
+uuid: d299afee-34cd-4375-bfb7-93fe536b9b71
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.business_unit
+  enforced:
+    config:
+      - user.role.administrator
+id: business_unit-a416e6833
+label: Administrator
+weight: 2
+internal: true
+audience: outsider
+group_type: business_unit
+permissions_ui: false
+permissions: {  }

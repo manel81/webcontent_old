@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.blog_post.body
+    - field.field.node.blog_post.field_blog_post_categories
+    - field.field.node.blog_post.field_teaser_picture
+    - node.type.blog_post
+  module:
+    - text
+    - user
+  enforced:
+    module:
+      - dp_blog
+id: node.blog_post.default
+targetEntityType: node
+bundle: blog_post
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_blog_post_categories: true
+  field_teaser_picture: true
+  links: true

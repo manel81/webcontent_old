@@ -1,0 +1,26 @@
+// # Colors
+// -------------
+$colors: (
+  color__brand-1: #172950,
+  color__brand-2: #6876d4,
+  color__brand-3: #1fd9ab,
+  color__brand-4: #11ba91,
+  color__brand-5: #74d7d9,
+  color__black: #000000,
+  color__white: #ffffff,
+  color__gray-1: #f8f9fc,
+  color__gray-2: #f2f4fa,
+  color__gray-3: #dbdee5,
+  color__gray-4: #b2bac4,
+  color__gray-5: #6d7783,
+  color__success: #1bc79c,
+  color__warning: #eeca55,
+  color__error: #eb3333,
+  color__info: #3d5497,
+);
+
+$colorComponentsExport: export('./brandColors-lock.json', $colors);
+
+@function brandColor($color) {
+  @return map-get($colors, $color);
+}

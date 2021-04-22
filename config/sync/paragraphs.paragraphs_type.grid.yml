@@ -1,0 +1,15 @@
+uuid: 49a7e061-c745-4c96-9e85-d6facdf25427
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: Cs2dHXK1HgCQNH_swMZ2_a6P12ZFx3Qk7bqJqiHikYw
+id: grid
+label: Grid
+icon_uuid: null
+icon_default: null
+description: 'Grid layout element.'
+behavior_plugins: {  }

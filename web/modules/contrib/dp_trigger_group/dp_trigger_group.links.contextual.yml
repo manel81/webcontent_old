@@ -1,0 +1,4 @@
+entity.group.tokens:
+  route_name: 'entity.group.tokens.list'
+  group: 'group'
+  title: 'Tokens'

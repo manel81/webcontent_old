@@ -1,0 +1,4 @@
+group.token:
+  title: Tokens
+  route_name: 'entity.group.tokens.list'
+  base_route: 'entity.group.canonical'

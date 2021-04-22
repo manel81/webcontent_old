@@ -1,0 +1,33 @@
+uuid: e57a4779-e3bd-45d5-aa05-4726ee8f652f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_api_reference
+    - node.type.api_reference
+    - paragraphs.paragraphs_type.featured_api
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: u-f-fiKHd5tgYng0rRHk05iaHw0bnT3Q5Q80-ymz_2Q
+id: paragraph.featured_api.field_api_reference
+field_name: field_api_reference
+entity_type: paragraph
+bundle: featured_api
+label: 'API Reference'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      api_reference: api_reference
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

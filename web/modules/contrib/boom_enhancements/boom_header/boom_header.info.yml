@@ -1,0 +1,13 @@
+name: Boom Header tweaks
+description: Provide URL pattern - Header background image pairs.
+package: Boom
+
+dependencies:
+  - drupal:image
+  - drupal:path
+  - boom_enhancements:boom_enhancements
+  - focal_point:focal_point
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+version: 2.11.3

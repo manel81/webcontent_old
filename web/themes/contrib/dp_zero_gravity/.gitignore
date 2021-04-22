@@ -1,0 +1,27 @@
+phpcs.xml.dist
+/.*
+!/.gitignore
+
+# Vendor
+node_modules
+
+# Lock files
+/*-lock*
+/*.lock
+!/yarn.lock
+
+# Log files
+/*.log
+
+# Config files
+!/.eslintignore
+!/.stylelintignore
+!/.*rc.js
+
+# Artifacts
+build/
+# Ideally excluding dist would be enough but composer will exclude the generated files which is not the correct
+# behaviour.
+# @see https://github.com/composer/composer/issues/7358
+# @see https://github.com/composer/composer/issues/57
+dist/**/**/*.*

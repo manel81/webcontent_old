@@ -1,0 +1,45 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+.zg-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: {
+    top: 2rem;
+    bottom: 2rem;
+  }
+}
+
+.zg-loader__spinner {
+  width: $loader__width;
+  height: $loader__width;
+  border: $loader__borderWidth solid $loader__borderColor;
+  border-top-color: $loader__borderTopColor;
+  border-radius: 50%;
+  position: relative;
+  animation: loader-rotate $loader__animationDuration linear infinite;
+
+  @keyframes loader-rotate {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

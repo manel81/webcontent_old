@@ -1,0 +1,4 @@
+boom_enhancements.custom_icons:
+  version: VERSION
+  css:
+    theme: {}

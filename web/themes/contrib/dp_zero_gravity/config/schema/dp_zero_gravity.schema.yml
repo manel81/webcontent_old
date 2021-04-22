@@ -1,0 +1,63 @@
+# Schema for the configuration files of the DP Zero Gravity theme.
+
+dp_zero_gravity.settings:
+  type: theme_settings
+  label: 'DP Zero Gravity settings'
+  mapping:
+    blog_post_header:
+      type: boolean
+      label: 'Header image on Blog Post pages'
+    navigation_position:
+      type: boolean
+      label: 'Navigation position'
+    shift_homepage_content:
+      type: boolean
+      label: 'Shift content into header'
+    faq_accordion_quicklinks:
+      type: boolean
+      label: 'Quicklinks to accordion items on the FAQ'
+    cards_interactive:
+      type: boolean
+      label: 'Interactive cards'
+    swagger_ui_highlight_enable:
+      type: boolean
+      label: 'Enable code highlighting'
+    swagger_ui_highlight_langs:
+      type: string
+      label: 'Supported languages for highlighting'
+    swagger_ui_highlight_download:
+      type: boolean
+      label: 'Enable Download button for highlighted code'
+    swagger_ui_highlight_copy:
+      type: boolean
+      label: 'Enable Copy button for highlighted code'
+    swagger_ui_info_show_title:
+      type: boolean
+      label: 'Show title and version'
+    swagger_ui_info_show_description:
+      type: boolean
+      label: 'Show description'
+    swagger_ui_info_download:
+      type: boolean
+      label: 'Alter specification URL to Download button'
+    swagger_ui_info_postman:
+      type: boolean
+      label: 'Enable Run in Postman button'
+    swagger_ui_code_samples_manual:
+      type: boolean
+      label: 'Enable manual code samples'
+    swagger_ui_code_samples_generate:
+      type: boolean
+      label: 'Enable generated code samples'
+    swagger_ui_code_samples_generate_langs:
+      type: sequence
+      label: 'Generated code sample targets'
+      sequence:
+        type: string
+        label: 'Language key'
+    color_overrides:
+      type: sequence
+      label: 'Color Overrides'
+      sequence:
+        type: string
+        label: 'Color'

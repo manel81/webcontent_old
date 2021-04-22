@@ -1,0 +1,6 @@
+build
+phpcs.xml.dist
+/.*
+!/.gitignore
+*.lock
+!/.eslintignore

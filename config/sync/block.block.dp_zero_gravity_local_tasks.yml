@@ -1,0 +1,22 @@
+uuid: 736b8330-37f5-4c66-ac8c-a05ba72c0f4f
+langcode: en
+status: true
+dependencies:
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: zN-TEmOq-Ir2Udj6JwxceMAj63Cyw6nk8-lfI_jKlN4
+id: dp_zero_gravity_local_tasks
+theme: dp_zero_gravity
+region: content
+weight: -40
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

@@ -1,0 +1,257 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+/// Very similar to .zg-accordion without hover effects. This might eventually become an accordion.
+.zg-apigee-app {
+  border-top: 1px solid $accordion__header__borderColor;
+}
+
+.zg-apigee-app__warning,
+.zg-apigee-app__content,
+.zg-apigee-apps-header {
+  padding: $accordion__header__padding;
+  margin-bottom: 1px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.zg-apigee-app__warning--no-app {
+  justify-content: center;
+  height: 140px;
+}
+
+.zg-apigee-app-header__name,
+.zg-apigee-app__name {
+  flex: 1 0 100%;
+
+  @include for-tablet-portrait-up {
+    flex: 1 0 0;
+  }
+}
+
+.zg-apigee-app-header__status,
+.zg-apigee-app__status {
+  flex: 1 0 40%;
+  max-width: 40%;
+
+  @include for-tablet-portrait-up {
+    flex: 1 0 0;
+    max-width: initial;
+  }
+}
+
+.zg-apigee-app-header__operations,
+.zg-apigee-app__operations {
+  flex: 1 0 60%;
+  max-width: 40%;
+
+  @include for-tablet-portrait-up {
+    flex: 1 0 0;
+    max-width: initial;
+  }
+}
+
+.zg-apigee-apps {
+  margin-top: 2rem;
+}
+
+.zg-apigee-app__warning,
+.zg-apigee-app__content {
+  box-shadow: $boxShadow--normal;
+  background-color: $accordion__backgroundColor;
+}
+
+.zg-apigee-app__warning {
+  > [class^='zg-icon-'],
+  > [class*=' zg-icon-'] {
+    padding-right: $accordion__header__paddingHorizontal;
+  }
+}
+
+.zg-apigee-app__content {
+  @include setFontFromStack($accordion__header__font...);
+  color: $accordion__color;
+  font-size: $accordion__header__fontSize;
+}
+
+.zg-apigee-app__add-keys {
+  margin: {
+    top: $panel__margin;
+    bottom: $panel__margin;
+  }
+}
+
+.path-teams {
+  .block--local-actions-block {
+    margin-bottom: 2rem;
+  }
+}
+
+.zg-apigee-app-credential {
+  display: flex;
+  flex-wrap: wrap;
+
+  .secret__toggle {
+    float: right;
+  }
+
+  > * {
+    flex: 1 1 50%;
+
+    &:first-child {
+      flex-basis: 100%;
+    }
+  }
+
+  .zg-operations {
+    float: right;
+  }
+}
+
+.zg-apigee-app-credential--revoked {
+  opacity: 0.5;
+}
+
+.zg-apigee-app-credential__products {
+  padding-left: $panel__paddingHorizontal;
+  position: relative;
+
+  &::before {
+    content: '';
+    width: 1px;
+    background-color: $panel__item__borderColor;
+    position: absolute;
+    top: -$panel__paddingVertical;
+    bottom: -$panel__paddingVertical;
+    left: 0;
+  }
+}
+
+.zg-apigee-app-credential__details {
+  padding-right: $panel__paddingHorizontal;
+
+  > * {
+    flex: 1 0 100%;
+    max-width: 100%;
+  }
+}
+
+.zg-apigee-app-credential__product {
+  margin: {
+    top: 1rem;
+    bottom: 1rem;
+  }
+}
+
+.zg-apigee-app-credential__product-list {
+  > * {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.zg-apigee-app-form__details {
+  @extend %zg-panel;
+  margin-bottom: $panel__margin;
+
+  > .fieldset-legend {
+    @extend %zg-panel__title;
+  }
+}
+
+.zg-apigee-app-form__products {
+  .fieldset-wrapper {
+    padding: 1rem 3rem;
+  }
+
+  .fieldset-legend {
+    @extend %text--lead;
+  }
+}
+
+.zg-apigee-app-form__credential {
+  @extend %zg-panel;
+
+  & + & {
+    margin-top: 1.5rem;
+  }
+
+  > .fieldset-legend {
+    @extend %zg-panel__title;
+
+    > legend {
+      display: flex;
+      align-items: center;
+
+      .status {
+        order: 1;
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  + & {
+    margin-top: $panel__margin;
+  }
+}
+
+@include for-mobile-only {
+  .zg-apigee-app-header__name,
+  .zg-apigee-app-header__status,
+  .zg-apigee-app-header__operations {
+    display: none;
+  }
+}
+
+@include for-tablet-portrait-up {
+  .zg-apigee-app__content,
+  .zg-apigee-apps-header {
+    > * {
+      &:not(:first-child):not(:last-child) {
+        padding: {
+          left: $accordion__header__paddingHorizontal;
+          right: $accordion__header__paddingHorizontal;
+        }
+      }
+
+      &:last-child {
+        padding-left: $accordion__header__paddingHorizontal;
+      }
+
+      &:first-child {
+        padding-right: $accordion__header__paddingHorizontal;
+      }
+    }
+  }
+
+  .zg-apigee-app__status,
+  .zg-apigee-app__operations {
+    position: relative;
+
+    &::before {
+      content: '';
+      width: 1px;
+      background-color: $accordion__header__borderColor;
+      position: absolute;
+      left: 0;
+      top: -($accordion__header__paddingVertical / 2);
+      bottom: -($accordion__header__paddingVertical / 2);
+    }
+  }
+}

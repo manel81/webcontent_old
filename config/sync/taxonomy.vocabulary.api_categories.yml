@@ -1,0 +1,13 @@
+uuid: 8941e689-f2c1-48a9-876d-f12294489731
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: 1GiNXH8UtvNTzupQytDGji081VI_aVYgXTAOfmxKEq0
+name: 'API categories'
+vid: api_categories
+description: 'Tags to categorize APIs.'
+weight: 0

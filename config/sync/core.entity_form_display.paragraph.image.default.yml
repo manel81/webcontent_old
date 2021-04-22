@@ -1,0 +1,41 @@
+uuid: 777e5b57-e8b9-4c67-978d-2819311ddc0b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.image.field_administrative_title
+    - field.field.paragraph.image.field_image
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.image
+  enforced:
+    module:
+      - page_builder
+  module:
+    - svg_image
+_core:
+  default_config_hash: wpRouj3ruH9IRmfBZslpjnkiM0wPua4o7O8qTwMGnf4
+id: paragraph.image.default
+targetEntityType: paragraph
+bundle: image
+mode: default
+content:
+  field_administrative_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_image:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

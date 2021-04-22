@@ -1,0 +1,206 @@
+// ## Body
+$body__font: AllianzNeo, Regular;
+
+// # Typography
+// ---------------
+$text--small__font: AllianzNeo, Regular;
+
+// Text - Lead
+$text--lead__font: AllianzNeo, Bold;
+
+// ## Icons
+$fontSize__icon: 24px;
+
+// ### Hero text
+$hero__font: AllianzNeo, Bold;
+
+// ### H1
+$h1__font: AllianzNeo, Regular;
+
+// ### H2
+$h2__font: AllianzNeo, SemiBold;
+
+// ### H3
+$h3__font: AllianzNeo, Light;
+
+// ### H4
+$h4__font: 'AllianzNeo', SemiBold;
+
+// ### H5
+$h5__font: AllianzNeo, Regular;
+
+// ### H6
+$h6__font: AllianzNeo, SemiBold;
+
+// # Layout
+// ---------------
+$divider__width: 0;
+
+// # Box Shadows
+// ---------------
+$boxShadow--normal:        unset;
+$boxShadow--normal--hover: unset;
+
+// # Bottom Navigation
+// ---------------
+$bottomNavigation__blockTitle__font:         AllianzNeo, SemiBold;
+$bottomNavigation__divider__color:           brandColor(color__brand-4);
+$bottomNavigation__backgroundColor:          var(--colorBundle__footerBackground);
+$bottomNavigation--slogan__backgroundColor:  brandColor(color__white);
+$bottomNavigation--slogan__borderColor:      brandColor(color__gray-3);
+$bottomNavigation--img__borderRadius:        16px;
+$bottomNavigation--img--panelWidth:          350px;
+$bottomNavigation--slogan--wrapperHeight:    185px;
+$bottomNavigation--slogan--marginTop:        40px;
+
+// # Breadcrumb
+// ---------------
+$breadcrumb__font: AllianzNeo, SemiBold;
+
+// # Buttons
+// ---------------
+$button__font:                                         AllianzNeo, Bold;
+$button__radius:                                       5px;
+$button--secondary--hover__borderWidth:                3px;
+$button--primary__backgroundColor--hover:              brandColor(color__brand-3);
+$button--primary__backgroundColor--active:             brandColor(color__brand-1);
+$button--primary--inverted__backgroundColor--hover:    brandColor(color__gray-3);
+$button--primary--inverted__backgroundColor--active:   brandColor(color__gray-4);
+$button--secondary__borderColor--hover:                brandColor(color__brand-3);
+$button--secondary__color--hover:                      $button--secondary__borderColor--hover;
+$button--secondary__borderColor--active:               brandColor(color__brand-1);
+$button--secondary__color--active:                     $button--secondary__borderColor--active;
+$button--secondary--inverted__backgroundColor--hover:  brandColor(color__gray-3);
+$button--secondary--inverted__borderColor--hover:      $button--secondary--inverted__backgroundColor--hover;
+$button--secondary--inverted__color--hover:            brandColor(color__brand-4);
+$button--secondary--inverted__backgroundColor--active: brandColor(color__gray-4);
+$button--secondary--inverted__borderColor--active:     $button--secondary--inverted__backgroundColor--active;
+$button--secondary--inverted__color--active:           brandColor(color__brand-4);
+$button__boxShadow:                                    unset;
+
+// # Cards
+// ---------------
+$card__padding--animation: 20px;
+
+// ### Link
+$card__link__font:               AllianzNeo, Bold;
+$card__link--arrow__paddingLeft: $fontSize__icon + 8px;
+
+// ## Page title
+$h1--pageTitle__fontSize--large:         60px;
+$h1--pageTitle__fontSize--large--mobile: $h1--pageTitle__fontSize--large * 0.6;
+
+// # Grid
+// ----------------
+$grid__gutter: 2rem;
+
+// # Accordion
+// ---------------
+$accordion__header__font:             AllianzNeo, Bold;
+$accordion__content__boxShadow:       unset;
+$accordion__backgroundColor:          brandColor(color__gray-2);
+$accordion__content__backgroundColor: brandColor(color__white);
+$accordion--active__boxShadow:        unset;
+
+// # Developer app
+// ---------------
+$developerApp__productsLabel__font: AllianzNeo, SemiBold;
+
+// # Header
+// ---------------
+$pageHeader__backgroundImage:          linear-gradient(rgba(brandColor(color__black), 0.6) 0%,
+                                                       rgba(brandColor(color__black), 0.6) 45.22%,
+                                                       rgba(brandColor(color__brand-1), 0.24) 100%);
+$pageHeader__overlay__backgroundColor: unset;
+
+// ### Checkbox
+$checkmark__backgroundColor: unset;
+
+// # Navigation
+// -------------
+$navigation__font: AllianzNeo, Bold;
+
+// # In-page Navigation
+// -------------
+$inPageNavigation__font: AllianzNeo, Bold;
+
+// # Sidebar Navigation
+// -------------
+$sidebarNavigation__menu__borderWidth: 1px;
+$sidebarNavigation__menu__borderColor: brandColor(color__gray-3);
+
+// ## Main Navigation
+$navigation__height:       8rem;
+$navigation__link__margin: 0.5rem 1rem;
+
+// ## Collapsed Main Navigation
+$navigation--collapsed__link__font: AllianzNeo, Bold;
+
+// # Site Branding
+// -------------
+$siteBranding__name__font: AllianzNeo, Bold;
+
+// # Messages
+// -------------
+$message__iconBackground__backgroundColor: brandColor(color__gray--dark-2);
+$message__icon__borderColor:               $message__iconBackground__backgroundColor;
+
+// # Tables
+// ---------------
+$th__font:               AllianzNeo, SemiBold;
+$thead__backgroundColor: brandColor(color__gray--dark-1);
+$th__color:              brandColor(color__brand-1);
+$tbody__backgroundColor: rgba($thead__backgroundColor, 0.5);
+$tbody__headingColor:    brandColor(color__gray-4);
+
+// # Tabs
+// -------------
+// ## Primary tabs
+$primaryTabs__font: AllianzNeo, Bold;
+
+// ## Secondary tabs
+$secondaryTabs__font: AllianzNeo, Bold;
+
+// # Version
+// ---------------
+$version__font: AllianzNeo, SemiBold;
+
+// # Code
+// ---------------
+$code__font: AnonymousPro, Regular;
+
+// # Search page
+// ---------------
+$searchPager__color: brandColor(color__brand-4);
+
+// # Pager
+// ---------------
+$pager__font:        AllianzNeo, Bold;
+$searchPager__color--active: brandColor(color__white);
+
+// # Lists
+// ---------------
+$list__indicator__backgroundColor: brandColor(color__brand-1);
+
+// # Quote
+// ---------------
+$quote__font:           AllianzNeo, Regular;
+$blockquote__textColor: brandColor(color__brand-1);
+
+// # Blockquote
+// ---------------
+$blockquote__font: AllianzNeo, Italic;
+
+// ## Methods
+// ---------------
+$method__font:       AllianzNeo, Bold;
+$method__path__font: AnonymousPro, Bold;
+
+// ### Operations
+$swaggerUi__opBlock__header__font: AllianzNeo, Regular;
+
+// # CKeditor elements
+$text--highlighted__color: brandColor(color__brand-2);
+
+// # User login, register and reset password
+$login-form__backgroundColor: brandColor(color__soft-4);

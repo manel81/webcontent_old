@@ -1,0 +1,6 @@
+boom_header.settings:
+  title: 'Header Background Settings'
+  description: 'Add, Delete, Edit Header Backgrounds'
+  parent: system.admin_structure
+  route_name: entity.boom_header.collection
+  weight: 0

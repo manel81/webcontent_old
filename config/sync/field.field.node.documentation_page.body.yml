@@ -1,0 +1,28 @@
+uuid: e02db1ba-47c6-43f4-beef-63b6e350391e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.documentation_page
+  enforced:
+    module:
+      - dp_docs
+  module:
+    - text
+_core:
+  default_config_hash: k1uwWMES0P0De4CrIEOkX6SNh9mBQEy7vfkMavkTipo
+id: node.documentation_page.body
+field_name: body
+entity_type: node
+bundle: documentation_page
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

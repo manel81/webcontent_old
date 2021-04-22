@@ -1,0 +1,30 @@
+uuid: d06ad4d2-b4d5-472c-ac8f-db2851e4d2b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon_bg_color
+    - paragraphs.paragraphs_type.benefit
+  enforced:
+    module:
+      - page_builder
+  module:
+    - color_field
+_core:
+  default_config_hash: q34G8xVh2UPU8SRw9qepnVZDoN4jUN-qoix9m8qOJtc
+id: paragraph.benefit.field_icon_bg_color
+field_name: field_icon_bg_color
+entity_type: paragraph
+bundle: benefit
+label: 'Icon background color'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    color: '#ffffff'
+    opacity: !!float 1
+default_value_callback: ''
+settings:
+  opacity: 1
+field_type: color_field_type

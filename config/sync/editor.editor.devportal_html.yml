@@ -1,0 +1,101 @@
+uuid: cdd75720-440f-44aa-baa6-39190b226889
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.devportal_html
+  module:
+    - ckeditor
+_core:
+  default_config_hash: dXbUFuhgghB4qnR70NUf4TGkvvSHnyw8VoHraB_E8xM
+format: devportal_html
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formatting
+          items:
+            - RemoveFormat
+            - Bold
+            - Italic
+            - Underline
+            - Strike
+            - Styles
+            - Format
+        -
+          name: Alignment
+          items:
+            - JustifyLeft
+            - JustifyCenter
+            - JustifyRight
+            - JustifyBlock
+            - Outdent
+            - Indent
+        -
+          name: Links
+          items:
+            - DrupalLink
+            - DrupalUnlink
+        -
+          name: Lists
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Elements
+          items:
+            - Blockquote
+            - DrupalImage
+            - HorizontalRule
+            - Table
+        -
+          name: Tools
+          items:
+            - ShowBlocks
+            - Source
+            - CodeSnippet
+            - '-'
+            - '-'
+  plugins:
+    language:
+      language_list: un
+    stylescombo:
+      styles: "h1.h1--hero|Heading 1 - Hero variant\r\nh1.h1--page-title|Heading 1 - Page title\r\na.button.button--primary|Primary button\r\na.button.button--primary--inverted|Primary Inverted button\r\na.button.button--secondary|Secondary button\r\na.button.button--secondary--inverted|Secondary Inverted button\r\na.button.button--link|Link button\r\na.button.button--link.button--link--arrow|Link button with arrow\r\nspan.text--light|Light text\r\nspan.text--dark|Dark text"
+    codesnippet:
+      highlight_style: arta
+      highlight_languages:
+        apache: apache
+        bash: bash
+        cs: cs
+        cpp: cpp
+        coffeescript: coffeescript
+        css: css
+        diff: diff
+        html: html
+        http: http
+        ini: ini
+        java: java
+        javascript: javascript
+        json: json
+        makefile: makefile
+        markdown: markdown
+        nginx: nginx
+        objectivec: objectivec
+        perl: perl
+        php: php
+        python: python
+        ruby: ruby
+        sql: sql
+        vbscript: vbscript
+        xhtml: xhtml
+        xml: xml
+image_upload:
+  status: true
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

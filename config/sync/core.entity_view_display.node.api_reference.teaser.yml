@@ -1,0 +1,36 @@
+uuid: eba5c031-2781-452c-b495-fd78cc2a9a00
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.api_reference.field_api_category
+    - field.field.node.api_reference.field_api_header_content
+    - field.field.node.api_reference.field_api_name
+    - field.field.node.api_reference.field_description
+    - field.field.node.api_reference.field_latest_version
+    - field.field.node.api_reference.field_project_id
+    - field.field.node.api_reference.field_source_file
+    - field.field.node.api_reference.field_version
+    - node.type.api_reference
+  module:
+    - user
+_core:
+  default_config_hash: KbMINvNnHhL4FPtkgt43HcWvf91KHjpEnBL1d3kcopQ
+id: node.api_reference.teaser
+targetEntityType: node
+bundle: api_reference
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_api_category: true
+  field_api_header_content: true
+  field_api_name: true
+  field_description: true
+  field_latest_version: true
+  field_project_id: true
+  field_source_file: true
+  field_version: true

@@ -1,0 +1,38 @@
+uuid: ed3da34b-8e3a-4640-8d6a-cc05fba45431
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+  module:
+    - options
+    - paragraphs
+_core:
+  default_config_hash: 5gI6sCXhUq4masOw8yCKIRyzsfFVWlFP6F-bKOBwuW0
+id: paragraph.field_message_type
+field_name: field_message_type
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: info
+      label: Info
+    -
+      value: warning
+      label: Warning
+    -
+      value: success
+      label: Success
+    -
+      value: error
+      label: Error
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

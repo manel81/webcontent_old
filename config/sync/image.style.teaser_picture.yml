@@ -1,0 +1,22 @@
+uuid: 093fafe4-c07a-494c-9053-e03cbe87bf82
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_core
+  module:
+    - focal_point
+_core:
+  default_config_hash: 7QmZ6YGeMpg1xWEmggzVlR19MKkDAIDVNzSredzxUMc
+name: teaser_picture
+label: 'Teaser picture (426x240)'
+effects:
+  8f24abd3-8fd0-4e91-9382-5b9e54fdc5bc:
+    uuid: 8f24abd3-8fd0-4e91-9382-5b9e54fdc5bc
+    id: focal_point_crop
+    weight: 1
+    data:
+      width: 426
+      height: 240
+      crop_type: focal_point

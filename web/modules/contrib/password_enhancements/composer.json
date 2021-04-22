@@ -1,0 +1,97 @@
+{
+  "name": "pronovix/password_enhancements",
+  "type": "drupal-module",
+  "description": "Password related enhancements.",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": "^7.1",
+    "ext-mbstring": "*",
+    "drupal/core-recommended": "~8.9.1"
+  },
+  "require-dev": {
+    "composer/installers": "^1.6",
+    "drupal/core-composer-scaffold": "~8.9.1",
+    "drupal/core-dev": "~8.9.1",
+    "pronovix/devportal_devel": "^2.8",
+    "pronovix/drupal-qa": "^2.8",
+    "pronovix/simple-symlink": "^2.8",
+    "zaporylie/composer-drupal-optimizations": "^1.2"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "vendor-dir": "build/vendor"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.x-dev"
+    },
+    "composer-exit-on-patch-failure": true,
+    "drupal-scaffold": {
+      "locations": {
+        "web-root": "build/web"
+      }
+    },
+    "enable-patching": true,
+    "installer-paths": {
+      "build/web/core": [
+        "type:drupal-core"
+      ],
+      "build/web/modules/contrib/{$name}": [
+        "type:drupal-module"
+      ],
+      "build/web/profiles/contrib/{$name}": [
+        "type:drupal-profile"
+      ],
+      "build/web/themes/contrib/{$name}": [
+        "type:drupal-theme"
+      ],
+      "build/web/drush/contrib/{$name}": [
+        "type:drupal-drush"
+      ],
+      "build/web/modules/custom/{$name}": [
+        "type:drupal-custom-module"
+      ],
+      "build/web/themes/custom/{$name}": [
+        "type:drupal-custom-theme"
+      ],
+      "build/web/libraries/{$name}": [
+        "type:drupal-library"
+      ]
+    },
+    "patchLevel": {
+      "drupal/core": "-p2"
+    },
+    "simple-symlinks": {
+      ".": "build/web/modules/drupal_module",
+      "phpcs.xml.dist": "build/phpcs.xml.dist"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Drupal\\password_enhancements\\": "./src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Tests\\password_enhancements\\": "./tests/src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "post-install-cmd": [
+      "Pronovix\\SimpleSymlink\\ScriptHandler::createSymlinks"
+    ],
+    "post-update-cmd": [
+      "Pronovix\\SimpleSymlink\\ScriptHandler::createSymlinks"
+    ]
+  },
+  "version": "2.11.3"
+}

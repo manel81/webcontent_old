@@ -1,0 +1,1208 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the DP API Docs module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Entity\Entity\EntityViewMode;
+use Drupal\Core\Site\Settings;
+use Drupal\Core\StringTranslation\PluralTranslatableMarkup;
+use Drupal\node\Entity\NodeType;
+use Drupal\pathauto\Entity\PathautoPattern;
+use Drupal\views\Entity\View;
+
+/**
+ * Implements hook_install().
+ */
+function dp_api_docs_install(bool $is_syncing): void {
+  // Do not change the config if config sync is running (ex.: the site is
+  // installed from an existing configuration).
+  if (!$is_syncing) {
+    $config = \Drupal::configFactory()->getEditable('core.entity_form_display.node.api_reference.default');
+    $content = $config->get('content');
+    $field_api_category = [
+      'type' => 'entity_reference_autocomplete',
+      'weight' => 10,
+      'region' => 'content',
+      'settings' => [
+        'match_operator' => 'CONTAINS',
+        'size' => 60,
+        'placeholder' => '',
+        'match_limit' => 10,
+      ],
+      'third_party_settings' => [],
+    ];
+    $content['field_api_category'] = $field_api_category;
+    $config->set('content', $content);
+    $config->save();
+  }
+}
+
+/**
+ * Add has-shadow class to api_catalog view rows.
+ */
+function dp_api_docs_update_8001(): ?string {
+  $config_factory = \Drupal::configFactory();
+  if ($config_factory->loadMultiple(['views.view.api_catalog'])) {
+    $config = $config_factory->getEditable('views.view.api_catalog');
+    $display = $config->get('display');
+    $css_class = $display['default']['display_options']['style']['options']['row_class'] ? explode(' ', $display['default']['display_options']['style']['options']['row_class']) : [];
+    if (!in_array('has-shadow', $css_class)) {
+      $css_class[] = 'has-shadow';
+    }
+    $css_class = implode(' ', $css_class);
+    $config->set('display.default.display_options.style.options.row_class', $css_class);
+    $config->save(TRUE);
+  }
+
+  return t('View API Catalog has-shadow class added.')->render();
+}
+
+/**
+ * Add enforcing for configs.
+ */
+function dp_api_docs_update_8002(): ?string {
+  $config_factory = \Drupal::configFactory();
+  $database = \Drupal::database();
+
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+
+  $config_names = [
+    'core.entity_form_display.node.api_basic_page.default',
+    'core.entity_form_display.node.api_description_page.default',
+    'core.entity_form_display.node.api_page_builder.default',
+    'core.entity_view_display.node.api_basic_page.default',
+    'core.entity_view_display.node.api_basic_page.teaser',
+    'core.entity_view_display.node.api_description_page.default',
+    'core.entity_view_display.node.api_description_page.teaser',
+    'core.entity_view_display.node.api_page_builder.default',
+    'core.entity_view_display.node.api_page_builder.teaser',
+    'field.field.node.api_basic_page.body',
+    'field.field.node.api_basic_page.field_api_reference',
+    'field.field.node.api_description_page.field_api_reference',
+    'field.field.node.api_description_page.field_header',
+    'field.field.node.api_description_page.field_page_builder_elements',
+    'field.field.node.api_page_builder.field_api_reference',
+    'field.field.node.api_page_builder.field_header',
+    'field.field.node.api_page_builder.field_page_builder_elements',
+    'field.field.node.api_reference.field_api_category',
+    'field.field.node.api_reference.field_api_header_content',
+    'field.storage.node.field_api_category',
+    'field.storage.node.field_api_header_content',
+    'field.storage.node.field_api_reference',
+    'node.type.api_basic_page',
+    'node.type.api_description_page',
+    'node.type.api_page_builder',
+    'system.menu.documentation',
+    'taxonomy.vocabulary.api_categories',
+    'views.view.api_catalog',
+    'views.view.api_overview',
+  ];
+
+  try {
+    foreach ($config_names as $config_name) {
+      $config = $config_factory->getEditable($config_name);
+      if (!$config) {
+        continue;
+      }
+
+      // Set enforcing.
+      $dependencies = $config->get('dependencies');
+
+      // If there weren't any dependencies before, create them.
+      if (!$dependencies) {
+        $dependencies = [];
+      }
+
+      if (isset($dependencies['enforced'])) {
+        continue;
+      }
+
+      $dependencies['enforced'] = [];
+      $dependencies['enforced']['module'] = [];
+      $dependencies['enforced']['module'][] = 'dp_api_docs';
+
+      // Add this module as a dependencies if it's missing.
+      if (isset($dependencies['module'])) {
+        if (!in_array('dp_api_docs', $dependencies['module'])) {
+          $dependencies['module'][] = 'dp_api_docs';
+        }
+      }
+      else {
+        $dependencies['module'] = [];
+        $dependencies['module'][] = 'dp_api_docs';
+      }
+
+      // Set and save configs.
+      $config->set('dependencies', $dependencies);
+      $config->save();
+    }
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('page_builder', $e);
+  }
+
+  return t('Added enforcing to DP API Docs configs')->render();
+}
+
+/**
+ * Update node form settings and api catalog view config.
+ */
+function dp_api_docs_update_8003(): ?string {
+  $config_factory = \Drupal::configFactory();
+
+  // Set edit_mode for page_builder elements field on api_description_page.
+  $config = $config_factory->getEditable('core.entity_form_display.node.api_description_page.default');
+  if ($config) {
+    $config->set('content.field_page_builder_elements.settings.edit_mode', 'open');
+    $config->save();
+  }
+
+  // Set edit_mode for page_builder elements field on api_page_builder.
+  $config = $config_factory->getEditable('core.entity_form_display.node.api_page_builder.default');
+  if ($config) {
+    $config->set('content.field_page_builder_elements.settings.edit_mode', 'open');
+    $config->save();
+  }
+
+  // Update api_catalog view settings.
+  $config = $config_factory->getEditable('views.view.api_catalog');
+  if ($config) {
+    $display = $config->get('display');
+    $display['default']['display_options']['style']['type'] = 'grid';
+    $display['default']['display_options']['style']['options'] = [
+      'grouping' => [],
+      'columns' => 3,
+      'automatic_width' => FALSE,
+      'alignment' => 'horizontal',
+      'col_class_default' => TRUE,
+      'col_class_custom' => 'card card--default card--api has-shadow',
+      'row_class_default' => TRUE,
+      'row_class_custom' => '',
+    ];
+    $display['default']['display_options']['row']['options']['default_field_elements'] = FALSE;
+    $display['default']['display_options']['fields']['view_node']['element_class'] = 'card__title';
+    $display['default']['display_options']['fields']['view_node']['element_default_classes'] = FALSE;
+    $display['default']['display_options']['fields']['field_api_category']['element_type'] = 'div';
+    $display['default']['display_options']['fields']['field_api_category']['element_class'] = 'card__tags';
+    $display['default']['display_options']['fields']['field_api_category']['element_default_classes'] = FALSE;
+    $display['default']['display_options']['fields']['field_description']['element_type'] = 'div';
+    $display['default']['display_options']['fields']['field_description']['element_class'] = 'card__description';
+    $display['default']['display_options']['fields']['field_description']['element_default_classes'] = FALSE;
+    $display['default']['display_options']['fields']['view_node_1']['element_type'] = 'div';
+    $display['default']['display_options']['fields']['view_node_1']['element_class'] = 'card__link';
+    $display['default']['display_options']['fields']['view_node_1']['element_default_classes'] = FALSE;
+    $display['default']['display_options']['css_class'] = '';
+
+    $config->set('display', $display);
+    $config->save();
+  }
+
+  return t('DP API Docs Configs updated.')->render();
+}
+
+/**
+ * Update API Catalog view and add Card view mode for nodes.
+ */
+function dp_api_docs_update_8004(): ?string {
+  $database = \Drupal::database();
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+  try {
+    $config_source = new FileStorage(DRUPAL_ROOT . '/' . Settings::get('config_sync_directory'));
+    // Create Card Entity View Mode.
+    $view_mode = [
+      'langcode' => 'en',
+      'status' => TRUE,
+      'dependencies' => [
+        'enforced' => [
+          'module' => [
+            'dp_api_docs',
+          ],
+        ],
+      ],
+      'id' => 'node.card',
+      'label' => 'Card',
+      'targetEntityType' => 'node',
+      'cache' => TRUE,
+    ];
+    $view_mode = EntityViewMode::create($view_mode);
+    $synced_config = $config_source->read('core.entity_view_mode.node.card');
+    if ($synced_config) {
+      $view_mode->set('uuid', $synced_config['uuid']);
+    }
+    $view_mode->enforceIsNew(TRUE)->save();
+    // Create Card display for API Reference CT.
+    $view_display = [
+      'langcode' => 'en',
+      'status' => TRUE,
+      'dependencies' => [
+        'enforced' => [
+          'module' => [
+            'dp_api_docs',
+          ],
+        ],
+      ],
+      'id' => 'node.api_reference.card',
+      'targetEntityType' => 'node',
+      'bundle' => 'api_reference',
+      'mode' => 'card',
+      'content' => [
+        'field_api_category' => [
+          'type' => 'entity_reference_label',
+          'weight' => 0,
+          'region' => 'content',
+          'label' => 'hidden',
+          'settings' => [
+            'link' => FALSE,
+          ],
+          'third_party_settings' => [],
+        ],
+        'field_description' => [
+          'type' => 'text_default',
+          'weight' => 1,
+          'region' => 'content',
+          'label' => 'hidden',
+          'settings' => [],
+          'third_party_settings' => [],
+        ],
+      ],
+      'hidden' => [
+        'field_api_header_content' => TRUE,
+        'field_project_id' => TRUE,
+        'field_source_file' => TRUE,
+        'field_version' => TRUE,
+        'links' => TRUE,
+      ],
+    ];
+    $view_display = EntityViewDisplay::create($view_display);
+    $synced_config = $config_source->read('core.entity_view_display.node.api_reference.card');
+    if ($synced_config) {
+      $view_display->set('uuid', $synced_config['uuid']);
+    }
+    $view_display->enforceIsNew(TRUE)->save();
+
+    // Update API Catalog view.
+    $config_factory = \Drupal::service('config.factory');
+    $config = $config_factory->getEditable('views.view.api_catalog');
+    if ($config) {
+      // Update dependencies.
+      $dependencies = $config->get('dependencies');
+      $dependencies['config'] = [
+        'core.entity_view_mode.node.card',
+        'node.type.api_reference',
+        'system.menu.main',
+        'taxonomy.vocabulary.api_categories',
+      ];
+      $dependencies['module'] = [
+        'node',
+        'taxonomy',
+        'user',
+      ];
+      $config->set('dependencies', $dependencies);
+      // Update view displays.
+      $display = $config->get('display');
+      $display['default']['display_options']['style']['options']['uses_fields'] = FALSE;
+      $display['default']['display_options']['style']['options']['col_class_custom'] = '';
+      unset($display['default']['display_options']['style']['options']['grouping']);
+      $display['default']['display_options']['row'] = [
+        'type' => 'entity:node',
+        'options' => [
+          'relationship' => 'none',
+          'view_mode' => 'card',
+        ],
+      ];
+      $display['default']['display_options']['fields'] = [];
+      $display['default']['display_options']['relationships'] = [];
+      $display['default']['display_options']['group_by'] = FALSE;
+      $display['default']['cache_metadata'] = [
+        'max-age' => -1,
+        'contexts' => [
+          'languages:language_interface',
+          'url',
+          'url.query_args',
+          'user',
+          'user.node_grants:view',
+          'user.permissions',
+        ],
+        'tags' => [],
+      ];
+      $display['api_catalog'] = [
+        'display_plugin' => 'page',
+        'id' => 'api_catalog',
+        'display_title' => 'Page',
+        'position' => 1,
+        'display_options' => [
+          'display_extenders' => [],
+          'path' => 'api-catalog',
+          'menu' => [
+            'type' => 'normal',
+            'title' => 'API Catalog',
+            'description' => '',
+            'expanded' => FALSE,
+            'parent' => '',
+            'weight' => 0,
+            'context' => '0',
+            'menu_name' => 'main',
+          ],
+        ],
+        'cache_metadata' => [
+          'max-age' => -1,
+          'contexts' => [
+            'languages:language_interface',
+            'url',
+            'url.query_args',
+            'user',
+            'user.node_grants:view',
+            'user.permissions',
+          ],
+          'tags' => [],
+        ],
+      ];
+      unset($display['page_1']);
+      $config->set('display', $display);
+      $config->save();
+    }
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('dp_api_docs', $e);
+  }
+
+  return t('Card view mode created, API Catalog view updated.')->render();
+}
+
+/**
+ * Fix Card view mode for API Reference nodes.
+ */
+function dp_api_docs_update_8005(): ?string {
+  $database = \Drupal::database();
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+  try {
+    // Fix Card display for API Reference CT.
+    $view_display = EntityViewDisplay::load('node.api_reference.card');
+    if ($view_display) {
+      $hidden = $view_display->get('hidden');
+      unset($hidden['field_internal']);
+      unset($hidden['field_target_audience']);
+      unset($hidden['field_tutorial']);
+      $view_display->set('hidden', $hidden);
+      $view_display->enforceIsNew(FALSE)
+        ->save();
+    }
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('dp_api_docs', $e);
+  }
+  return t('Fixed Card view mode for API Reference nodes.')->render();
+}
+
+/**
+ * Display body field on API basic page.
+ */
+function dp_api_docs_update_8006(): ?string {
+  try {
+    /** @var \Drupal\Core\Entity\Entity\EntityViewDisplay $view_display */
+    $view_display = Drupal::entityTypeManager()
+      ->getStorage('entity_view_display')
+      ->load('node.api_basic_page.default');
+
+    if (!$view_display) {
+      throw new Exception('Unable to load entity view display.');
+    }
+
+    $api_basic_page_fields = \Drupal::service('entity_field.manager')
+      ->getFieldDefinitions('node', 'api_basic_page');
+
+    if ($view_display->getComponent('body') || !isset($api_basic_page_fields['body'])) {
+      // Return if body is already visible or if there is no body field on API
+      // basic page.
+      return NULL;
+    }
+
+    // Set the body field's view display.
+    $view_display->setComponent('body', [
+      'type' => 'text_default',
+      'label' => 'hidden',
+      'region' => 'content',
+    ])->save();
+
+    return t('API basic page settings updated.')->render();
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('dp_api_docs', $e);
+  }
+}
+
+/**
+ * Fix API overview view for API Reference sorting tab.
+ */
+function dp_api_docs_update_8007(): ?string {
+  $database = \Drupal::database();
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+  try {
+    $view = View::load('api_overview');
+    // Get default display.
+    $default_display =& $view->getDisplay('default');
+    // Add permission.
+    $default_display['display_options']['access']['options'] = [
+      'perm' => 'access draggableviews',
+    ];
+    // Remove the type field.
+    unset($default_display['display_options']['fields']['type']);
+    // Overwrite all the fields, because the order changed. This shouldn't cause
+    // any problem, because this view wasn't used anywhere and we should avoid
+    // these kind of deep changes in a view, so there won't be further site
+    // specific changes.
+    $default_display['display_options']['fields'] = [
+      'nid' => [
+        'id' => 'nid',
+        'table' => 'node_field_data',
+        'field' => 'nid',
+        'relationship' => 'none',
+        'group_type' => 'group',
+        'admin_label' => '',
+        'label' => '',
+        'exclude' => TRUE,
+        'alter' => [
+          'alter_text' => FALSE,
+          'text' => '',
+          'make_link' => FALSE,
+          'path' => '',
+          'absolute' => FALSE,
+          'external' => FALSE,
+          'replace_spaces' => FALSE,
+          'path_case' => 'none',
+          'trim_whitespace' => FALSE,
+          'alt' => '',
+          'rel' => '',
+          'link_class' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'target' => '',
+          'nl2br' => FALSE,
+          'max_length' => 0,
+          'word_boundary' => TRUE,
+          'ellipsis' => TRUE,
+          'more_link' => FALSE,
+          'more_link_text' => '',
+          'more_link_path' => '',
+          'strip_tags' => FALSE,
+          'trim' => FALSE,
+          'preserve_tags' => '',
+          'html' => FALSE,
+        ],
+        'element_type' => '',
+        'element_class' => '',
+        'element_label_type' => '',
+        'element_label_class' => '',
+        'element_label_colon' => FALSE,
+        'element_wrapper_type' => '',
+        'element_wrapper_class' => '',
+        'element_default_classes' => TRUE,
+        'empty' => '',
+        'hide_empty' => FALSE,
+        'empty_zero' => FALSE,
+        'hide_alter_empty' => TRUE,
+        'click_sort_column' => 'value',
+        'type' => 'number_integer',
+        'settings' => [
+          'thousand_separator' => '',
+          'prefix_suffix' => TRUE,
+        ],
+        'group_column' => 'value',
+        'group_columns' => [],
+        'group_rows' => TRUE,
+        'delta_limit' => 0,
+        'delta_offset' => 0,
+        'delta_reversed' => FALSE,
+        'delta_first_last' => FALSE,
+        'multi_type' => 'separator',
+        'separator' => ', ',
+        'field_api_classes' => FALSE,
+        'entity_type' => 'node',
+        'entity_field' => 'nid',
+        'plugin_id' => 'field',
+      ],
+      'title' => [
+        'id' => 'title',
+        'table' => 'node_field_data',
+        'field' => 'title',
+        'relationship' => 'none',
+        'group_type' => 'group',
+        'admin_label' => '',
+        'label' => 'Title',
+        'exclude' => FALSE,
+        'alter' => [
+          'alter_text' => TRUE,
+          'text' => "{% if type == 'api_reference'  %}\r\nReference documentation\r\n{% elseif type == 'api_description_page'  %}\r\nAPI Description\r\n{% else %}\r\n{{ title }} \r\n{% endif %}",
+          'make_link' => TRUE,
+          'path' => '/node/{{ nid }}',
+          'absolute' => FALSE,
+          'external' => FALSE,
+          'replace_spaces' => FALSE,
+          'path_case' => 'none',
+          'trim_whitespace' => FALSE,
+          'alt' => '',
+          'rel' => '',
+          'link_class' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'target' => '',
+          'nl2br' => FALSE,
+          'max_length' => 0,
+          'word_boundary' => TRUE,
+          'ellipsis' => TRUE,
+          'more_link' => FALSE,
+          'more_link_text' => '',
+          'more_link_path' => '',
+          'strip_tags' => FALSE,
+          'trim' => FALSE,
+          'preserve_tags' => '',
+          'html' => FALSE,
+        ],
+        'element_type' => '',
+        'element_class' => '',
+        'element_label_type' => '',
+        'element_label_class' => '',
+        'element_label_colon' => FALSE,
+        'element_wrapper_type' => '',
+        'element_wrapper_class' => '',
+        'element_default_classes' => FALSE,
+        'empty' => '',
+        'hide_empty' => TRUE,
+        'empty_zero' => FALSE,
+        'hide_alter_empty' => TRUE,
+        'click_sort_column' => 'value',
+        'type' => 'string',
+        'settings' => [
+          'link_to_entity' => TRUE,
+        ],
+        'group_column' => 'entity_id',
+        'group_columns' => [],
+        'group_rows' => TRUE,
+        'delta_limit' => 0,
+        'delta_offset' => 0,
+        'delta_reversed' => FALSE,
+        'delta_first_last' => FALSE,
+        'multi_type' => 'separator',
+        'separator' => ', ',
+        'field_api_classes' => FALSE,
+        'plugin_id' => 'field',
+      ],
+      'draggableviews' => [
+        'id' => 'draggableviews',
+        'table' => 'node_field_data',
+        'field' => 'draggableviews',
+        'entity_type' => 'node',
+        'entity_field' => 'nid',
+        'plugin_id' => 'draggable_views_field',
+      ],
+      'type' => [
+        'id' => 'type',
+        'table' => 'node_field_data',
+        'field' => 'type',
+        'relationship' => 'none',
+        'group_type' => 'group',
+        'admin_label' => '',
+        'label' => 'Content type',
+        'exclude' => FALSE,
+        'alter' => [
+          'alter_text' => FALSE,
+          'text' => '',
+          'make_link' => FALSE,
+          'path' => '',
+          'absolute' => FALSE,
+          'external' => FALSE,
+          'replace_spaces' => FALSE,
+          'path_case' => 'none',
+          'trim_whitespace' => FALSE,
+          'alt' => '',
+          'rel' => '',
+          'link_class' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'target' => '',
+          'nl2br' => FALSE,
+          'max_length' => 0,
+          'word_boundary' => TRUE,
+          'ellipsis' => TRUE,
+          'more_link' => FALSE,
+          'more_link_text' => '',
+          'more_link_path' => '',
+          'strip_tags' => FALSE,
+          'trim' => FALSE,
+          'preserve_tags' => '',
+          'html' => FALSE,
+        ],
+        'element_type' => '',
+        'element_class' => '',
+        'element_label_type' => '',
+        'element_label_class' => '',
+        'element_label_colon' => TRUE,
+        'element_wrapper_type' => '',
+        'element_wrapper_class' => '',
+        'element_default_classes' => TRUE,
+        'empty' => '',
+        'hide_empty' => FALSE,
+        'empty_zero' => FALSE,
+        'hide_alter_empty' => TRUE,
+        'click_sort_column' => 'target_id',
+        'type' => 'entity_reference_label',
+        'settings' => [
+          'link' => FALSE,
+        ],
+        'group_column' => 'target_id',
+        'group_columns' => [],
+        'group_rows' => TRUE,
+        'delta_limit' => 0,
+        'delta_offset' => 0,
+        'delta_reversed' => FALSE,
+        'delta_first_last' => FALSE,
+        'multi_type' => 'separator',
+        'separator' => ', ',
+        'field_api_classes' => FALSE,
+        'entity_type' => 'node',
+        'entity_field' => 'type',
+        'plugin_id' => 'field',
+      ],
+      'status' => [
+        'id' => 'status',
+        'table' => 'node_field_data',
+        'field' => 'status',
+        'relationship' => 'none',
+        'group_type' => 'group',
+        'admin_label' => '',
+        'label' => 'Status',
+        'exclude' => FALSE,
+        'alter' => [
+          'alter_text' => FALSE,
+          'text' => '',
+          'make_link' => FALSE,
+          'path' => '',
+          'absolute' => FALSE,
+          'external' => FALSE,
+          'replace_spaces' => FALSE,
+          'path_case' => 'none',
+          'trim_whitespace' => FALSE,
+          'alt' => '',
+          'rel' => '',
+          'link_class' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'target' => '',
+          'nl2br' => FALSE,
+          'max_length' => 0,
+          'word_boundary' => TRUE,
+          'ellipsis' => TRUE,
+          'more_link' => FALSE,
+          'more_link_text' => '',
+          'more_link_path' => '',
+          'strip_tags' => FALSE,
+          'trim' => FALSE,
+          'preserve_tags' => '',
+          'html' => FALSE,
+        ],
+        'element_type' => '',
+        'element_class' => '',
+        'element_label_type' => '',
+        'element_label_class' => '',
+        'element_label_colon' => TRUE,
+        'element_wrapper_type' => '',
+        'element_wrapper_class' => '',
+        'element_default_classes' => TRUE,
+        'empty' => '',
+        'hide_empty' => FALSE,
+        'empty_zero' => FALSE,
+        'hide_alter_empty' => TRUE,
+        'click_sort_column' => 'value',
+        'type' => 'boolean',
+        'settings' => [
+          'format' => 'custom',
+          'format_custom_true' => 'Published',
+          'format_custom_false' => 'Unpublished',
+        ],
+        'group_column' => 'value',
+        'group_columns' => [],
+        'group_rows' => TRUE,
+        'delta_limit' => 0,
+        'delta_offset' => 0,
+        'delta_reversed' => FALSE,
+        'delta_first_last' => FALSE,
+        'multi_type' => 'separator',
+        'separator' => ', ',
+        'field_api_classes' => FALSE,
+        'entity_type' => 'node',
+        'entity_field' => 'status',
+        'plugin_id' => 'field',
+      ],
+      'nothing' => [
+        'id' => 'nothing',
+        'table' => 'views',
+        'field' => 'nothing',
+        'relationship' => 'none',
+        'group_type' => 'group',
+        'admin_label' => '',
+        'label' => 'URL alias',
+        'exclude' => FALSE,
+        'alter' => [
+          'alter_text' => TRUE,
+          'text' => "{% if '/node/' not in path('entity.node.canonical', {'node': nid}) %}\r\n{{ path('entity.node.canonical', {'node': nid}) }}\r\n{% endif %}",
+          'make_link' => FALSE,
+          'path' => '',
+          'absolute' => FALSE,
+          'external' => FALSE,
+          'replace_spaces' => FALSE,
+          'path_case' => 'none',
+          'trim_whitespace' => FALSE,
+          'alt' => '',
+          'rel' => '',
+          'link_class' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'target' => '',
+          'nl2br' => FALSE,
+          'max_length' => 0,
+          'word_boundary' => TRUE,
+          'ellipsis' => TRUE,
+          'more_link' => FALSE,
+          'more_link_text' => '',
+          'more_link_path' => '',
+          'strip_tags' => FALSE,
+          'trim' => FALSE,
+          'preserve_tags' => '',
+          'html' => FALSE,
+        ],
+        'element_type' => '',
+        'element_class' => '',
+        'element_label_type' => '',
+        'element_label_class' => '',
+        'element_label_colon' => TRUE,
+        'element_wrapper_type' => '',
+        'element_wrapper_class' => '',
+        'element_default_classes' => TRUE,
+        'empty' => '',
+        'hide_empty' => FALSE,
+        'empty_zero' => FALSE,
+        'hide_alter_empty' => FALSE,
+        'plugin_id' => 'custom',
+      ],
+      'operations' => [
+        'id' => 'operations',
+        'table' => 'node',
+        'field' => 'operations',
+        'relationship' => 'none',
+        'group_type' => 'group',
+        'admin_label' => '',
+        'label' => 'Operations',
+        'exclude' => FALSE,
+        'alter' => [
+          'alter_text' => FALSE,
+          'text' => '',
+          'make_link' => FALSE,
+          'path' => '',
+          'absolute' => FALSE,
+          'external' => FALSE,
+          'replace_spaces' => FALSE,
+          'path_case' => 'none',
+          'trim_whitespace' => FALSE,
+          'alt' => '',
+          'rel' => '',
+          'link_class' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'target' => '',
+          'nl2br' => FALSE,
+          'max_length' => 0,
+          'word_boundary' => TRUE,
+          'ellipsis' => TRUE,
+          'more_link' => FALSE,
+          'more_link_text' => '',
+          'more_link_path' => '',
+          'strip_tags' => FALSE,
+          'trim' => FALSE,
+          'preserve_tags' => '',
+          'html' => FALSE,
+        ],
+        'element_type' => '',
+        'element_class' => '',
+        'element_label_type' => '',
+        'element_label_class' => '',
+        'element_label_colon' => TRUE,
+        'element_wrapper_type' => '',
+        'element_wrapper_class' => '',
+        'element_default_classes' => TRUE,
+        'empty' => '',
+        'hide_empty' => FALSE,
+        'empty_zero' => FALSE,
+        'hide_alter_empty' => TRUE,
+        'destination' => FALSE,
+        'entity_type' => 'node',
+        'plugin_id' => 'entity_operations',
+      ],
+    ];
+    // Remove the status filter.
+    unset($default_display['display_options']['filters']['status']);
+    // Add the type filter.
+    $default_display['display_options']['filters']['type'] = [
+      'id' => 'type',
+      'table' => 'node_field_data',
+      'field' => 'type',
+      'relationship' => 'none',
+      'group_type' => 'group',
+      'admin_label' => '',
+      'operator' => 'in',
+      'value' => [
+        'api_basic_page' => 'api_basic_page',
+        'api_description_page' => 'api_description_page',
+        'api_page_builder' => 'api_page_builder',
+        'api_reference' => 'api_reference',
+      ],
+      'group' => 1,
+      'exposed' => FALSE,
+      'expose' => [
+        'operator_id' => '',
+        'label' => '',
+        'description' => '',
+        'use_operator' => FALSE,
+        'operator' => '',
+        'identifier' => '',
+        'required' => FALSE,
+        'remember' => FALSE,
+        'multiple' => FALSE,
+        'remember_roles' => [
+          'authenticated' => 'authenticated',
+        ],
+        'reduce' => FALSE,
+      ],
+      'is_grouped' => FALSE,
+      'group_info' => [
+        'label' => '',
+        'description' => '',
+        'identifier' => '',
+        'optional' => TRUE,
+        'widget' => 'select',
+        'multiple' => FALSE,
+        'remember' => FALSE,
+        'default_group' => 'All',
+        'default_group_multiple' => [],
+        'group_items' => [],
+      ],
+      'entity_type' => 'node',
+      'entity_field' => 'type',
+      'plugin_id' => 'bundle',
+    ];
+    // Fix the arguments (contextual filters).
+    $nid_argument =& $default_display['display_options']['arguments']['nid'];
+    $nid_argument['default_argument_type'] = 'raw';
+    $nid_argument['default_argument_options'] = [
+      'index' => 1,
+      'use_alias' => FALSE,
+    ];
+    $nid_argument['specify_validation'] = TRUE;
+    $nid_argument['validate'] = [
+      'type' => 'entity:node',
+      'fail' => 'access denied',
+    ];
+    $nid_argument['validate_options'] = [
+      'bundles' => [
+        'api_reference' => 'api_reference',
+      ],
+      'access' => TRUE,
+      'operation' => 'update',
+      'multiple' => 0,
+    ];
+    $field_api_reference_target_id_argument =& $default_display['display_options']['arguments']['field_api_reference_target_id'];
+    $field_api_reference_target_id_argument['default_argument_type'] = 'raw';
+    $field_api_reference_target_id_argument['default_argument_options'] = [
+      'index' => 1,
+      'use_alias' => FALSE,
+    ];
+    $field_api_reference_target_id_argument['specify_validation'] = TRUE;
+    $field_api_reference_target_id_argument['validate'] = [
+      'type' => 'entity:node',
+      'fail' => 'access denied',
+    ];
+    $field_api_reference_target_id_argument['validate_options'] = [
+      'bundles' => [
+        'api_reference' => 'api_reference',
+      ],
+      'access' => TRUE,
+      'operation' => 'update',
+      'multiple' => 0,
+    ];
+    // Remove the block display.
+    $displays = $view->get('display');
+    unset($displays['api_tabs_sorting_block']);
+    // Add the page display.
+    $displays['api_tabs_sorting'] = [
+      'display_plugin' => 'page',
+      'id' => 'api_tabs_sorting',
+      'display_title' => 'API tabs sorting',
+      'position' => 2,
+      'display_options' => [
+        'display_extenders' => [],
+        'path' => 'node/%node/sorting',
+        'display_description' => '',
+        'menu' => [
+          'type' => 'none',
+          'title' => 'Sorting',
+          'description' => '',
+          'expanded' => FALSE,
+          'parent' => 'system.admin',
+          'weight' => 0,
+          'context' => '0',
+          'menu_name' => 'admin',
+        ],
+        'tab_options' => [
+          'type' => 'none',
+          'title' => '',
+          'description' => '',
+          'weight' => 0,
+        ],
+      ],
+      'cache_metadata' => [
+        'max-age' => 0,
+        'contexts' => [
+          'languages:language_content',
+          'languages:language_interface',
+          'url',
+          'user.node_grants:view',
+          'user.permissions',
+        ],
+        'tags' => [],
+      ],
+    ];
+    $view->set('display', $displays);
+    $view->save();
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('dp_api_docs', $e);
+  }
+  return t('Fixed API overview view for API Reference sorting tab.')->render();
+}
+
+/**
+ * Remove 'documentation' menu from allowed menus on Basic Page CT.
+ */
+function dp_api_docs_update_8008(): ?string {
+  $page_ct = NodeType::load('page');
+  if ($page_ct) {
+    $available_menus = $page_ct
+      ->getThirdPartySetting('menu_ui', 'available_menus');
+
+    if ($available_menus && in_array('documentation', $available_menus)) {
+      $key = array_search('documentation', $available_menus);
+      if ($key !== FALSE) {
+        unset($available_menus[$key]);
+        $page_ct->setThirdPartySetting('menu_ui', 'available_menus', $available_menus)
+          ->save();
+        return t('Documentation menu has been removed from Basic Page CT.')->render();
+      }
+    }
+  }
+
+  return NULL;
+}
+
+/**
+ * Rename API Overview view to API Pages and machine name to api_pages.
+ */
+function dp_api_docs_update_8009(): ?string {
+  $database = \Drupal::database();
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+  try {
+    $api_overview = View::load('api_overview');
+    $api_pages = $api_overview->createDuplicate()
+      ->set('id', 'api_pages')
+      ->set('label', 'API Pages');
+    $api_pages->save();
+    $api_overview->delete();
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('dp_api_docs', $e);
+  }
+  return t('Renamed API Overview view to API Pages and machine name to api_pages.')->render();
+}
+
+/**
+ * Generates pathauto pattern for the API* content types.
+ */
+function dp_api_docs_update_8010(): ?string {
+  if (\Drupal::moduleHandler()->moduleExists('pathauto')) {
+    $updated_content_types = [];
+    $existing_node_patterns = [];
+    $human_readable_names = [];
+    $node_types = [
+      'api_basic_page',
+      'api_bundle',
+      'api_description_page',
+      'api_page_builder',
+      'api_reference',
+    ];
+    $config_factory = \Drupal::configFactory();
+    $pathauto_configs = $config_factory->loadMultiple($config_factory->listAll('pathauto.pattern'));
+    foreach ($pathauto_configs as $pathauto_config) {
+      $bundles = $pathauto_config->get('selecttion_criteria');
+      if (empty($bundles)) {
+        continue;
+      }
+
+      $existing_node_patterns[] = reset($bundles)['bundles'];
+    }
+    foreach ($node_types as $node_type) {
+      if (!in_array($node_type, $existing_node_patterns)) {
+        _dp_api_docs_set_aliases($node_type);
+        $updated_content_types[] = $node_type;
+      }
+    }
+    if (!$updated_content_types) {
+      return t('No content type pattern has been updated.')->render();
+    }
+    $loaded_node_types = \Drupal::entityTypeManager()->getStorage('node_type')->loadMultiple($updated_content_types);
+    foreach ($loaded_node_types as $loaded_node_type) {
+      $human_readable_names[] = $loaded_node_type->label();
+    }
+    return (new PluralTranslatableMarkup(count($updated_content_types),
+      "Successfully updated the @updated_content_types content type's path alias.",
+      'Successfully updated the following content types path aliases: @updated_content_types.',
+      ['@updated_content_types' => implode(', ', $human_readable_names)]
+    ))->render();
+  }
+  return NULL;
+}
+
+/**
+ * Sets the pathauto aliases for the given content type.
+ *
+ * @param string $node_type
+ *   The machine name of the node type.
+ */
+function _dp_api_docs_set_aliases(string $node_type): void {
+  $pattern = '/api-catalog/[node:field_api_ref]/[node:title]';
+  if ($node_type === 'api_reference') {
+    $pattern = '/api-catalog/[node:title]';
+  }
+  PathautoPattern::create([
+    'id' => $node_type . '_pattern',
+    'label' => $node_type . ' pattern',
+    'type' => 'canonical_entities:node',
+    'pattern' => $pattern,
+  ])->save();
+}
+
+/**
+ * Generate a URL alias for paths having none.
+ *
+ * @param array $context
+ *   Batch context.
+ */
+function dp_api_docs_update_8011(array &$context): ?string {
+  /** @var \Drupal\pathauto\AliasTypeBatchUpdateInterface $alias_type */
+  $alias_type = \Drupal::service('plugin.manager.alias_type')->createInstance('canonical_entities:node');
+  $alias_type->batchUpdate('create', $context);
+  return t('Missing URL aliases have been generated.')->render();
+}
+
+/**
+ * Enable dp_core module as it is a newly added dependency.
+ */
+function dp_api_docs_update_8012(): ?string {
+  \Drupal::service('module_installer')->install(['dp_core'], TRUE);
+  return NULL;
+}
+
+/**
+ * Update configs with dependency enforcements.
+ */
+function dp_api_docs_update_8013(): string {
+  $config_factory = \Drupal::configFactory();
+  $database = \Drupal::database();
+
+  // Start a DB transaction in order to have some hopefully meaningful rollback
+  // option if anything goes wrong.
+  $transaction = $database->startTransaction();
+
+  $config_names = [
+    'core.entity_form_display.paragraph.featured_api.default',
+    'core.entity_view_display.paragraph.featured_api.default',
+    'field.field.paragraph.featured_api.field_api_reference',
+    'field.storage.paragraph.field_api_reference',
+    'paragraphs.paragraphs_type.featured_api',
+  ];
+
+  try {
+    foreach ($config_names as $config_name) {
+      $config = $config_factory->getEditable($config_name);
+      if ($config->isNew()) {
+        continue;
+      }
+      // Set enforcing.
+      $dependencies = $config->get('dependencies') ?? [];
+      $dependencies = NestedArray::mergeDeep($dependencies, ['enforced' => ['module' => ['dp_api_docs']]]);
+      // Set and save configs.
+      $config->set('dependencies', $dependencies);
+      $config->save(TRUE);
+    }
+  }
+  catch (Exception $e) {
+    // Catch any exceptions that are thrown.
+    $transaction->rollBack();
+    \Drupal::messenger()->addError($e->getMessage());
+    watchdog_exception('dp_api_docs', $e);
+    // Rethrow the exception to keep this update pending.
+    throw $e;
+  }
+
+  return t('Added enforcing to DP API Docs configs')->render();
+}

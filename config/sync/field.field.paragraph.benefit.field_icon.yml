@@ -1,0 +1,26 @@
+uuid: fa65dbb9-a357-4070-b139-47b926c2b5a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon
+    - paragraphs.paragraphs_type.benefit
+  enforced:
+    module:
+      - page_builder
+  module:
+    - options
+_core:
+  default_config_hash: UhkquO6JoQLFaHIVoC2Z1rTHkJOYu14tDIn61ED7kTw
+id: paragraph.benefit.field_icon
+field_name: field_icon
+entity_type: paragraph
+bundle: benefit
+label: Icon
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

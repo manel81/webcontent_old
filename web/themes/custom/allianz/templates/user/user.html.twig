@@ -1,0 +1,49 @@
+{#
+/**
+ * @file
+ * Theme override to present all user data.
+ *
+ * This template is used when viewing a registered user's page,
+ * e.g., example.com/user/123. 123 being the user's ID.
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ *   print a subset such as 'content.field_example'. Fields attached to a user
+ *   such as 'user_picture' are available as 'content.user_picture'.
+ * - attributes: HTML attributes for the container element.
+ * - user: A Drupal User entity.
+ *
+ * @see template_preprocess_user()
+ */
+#}
+
+{% set user_attribute = create_attribute() %}
+{%
+  set user_class = [
+  'panel__item',
+]
+%}
+
+<div class="thin center-block panel">
+  <article{{ attributes.addClass('panel--dashboard') }}>
+    <div{{ user_attribute.addClass(user_class) }}>
+      <div class="text--small">{{ 'Username'|t }}</div>
+      {{ user.username }}
+    </div>
+    <div{{ user_attribute.addClass(user_class) }}>
+      <div class="text--small">{{ 'Email address'|t }}</div>
+      <a href="mailto:{{ user.mail.value }}">{{ user.mail.value }}</a>
+    </div>
+    <div{{ user_attribute.addClass(user_class) }}>
+      <div class="text--small">{{ 'Join date'|t }}</div>
+      {{ user.createdtime|time_diff }}
+    </div>
+    {% if content %}
+      {% for item in content %}
+        <div{{ user_attribute.addClass(user_class) }}>
+          {{ item }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </article>
+</div>

@@ -1,0 +1,9 @@
+name: 'API Reference testing module'
+type: module
+package: Testing
+core_version_requirement: ^8.9.1 || ^9.0
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - devportal_api_reference:devportal_api_reference
+version: 2.11.3

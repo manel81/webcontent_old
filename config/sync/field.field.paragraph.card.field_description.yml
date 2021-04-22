@@ -1,0 +1,26 @@
+uuid: 062e200f-aba0-478a-a61b-562a450cb425
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_description
+    - paragraphs.paragraphs_type.card
+  enforced:
+    module:
+      - page_builder
+  module:
+    - text
+_core:
+  default_config_hash: Aon2KO5Lfbhq-X6RIFp5jGuRGzMJit7_PD36Jlq19DQ
+id: paragraph.card.field_description
+field_name: field_description
+entity_type: paragraph
+bundle: card
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

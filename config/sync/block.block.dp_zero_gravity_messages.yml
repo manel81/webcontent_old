@@ -1,0 +1,22 @@
+uuid: 3186dc6e-7cba-40d6-b040-a3257368a82a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: TeMasGokvcsp2QPy1s-89YUN20JoToUhOgwV2CCUNpY
+id: dp_zero_gravity_messages
+theme: dp_zero_gravity
+region: top_bar
+weight: -6
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  provider: system
+  label_display: '0'
+visibility: {  }

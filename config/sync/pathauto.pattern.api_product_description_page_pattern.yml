@@ -1,0 +1,24 @@
+uuid: 72566367-ee11-4a0e-989e-3d6849d71442
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: sNISnzd0XYDQlyM3amk2U0l64671XcqtVjQcRojnUGk
+id: api_product_description_page_pattern
+label: 'API Product Description Page pattern'
+type: 'canonical_entities:node'
+pattern: '/products/[node:field_api_ref]/[node:title]'
+selection_criteria:
+  22aef897-ad5b-4795-8b85-c9ec8b194a39:
+    id: node_type
+    bundles:
+      api_product_description_page: api_product_description_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 22aef897-ad5b-4795-8b85-c9ec8b194a39
+selection_logic: and
+weight: -5
+relationships: {  }

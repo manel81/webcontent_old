@@ -1,0 +1,28 @@
+uuid: f0c72dcd-8d77-42b2-9744-966151eeaba2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_message_type
+    - paragraphs.paragraphs_type.message
+  enforced:
+    module:
+      - page_builder
+  module:
+    - options
+_core:
+  default_config_hash: dRHesGBTLPOtuOfc4D6lrWRTXZuQ2-IyCCaOb1wTjUs
+id: paragraph.message.field_message_type
+field_name: field_message_type
+entity_type: paragraph
+bundle: message
+label: 'Message type'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: info
+default_value_callback: ''
+settings: {  }
+field_type: list_string

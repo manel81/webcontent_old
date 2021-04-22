@@ -1,0 +1,20 @@
+uuid: 20c20f45-4bce-4be3-89a2-6bea1859f4cd
+langcode: en
+status: true
+dependencies:
+  theme:
+    - allianz
+_core:
+  default_config_hash: LXP7e5Reg_NAQLXKFB-teboINxhatJtSV6dl6Mab9io
+id: allianz_page_title
+theme: allianz
+region: header_first
+weight: -13
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  provider: core
+  label_display: '0'
+visibility: {  }

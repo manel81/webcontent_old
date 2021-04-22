@@ -1,0 +1,23 @@
+FROM amazeeio/php:7.2-cli-drupal as cli1
+
+COPY . /app
+
+RUN composer install --no-dev
+RUN composer drupal:scaffold
+
+FROM pronovix/amazee-unicompile:latest as compiler
+
+COPY --from=cli1 /app/.unicompilerc.json /app/.unicompilerc.json
+COPY --from=cli1 /app/web/themes/ /app/web/themes/
+COPY --from=cli1 /app/web/modules/ /app/web/modules/
+
+RUN unicompile build
+
+FROM amazeeio/php:7.2-cli-drupal
+
+COPY --from=cli1 /app /app
+COPY --from=compiler /app/web/themes/ /app/web/themes/
+COPY --from=compiler /app/web/modules/ /app/web/modules/
+
+# Define where the Drupal Root is located
+ENV WEBROOT=web

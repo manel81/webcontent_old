@@ -1,0 +1,15 @@
+uuid: 171d9399-b4fe-46e9-b411-2e3799303bce
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: yf2nKcfpJJIRZJ_rOI_pesqpEGZQAUOpaizeThb5RCI
+id: benefit
+label: Benefit
+icon_uuid: null
+icon_default: null
+description: 'A text element with an uploadable icon.'
+behavior_plugins: {  }

@@ -1,0 +1,35 @@
+uuid: 460a5a54-a714-4d8f-95c2-4add9e25824d
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_blog
+  module:
+    - file
+    - image
+    - node
+_core:
+  default_config_hash: AE5jr6FV_sPeSEvc0_7de8jCwUDWwr-2ImEvdZY67bI
+id: node.field_teaser_picture
+field_name: field_teaser_picture
+entity_type: node
+type: image
+settings:
+  uri_scheme: public
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  target_type: file
+  display_field: false
+  display_default: false
+module: image
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

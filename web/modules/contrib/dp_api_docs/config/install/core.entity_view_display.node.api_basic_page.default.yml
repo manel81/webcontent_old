@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.api_basic_page.body
+    - field.field.node.api_basic_page.field_api_reference
+    - node.type.api_basic_page
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - text
+    - user
+id: node.api_basic_page.default
+targetEntityType: node
+bundle: api_basic_page
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    region: content
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_api_reference: true
+  links: true

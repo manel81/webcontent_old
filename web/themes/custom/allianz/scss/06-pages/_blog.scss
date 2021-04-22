@@ -1,0 +1,9 @@
+.page-node-type-blog-post {
+  .blog-post {
+    p {
+     > img {
+        display: inline-block;
+      }
+    }
+  }
+}

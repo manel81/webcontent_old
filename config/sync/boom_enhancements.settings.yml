@@ -1,0 +1,13 @@
+node_types:
+  api_reference: api_reference
+  api_basic_page: api_basic_page
+  api_bundle: api_bundle
+  api_description_page: api_description_page
+  api_page_builder: api_page_builder
+  api_product: api_product
+  api_product_description_page: api_product_description_page
+  api_product_release_note: api_product_release_note
+colors_source: ''
+icons_source: ''
+_core:
+  default_config_hash: 9F8Ot_V-kKp3GnoEfBkK2aZ11_YcUHm4o56pwArJ-p8

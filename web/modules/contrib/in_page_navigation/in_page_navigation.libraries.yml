@@ -1,0 +1,10 @@
+in_page_navigation:
+  version: 1.x
+  js:
+    dist/js/in_page_navigation.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/underscore
+    - core/drupalSettings

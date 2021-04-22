@@ -1,0 +1,11 @@
+.pager {
+  ul {
+    li {
+      &.is-active {
+        a {
+          color: $searchPager__color--active;
+        }
+      }
+    }
+  }
+}

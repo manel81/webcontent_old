@@ -1,0 +1,83 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+%zg-tooltip,
+.zg-tooltip,
+%tooltip,
+.tooltip {
+  background-color: $tooltip__backgroundColor;
+  color: $tooltip__color;
+  padding: $tooltip__padding;
+  font-size: $fontSize--small;
+  text-transform: $tooltip__textTransform;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: $tooltip__borderRadius;
+  opacity: 1;
+}
+
+.has-tooltip,
+[data-tooltip] {
+  &:hover {
+    position: relative;
+
+    &::after {
+      @extend %tooltip;
+      position: absolute;
+      top: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100%);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent;
+      border-top-color: $tooltip__backgroundColor;
+    }
+  }
+}
+
+.has-tooltip {
+  &:hover {
+    &::after {
+      content: attr(title);
+    }
+  }
+}
+
+[data-tooltip] {
+  &:hover {
+    &::after {
+      content: attr(data-tooltip);
+    }
+  }
+}
+
+.zg-tooltip--copy {
+  text-transform: uppercase;
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+}

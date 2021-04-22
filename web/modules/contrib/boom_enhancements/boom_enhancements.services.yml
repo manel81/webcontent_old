@@ -1,0 +1,9 @@
+services:
+  logger.channel.boom_enhancements:
+    parent: logger.channel_base
+    arguments: ['boom_enhancements']
+  boom_enhancements.json_manager:
+    class: Drupal\boom_enhancements\BoomEnhancementsJsonManager
+  boom_enhancements.manager:
+    class: Drupal\boom_enhancements\BoomEnhancementsManager
+    arguments: ['@config.factory', '@theme_handler', '@boom_enhancements.json_manager', '@string_translation']

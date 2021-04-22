@@ -1,0 +1,56 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// SVG icon mixins with different options. Usually you can control the size and color of the svg to be included through
+// the mixin parameters.
+
+// # Icons
+// ---------------
+
+// ## Checked
+@mixin icon__checked($color__default: $color__white, $background-position: center) {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M20.7 5.3c-0.4-0.4-1-0.4-1.4 0l-10.3 10.3-4.3-4.3c-0.4-0.4-1-0.4-1.4 0s-0.4 1 0 1.4l5 5c0.2 0.2 0.4 0.3 0.7 0.3s0.5-0.1 0.7-0.3l11-11c0.4-0.4 0.4-1 0-1.4z" style="fill:#{url-encode(to-string($color__default))};"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: $background-position;
+}
+
+// ## Warning
+@mixin icon__error($color__default: $color__white, $background-position: center) {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#{url-encode(to-string($color__default))}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>');
+  background-repeat: no-repeat;
+  background-position: $background-position;
+}
+
+@mixin icon__arrow-down($color__default: $color__black) {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: ($icon__fontSize / 6) solid transparent;
+  border-right: ($icon__fontSize / 6) solid transparent;
+  border-top: ($icon__fontSize / 4) solid;
+  border-top-color: $color__default;
+}
+
+@mixin icon__arrow-up($color__default: $color__black) {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: ($icon__fontSize / 6) solid transparent;
+  border-right: ($icon__fontSize / 6) solid transparent;
+  border-bottom: ($icon__fontSize / 4) solid;
+  border-bottom-color: $color__default;
+}

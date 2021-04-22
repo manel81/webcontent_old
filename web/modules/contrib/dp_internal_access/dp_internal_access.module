@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * @file
+ * Devportal Internal access module for Drupal.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Access\AccessResultReasonInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
+
+// These constants are only used in procedural contexts, so let's ignore PHPCS
+// warnings about them.
+// phpcs:disable DrupalPractice.Constants.GlobalConstant.GlobalConstant
+const DP_INTERNAL_ACCESS_FIELD_NAME = 'field_internal';
+const DP_INTERNAL_ACCESS_GRANT = 'internal_access';
+const DP_INTERNAL_ACCESS_INTERNAL = 1;
+// phpcs:enable
+
+/**
+ * Implements hook_entity_field_access().
+ */
+function dp_internal_access_entity_field_access(string $operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL): AccessResultInterface {
+  $result = AccessResult::neutral();
+
+  if ($field_definition->getName() === DP_INTERNAL_ACCESS_FIELD_NAME) {
+    $permission = 'access internal content';
+    $result = AccessResult::forbiddenIf(!$account->hasPermission($permission));
+
+    if ($result instanceof AccessResultReasonInterface) {
+      $result->setReason("The '{$permission}' permission is required.");
+    }
+  }
+
+  return $result->cachePerPermissions();
+}
+
+/**
+ * Implements hook_node_access_records().
+ */
+function dp_internal_access_node_access_records(NodeInterface $node): array {
+  $grants = [];
+
+  if ($node->isPublished() && $node->hasField(DP_INTERNAL_ACCESS_FIELD_NAME) && $node->get(DP_INTERNAL_ACCESS_FIELD_NAME)->value) {
+    $grants[] = [
+      'realm' => DP_INTERNAL_ACCESS_GRANT,
+      'gid' => DP_INTERNAL_ACCESS_INTERNAL,
+      'grant_view' => 1,
+      'grant_update' => 0,
+      'grant_delete' => 0,
+      'priority' => 0,
+    ];
+  }
+
+  return $grants;
+}
+
+/**
+ * Implements hook_node_grants().
+ */
+function dp_internal_access_node_grants(AccountInterface $account, string $op): array {
+  $grants = [];
+
+  if ($account->hasPermission('access internal content')) {
+    $grants[DP_INTERNAL_ACCESS_GRANT][$account->id()] = DP_INTERNAL_ACCESS_INTERNAL;
+  }
+
+  return $grants;
+}

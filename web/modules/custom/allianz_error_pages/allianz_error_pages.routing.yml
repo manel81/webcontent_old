@@ -1,0 +1,7 @@
+allianz_error_pages.settings:
+  path: '/admin/config/allianz/configuration/error-pages'
+  defaults:
+    _form: '\Drupal\allianz_error_pages\Form\Settings'
+    _title: 'HTTP Error pages settings'
+  requirements:
+    _permission: 'administer site configuration'

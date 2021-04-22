@@ -1,0 +1,7 @@
+services:
+  logger.channel.allianz_contact_info_block:
+    parent: logger.channel_base
+    arguments: ['allianz_contact_info_block_enhancements']
+  logger.channel.allianz_contact_contact_block:
+    parent: logger.channel_base
+    arguments: ['allianz_contact_contact_block_enhancements']

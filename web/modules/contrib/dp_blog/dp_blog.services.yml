@@ -1,0 +1,6 @@
+services:
+  dp_blog.config_factory_override:
+    class: Drupal\dp_blog\DpBlogConfigOverrides
+    arguments: ['@config.factory']
+    tags:
+      - {name: config.factory.override, priority: 30}

@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the In page navigation module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Url;
+use Drupal\in_page_navigation\Exception\InPageNavigationConfigurationSaveException;
+
+/**
+ * Implements hook_install().
+ */
+function in_page_navigation_install(): void {
+  $theme = \Drupal::theme()->getActiveTheme()->getName();
+  \Drupal::messenger()->addMessage(t('Further configuration could be necessary. Please, visit <a href="@theme-settings">theme settings</a>.', [
+    '@theme-settings' => Url::fromRoute('system.theme_settings_theme', ['theme' => $theme])->toString(),
+  ]));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function in_page_navigation_uninstall(): void {
+  /** @var \Drupal\in_page_navigation\Service\InPageNavigationConfigurationManagerInterface $in_page_nav_config_manager */
+  $in_page_nav_config_manager = \Drupal::service('in_page_navigation.configuration_manager');
+  /** @var \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler */
+  $theme_handler = \Drupal::service('theme_handler');
+  foreach ($theme_handler->listInfo() as $installed_theme) {
+    try {
+      $in_page_nav_config_manager->removeConfigurationForTheme($installed_theme->getName());
+    }
+    catch (InPageNavigationConfigurationSaveException $e) {
+      \Drupal::logger('in_page_navigation')->error('Configuration for %theme could not be removed. @message', [
+        '%theme' => $installed_theme->getName(),
+        '@message' => $e->getMessage(),
+      ]);
+    }
+  }
+}
+
+/**
+ * Initializes an empty in_page_navigation config.
+ */
+function in_page_navigation_update_8001(): ?string {
+  \Drupal::configFactory()
+    ->getEditable('in_page_navigation.settings')
+    ->set('in_page_navigation_selector', [])
+    ->save();
+
+  return t('Empty in_page_navigation config initialized.')->render();
+}

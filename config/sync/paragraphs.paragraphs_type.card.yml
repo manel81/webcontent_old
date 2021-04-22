@@ -1,0 +1,15 @@
+uuid: b70b1e22-7b2e-43ac-815a-1337b6ce4aa9
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: JoBMSfSINdLUMMtRosUYwNcZQwRhlsv9EIbmPQOdk4k
+id: card
+label: Card
+icon_uuid: null
+icon_default: null
+description: 'A text element with uploadable background image and an optional link.'
+behavior_plugins: {  }

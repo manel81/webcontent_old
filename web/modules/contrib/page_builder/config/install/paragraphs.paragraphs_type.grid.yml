@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+id: grid
+label: Grid
+icon_uuid: null
+description: 'Grid layout element.'
+behavior_plugins: {  }

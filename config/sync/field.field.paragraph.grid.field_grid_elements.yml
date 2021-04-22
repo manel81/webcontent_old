@@ -1,0 +1,81 @@
+uuid: f1afc86c-e1cc-4a9c-a187-e3184a133209
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_grid_elements
+    - paragraphs.paragraphs_type.benefit
+    - paragraphs.paragraphs_type.block
+    - paragraphs.paragraphs_type.card
+    - paragraphs.paragraphs_type.featured_api
+    - paragraphs.paragraphs_type.grid
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.message
+    - paragraphs.paragraphs_type.promo_image
+    - paragraphs.paragraphs_type.text
+  enforced:
+    module:
+      - page_builder
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: pNcAmH17M6J-vu96PT58n-fHM4EWny5N0deGE_YdqDM
+id: paragraph.grid.field_grid_elements
+field_name: field_grid_elements
+entity_type: paragraph
+bundle: grid
+label: 'Grid elements'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      grid: grid
+      block: block
+      card: card
+      text: text
+      image: image
+      benefit: benefit
+      promo_image: promo_image
+      featured_api: featured_api
+      message: message
+    target_bundles_drag_drop:
+      benefit:
+        enabled: true
+        weight: 9
+      block:
+        enabled: true
+        weight: 5
+      card:
+        enabled: true
+        weight: 5
+      cta:
+        weight: 11
+        enabled: false
+      featured_api:
+        enabled: true
+        weight: 16
+      grid:
+        enabled: true
+        weight: 4
+      icon:
+        weight: 18
+        enabled: false
+      image:
+        enabled: true
+        weight: 8
+      message:
+        enabled: true
+        weight: 16
+      promo_image:
+        enabled: true
+        weight: 9
+      text:
+        enabled: true
+        weight: 6
+field_type: entity_reference_revisions

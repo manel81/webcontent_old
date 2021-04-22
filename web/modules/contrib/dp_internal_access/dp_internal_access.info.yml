@@ -1,0 +1,11 @@
+name: Devportal Internal access
+description: Allows setting an internal flag on a node
+package: Devportal Standard
+
+dependencies:
+  - drupal:node
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

@@ -1,0 +1,92 @@
+uuid: 2c113cec-abd0-40ed-ad88-bb81ca5f01c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.api_product_description_page.field_api_product
+    - field.field.node.api_product_description_page.field_page_builder_elements
+    - node.type.api_product_description_page
+  module:
+    - paragraphs
+    - path
+_core:
+  default_config_hash: WDJyC7ir7yCW43tKhLhK2MjDvHcA7uXlvfe3Wq8G6nU
+id: node.api_product_description_page.default
+targetEntityType: node
+bundle: api_product_description_page
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_api_product:
+    weight: 7
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_page_builder_elements:
+    weight: 8
+    settings:
+      title: 'Builder element'
+      title_plural: 'Builder elements'
+      edit_mode: open
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    type: entity_reference_paragraphs
+    region: content
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 3
+    region: content
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 6
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 4
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,24 @@
+uuid: 569265d7-b443-4358-b946-28d2868e7af9
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: 3CNqYpnvvgm3xlME5fqUIzUSdjMo6gm46tjXKIx31hw
+id: documentation_page_pattern
+label: 'Documentation page pattern'
+type: 'canonical_entities:node'
+pattern: '/docs/[node:title]'
+selection_criteria:
+  4b73ec1b-c393-4afb-9ea2-d668ca39f3b0:
+    id: node_type
+    bundles:
+      documentation_page: documentation_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 4b73ec1b-c393-4afb-9ea2-d668ca39f3b0
+selection_logic: and
+weight: -5
+relationships: {  }

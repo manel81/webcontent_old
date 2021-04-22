@@ -1,0 +1,16 @@
+services:
+  dp_api_docs.route_subscriber:
+    class: Drupal\dp_api_docs\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  dp_api_docs.api_sortable_access_checker:
+    class: Drupal\dp_api_docs\Access\ApiSortableAccessCheck
+    arguments: ['@current_route_match', '@entity_type.manager']
+    tags:
+      - { name: access_check, applies_to: _api_sortable }
+  dp_api_docs.config_factory_override:
+    class: Drupal\dp_api_docs\DpApiDocsConfigOverrides
+    deprecated: The "%service_id%" service is deprecated in 2.11.0 and removed from 3.0.0. Upstream shouldn't alter or override config on the downstream.
+    arguments: ['@config.factory']
+    tags:
+      - {name: config.factory.override, priority: 30}

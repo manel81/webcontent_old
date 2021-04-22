@@ -1,0 +1,18 @@
+name: Devportal FAQ
+description: Creates an FAQ page.
+package: Devportal Standard
+
+dependencies:
+  - drupal:menu_ui
+  - drupal:node
+  - drupal:path
+  - drupal:taxonomy
+  - drupal:text
+  - drupal:user
+  - dp_jsonapi:dp_jsonapi
+  - views_accordion:views_accordion
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

@@ -1,0 +1,10 @@
+uuid: d43bdb8a-6cbb-40ba-97fe-976cc4c6e770
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 3cpdEBqGWpQpXlgpk3NDjOBnIJAZbMoWki521hY3UgY
+name: 'API Product categories'
+vid: api_product_categories
+description: 'Tags to categorize API Products.'
+weight: 0

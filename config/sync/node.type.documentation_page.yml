@@ -1,0 +1,24 @@
+uuid: e87c0554-ce0c-4519-a191-fe7d26c7a5ca
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_docs
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - documentation
+      - main
+    parent: 'documentation:'
+_core:
+  default_config_hash: x4QmMCVETSXiQScU6uMbWd_N3uWGBmNXhK-_t6vrGnw
+name: 'Documentation page'
+type: documentation_page
+description: 'Use <em>documentation pages</em> for creating General documentation content.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

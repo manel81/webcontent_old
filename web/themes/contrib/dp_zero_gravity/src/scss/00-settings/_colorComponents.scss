@@ -1,0 +1,391 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Color components
+// ===============
+$colorComponents: (
+  text: (
+    displayName: 'Text elements',
+    colors: (
+      colorBundle__text: (
+        displayName: 'Main text',
+        value: brandColor(color__gray-5),
+      ),
+      colorBundle__headings: (
+        displayName: 'Headings',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__smallText: (
+        displayName: 'Small text',
+        value: brandColor(color__gray-4),
+      ),
+      colorBundle__lightText: (
+        displayName: 'Light text',
+        value: brandColor(color__white),
+      ),
+      colorBundle__darkText: (
+        displayName: 'Dark text',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__utilityTextColor: (
+        displayName: 'Utility text',
+        value: brandColor(color__white),
+      ),
+      colorBundle__formattedTextIndicator: (
+        displayName: 'Indicator of formatted text',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__link: (
+        displayName: 'Links',
+        value: brandColor(color__brand-3),
+      ),
+    ),
+  ),
+  dividers: (
+    displayName: 'Dividers',
+    colors: (
+      colorBundle__divider: (
+        displayName: 'Divider lines',
+        value: brandColor(color__gray-3),
+      ),
+      gradient__border: (
+        displayName: 'Border gradient',
+        value: #{brandColor(color__brand-3),
+        brandColor(color__brand-2)},
+      ),
+      colorBundle__shadow: (
+        displayName: 'Shadows',
+        value: #{rgba(brandColor(color__black), 0.1)},
+      ),
+      colorBundle__shadowDarker: (
+        displayName: 'Darker Shadows',
+        value: #{rgba(brandColor(color__black), 0.2)},
+      ),
+    ),
+  ),
+  icons: (
+    displayName: 'Icons',
+    colors: (
+      colorBundle__uiIcon: (
+        displayName: 'UI icons',
+        value: brandColor(color__gray-4),
+      ),
+      colorBundle__uiIconActive: (
+        displayName: 'Active UI icons',
+        value: brandColor(color__brand-1),
+      ),
+    ),
+  ),
+  navigation: (
+    displayName: 'Navigation',
+    colors: (
+      gradient__navigationOverlay: (
+        displayName: 'Navigation overlay gradient',
+        value: #{rgba(brandColor(color__black), 0.6),
+        rgba(brandColor(color__black), 0)},
+      ),
+      colorBundle__navigationItem: (
+        displayName: 'Navigation items',
+        value: brandColor(color__white),
+      ),
+      colorBundle__navigationItemActive: (
+        displayName: 'Active navigation items',
+        value: brandColor(color__brand-3),
+      ),
+      colorBundle__pagerItemActiveBackground: (
+        displayName: 'Active pager item background',
+        value: brandColor(color__brand-3),
+      ),
+    ),
+  ),
+  tags: (
+    displayName: 'Tags',
+    colors: (
+      colorBundle__tagLabel: (
+        displayName: 'Tag label',
+        value: brandColor(color__white),
+      ),
+      colorBundle__tagBorder: (
+        displayName: 'Tag border',
+        value: brandColor(color__info),
+      ),
+      colorBundle__tagBackground: (
+        displayName: 'Tag background',
+        value: brandColor(color__info),
+      ),
+    ),
+  ),
+  backgrounds: (
+    displayName: 'Backgrounds',
+    colors: (
+      colorBundle__pageBackground: (
+        displayName: 'Page background',
+        value: brandColor(color__gray-1),
+      ),
+      colorBundle__footerBackground: (
+        displayName: 'Footer background',
+        value: brandColor(color__white),
+      ),
+      colorBundle__panelBackground: (
+        displayName: 'Panel background',
+        value: brandColor(color__white),
+      ),
+      colorBundle__inputBackground: (
+        displayName: 'Input background',
+        value: brandColor(color__white),
+      ),
+      colorBundle__tooltipBackground: (
+        displayName: 'Tooltip background',
+        value: brandColor(color__gray-5),
+      ),
+      colorBundle__versionBackground: (
+        displayName: 'Version background',
+        value: brandColor(color__success),
+      ),
+      colorBundle__sectionBackground: (
+        displayName: 'Section background',
+        value: brandColor(color__gray-2),
+      ),
+      colorBundle__tableBackground: (
+        displayName: 'Section background',
+        value: rgba(brandColor(color__gray-2), 0.5),
+      ),
+      colorBundle__backdropBackground: (
+        displayName: 'Section background',
+        value: rgba(brandColor(color__black), 0.75),
+      ),
+      colorBundle__lightCodeBackground: (
+        displayName: 'Light code background',
+        value: brandColor(color__gray-2),
+      ),
+      colorBundle__darkCodeBackground: (
+        displayName: 'Dark code background',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__infoIconBackground: (
+        displayName: 'Info icon background',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__navigationBackground: (
+        displayName: 'Navigation background',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__navigationBackgroundHeaderHasBg: (
+        displayName: 'Navigation background when header has background image',
+        value: transparent,
+      ),
+      colorBundle__selectOptionActiveBackground: (
+        displayName: 'Active select option background',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__pageTitleBarBackground: (
+        displayName: 'Page title bar background',
+        value: brandColor(color__brand-3),
+      ),
+    ),
+  ),
+  forms: (
+    displayName: 'Forms',
+    colors: (
+      colorBundle__inputBorder: (
+        displayName: 'Input border',
+        value: brandColor(color__gray-4),
+      ),
+      colorBundle__inputSuccessBorder: (
+        displayName: 'Input success border',
+        value: brandColor(color__success),
+      ),
+      colorBundle__inputWarningBorder: (
+        displayName: 'Input warning border',
+        value: brandColor(color__warning),
+      ),
+      colorBundle__inputErrorBorder: (
+        displayName: 'Input error border',
+        value: brandColor(color__error),
+      ),
+      colorBundle__inputFocusBorder: (
+        displayName: 'Input focus border',
+        value: brandColor(color__info),
+      ),
+      colorBundle__choiceBorder: (
+        displayName: 'Choice border',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__choiceActiveIndicator: (
+        displayName: 'Active choice indicator',
+        value: brandColor(color__brand-3),
+      ),
+      colorBundle__primaryButton: (
+        displayName: 'Primary button text',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__primaryButtonBackground: (
+        displayName: 'Primary button background',
+        value: brandColor(color__brand-3),
+      ),
+      colorBundle__primaryButtonBorder: (
+        displayName: 'Primary button border',
+        value: brandColor(color__brand-3),
+      ),
+      colorBundle__primaryInvertedButton: (
+        displayName: 'Primary inverted button text',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__primaryInvertedButtonBackground: (
+        displayName: 'Primary inverted button background',
+        value: brandColor(color__white),
+      ),
+      colorBundle__primaryInvertedButtonBorder: (
+        displayName: 'Primary inverted button border',
+        value: brandColor(color__white),
+      ),
+      colorBundle__secondaryButton: (
+        displayName: 'Secondary button text',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__secondaryButtonBackground: (
+        displayName: 'Secondary button background',
+        value: rgba(brandColor(color__white), 0),
+      ),
+      colorBundle__secondaryButtonBorder: (
+        displayName: 'Secondary button border',
+        value: #{brandColor(color__brand-3),
+        brandColor(color__brand-2)},
+      ),
+      colorBundle__secondaryInvertedButton: (
+        displayName: 'Secondary inverted button text',
+        value: brandColor(color__white),
+      ),
+      colorBundle__secondaryInvertedButtonBackground: (
+        displayName: 'Secondary inverted button background',
+        value: rgba(brandColor(color__white), 0),
+      ),
+      colorBundle__secondaryInvertedButtonBorder: (
+        displayName: 'Secondary inverted button border',
+        value: #{brandColor(color__brand-3),
+        brandColor(color__brand-2)},
+      ),
+      colorBundle__postmanButton: (
+        displayName: 'Postman button text',
+        value: brandColor(color__white),
+      ),
+      colorBundle__postmanButtonBackground: (
+        displayName: 'Postman button background',
+        value: brandColor(color__postman),
+      ),
+      colorBundle__postmanButtonBorder: (
+        displayName: 'Postman button border',
+        value: brandColor(color__postman),
+      ),
+    ),
+  ),
+  methods: (
+    displayName: 'Methods',
+    colors: (
+      colorBundle__methodGetBackground: (
+        displayName: 'Get method background',
+        value: brandColor(color__info),
+      ),
+      colorBundle__methodPostBackground: (
+        displayName: 'Post method background',
+        value: brandColor(color__success),
+      ),
+      colorBundle__methodDeleteBackground: (
+        displayName: 'Delete method background',
+        value: brandColor(color__error),
+      ),
+      colorBundle__methodPutBackground: (
+        displayName: 'Put method background',
+        value: brandColor(color__warning),
+      ),
+      colorBundle__methodPatchBackground: (
+        displayName: 'Patch method background',
+        value: brandColor(color__brand-5),
+      ),
+      colorBundle__methodHeadBackground: (
+        displayName: 'Head method background',
+        value: brandColor(color__brand-2),
+      ),
+      colorBundle__methodOptionsBackground: (
+        displayName: 'Options method background',
+        value: brandColor(color__brand-1),
+      ),
+    ),
+  ),
+  statuses: (
+    displayName: 'Statuses',
+    colors: (
+      colorBundle__statusOkBackground: (
+        displayName: 'Ok status background',
+        value: brandColor(color__success),
+      ),
+      colorBundle__statusWarningBackground: (
+        displayName: 'Warning status background',
+        value: brandColor(color__gray-4),
+      ),
+      colorBundle__statusErrorBackground: (
+        displayName: 'Error status background',
+        value: brandColor(color__error),
+      ),
+    ),
+  ),
+  messages: (
+    displayName: 'Messages',
+    colors: (
+      colorBundle__messageSuccessBackground: (
+        displayName: 'Success message background',
+        value: brandColor(color__success),
+      ),
+      colorBundle__messageWarningBackground: (
+        displayName: 'Warning message background',
+        value: brandColor(color__warning),
+      ),
+      colorBundle__messageErrorBackground: (
+        displayName: 'Error message background',
+        value: brandColor(color__error),
+      ),
+      colorBundle__messageInfoBackground: (
+        displayName: 'Info message background',
+        value: brandColor(color__info),
+      ),
+    ),
+  ),
+  overlays: (
+    displayName: 'Overlays',
+    colors: (
+      colorBundle__headerOverlay: (
+        displayName: 'Hero overlay',
+        value: brandColor(color__brand-1),
+      ),
+      colorBundle__headerOverlayMobile: (
+        displayName: 'Hero overlay on mobile',
+        value: brandColor(color__brand-1),
+      ),
+    ),
+  ),
+) !default;
+
+$colorComponentsExport: export('./colorComponents-lock.json', $colorComponents);
+
+// Generate css variables from scss map.
+:root {
+  @each $group, $groupAttributes in $colorComponents {
+    @each $color, $colorAttributes in map-get($groupAttributes, colors) {
+      --#{$color}: #{map-deep-get($colorComponents, $group, 'colors', $color, value)};
+    }
+  }
+}

@@ -1,0 +1,33 @@
+uuid: 32131b2f-29d9-4b9f-922c-883b18e01c6c
+langcode: en
+status: false
+dependencies:
+  module:
+    - node
+    - system
+  theme:
+    - allianz
+_core:
+  default_config_hash: 7H_ZCRptX6e7MOvIV8-m54ui9dkQxL0lyGccn1TfVeg
+id: allianz_api_breadcrumbs
+theme: allianz
+region: header_second
+weight: -11
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: '0'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      api_basic_page: api_basic_page
+      api_description_page: api_description_page
+      api_page_builder: api_page_builder
+      api_reference: api_reference
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

@@ -1,0 +1,27 @@
+.path-contact {
+  .contact-message-contact-form {
+    max-width: 100%;
+  }
+
+  .block--allianz-contact-info-block {
+    .field--field-icon {
+      margin-bottom: $gutter__width / 3 * 2;
+    }
+
+    .question-panel {
+      margin-bottom: $gutter__width;
+    }
+  }
+
+  .block--allianz-contact-contact-block {
+    .contact-block-panel {
+    }
+
+    .contact-block-panel--inline {
+      .icon--content {
+        border-radius: unset;
+      }
+    }
+  }
+}
+

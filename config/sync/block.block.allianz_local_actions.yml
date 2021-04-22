@@ -1,0 +1,20 @@
+uuid: 9788e24b-a736-4ad6-8ace-61df6b005372
+langcode: en
+status: true
+dependencies:
+  theme:
+    - allianz
+_core:
+  default_config_hash: UkX1OfNY-65IikF3fz3hJpp_MWk0lCVTNma8yN_92YY
+id: allianz_local_actions
+theme: allianz
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

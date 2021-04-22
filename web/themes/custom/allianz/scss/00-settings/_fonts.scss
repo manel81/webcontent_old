@@ -1,0 +1,127 @@
+// The font stack used by the theme.
+//
+// Structure:
+//
+// FontName: map
+//   dirPath: string
+//   fallback: string
+//   variants: map
+//     VariantName: list
+//       font-weight: integer
+//       font-style: property value
+//       (optional) font-stretch: property value
+//
+// Font file names must have the exact FontName-VariantName.* structure to work.
+//
+// Examples:
+// - JosefinSans-Regular.woff
+// - Avenir-BlackOblique.woff
+
+$fontStack: (
+  AllianzNeo: (
+    'fallback': (
+      Helvetica,
+      Arial,
+      sans-serif,
+    ),
+    'dirPath': '#{$font-path}/allianz_neo',
+    'variants': (
+      'Light': (
+        'weight': 300,
+        'style': normal,
+      ),
+      'Regular': (
+        'weight': 400,
+        'style': normal,
+      ),
+      'SemiBold': (
+        'weight': 600,
+        'style': normal,
+      ),
+      'Bold': (
+        'weight': 700,
+        'style': normal,
+      ),
+      'Italic': (
+        'weight': 400,
+        'style': italic,
+      ),
+    ),
+  ),
+  AnonymousPro: (
+    'fallback': (
+      Menlo,
+      Monaco,
+      Consolas,
+      'Courier New',
+      monospace,
+    ),
+    'dirPath': '#{$font-path}/anonymous_pro',
+    'variants': (
+      'Regular': (
+        'weight': 400,
+        'style': normal,
+      ),
+      'Italic': (
+        'weight': 400,
+        'style': italic,
+      ),
+      'Bold': (
+        'weight': 700,
+        'style': normal,
+      ),
+      'BoldItalic': (
+        'weight': 700,
+        'style': italic,
+      ),
+    ),
+  ),
+);
+
+// Generate font faces from the given stack.
+//
+// map $fontStack
+//   An optional alternative fontStack map if there is no default defined.
+@mixin generateFontFacesFromStack($fontStack: $fontStack) {
+  @each $fontFamily, $fontFamilyProps in $fontStack {
+    @each $fontVariant, $fontVariantProps in map-get($fontFamilyProps, variants) {
+      $props: (
+        '#{$fontFamily}',
+        '#{map-get($fontFamilyProps, dirPath)}/#{$fontFamily}-#{$fontVariant}',
+        map-get($fontVariantProps, weight),
+        map-get($fontVariantProps, style)
+      );
+      @if map-has-key($fontVariantProps, stretch) {
+        $props: append(map-get($fontVariantProps, stretch));
+      }
+      @include declareFontFace($props...);
+    }
+  }
+}
+
+// Set the font based on the $fontStack map.
+//
+// string $fontFamily
+//   The name of a font family that exists in the stack.
+// string $variant
+//   The name of the variant of a font family.
+// map $fontStack
+//   An optional alternative fontStack map if there is no default defined.
+@mixin setFontFromStack($fontFamily, $variant, $fontStack: $fontStack) {
+  @if map-has_key($fontStack, $fontFamily) {
+    $font: map-get($fontStack, $fontFamily);
+    $fontVariants: map-get($font, variants);
+    @if map-has-key($fontVariants, $variant) {
+      $fontVariant: map-get($fontVariants, $variant);
+      @if map-has_key($font, fallback) {
+        $fontFamily: append($fontFamily, map-get($font, fallback), $separator: comma);
+      }
+      font-family: $fontFamily;
+      font-weight: map-get($fontVariant, weight);
+      font-style: map-get($fontVariant, style);
+      @if map-has-key($fontVariant, stretch) {
+        font-stretch: map-get($fontVariant, stretch);
+      }
+    }
+  }
+}

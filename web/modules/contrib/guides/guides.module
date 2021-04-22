@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Main module file for Guides.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function guides_toolbar_alter(array &$items): void {
+  $items['administration']['#attached']['library'][] = 'guides/menu';
+}

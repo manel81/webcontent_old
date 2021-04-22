@@ -1,0 +1,14 @@
+uuid: 8d229caf-c875-41d4-8044-ff3be48453c5
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.business_unit
+id: business_unit-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: business_unit
+permissions_ui: true
+permissions: {  }

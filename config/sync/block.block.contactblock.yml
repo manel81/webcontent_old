@@ -1,0 +1,39 @@
+uuid: 56dcd54a-16bf-45ea-8e04-f67ab8ddca78
+langcode: en
+status: true
+dependencies:
+  module:
+    - allianz_contact
+    - system
+  theme:
+    - allianz
+id: contactblock
+theme: allianz
+region: sidebar_second
+weight: -11
+provider: null
+plugin: allianz_contact_contact_block
+settings:
+  id: allianz_contact_contact_block
+  label: 'Contact block'
+  provider: allianz_contact
+  label_display: '0'
+  title: 'Open API Team'
+  address_icon: feather-map-pin
+  address_text: 'Adress Street City'
+  phone_icon: feather-phone
+  phone_text: '+33 1 00 00 00 00'
+  email_icon: feather-mail
+  email_text: allianz.support@allianz.com
+  facebook: ''
+  twitter: ''
+  linked_in: ''
+  github: ''
+  icon_color: '#ffffff'
+  icon_background_color: '#414141'
+visibility:
+  request_path:
+    id: request_path
+    pages: /contact
+    negate: false
+    context_mapping: {  }

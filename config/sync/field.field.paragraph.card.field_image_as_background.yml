@@ -1,0 +1,25 @@
+uuid: 049ddbed-6ac1-486f-83b2-12bd11a0591f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_image_as_background
+    - paragraphs.paragraphs_type.card
+_core:
+  default_config_hash: YCFyxHn9iqY0v5qAoAgXjGm1vRKJhyiZDKwDJv9A_p8
+id: paragraph.card.field_image_as_background
+field_name: field_image_as_background
+entity_type: paragraph
+bundle: card
+label: 'Image as background'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

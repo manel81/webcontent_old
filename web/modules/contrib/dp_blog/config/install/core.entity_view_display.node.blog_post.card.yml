@@ -1,0 +1,42 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.blog_post.body
+    - field.field.node.blog_post.field_blog_post_categories
+    - field.field.node.blog_post.field_teaser_picture
+    - image.style.teaser_picture
+    - node.type.blog_post
+  enforced:
+    module:
+      - dp_blog
+  module:
+    - image
+    - text
+    - user
+id: node.blog_post.card
+targetEntityType: node
+bundle: blog_post
+mode: card
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 1
+    settings:
+      trim_length: 222
+    third_party_settings: {  }
+    region: content
+  field_teaser_picture:
+    type: image
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      image_style: teaser_picture
+      image_link: ''
+    third_party_settings: {  }
+hidden:
+  field_blog_post_categories: true
+  links: true

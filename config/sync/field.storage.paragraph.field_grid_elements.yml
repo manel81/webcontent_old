@@ -1,0 +1,25 @@
+uuid: 43420a21-d410-4095-8078-fb6c774bb4dd
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+  module:
+    - entity_reference_revisions
+    - paragraphs
+_core:
+  default_config_hash: 9CvfGATTO1ty0N-cIxxQrIEhvszvr75wZpfCxT8NhjE
+id: paragraph.field_grid_elements
+field_name: field_grid_elements
+entity_type: paragraph
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

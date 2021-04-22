@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: api_bundle_pattern
+label: 'API Bundle pattern'
+type: 'canonical_entities:node'
+pattern: '/api-catalog/[node:field_api_ref]/[node:title]'
+selection_criteria:
+  f804999c-7d7a-4485-999f-15c61c8a1126:
+    id: node_type
+    bundles:
+      api_bundle: api_bundle
+    negate: false
+    context_mapping:
+      node: node
+    uuid: f804999c-7d7a-4485-999f-15c61c8a1126
+selection_logic: and
+weight: -5
+relationships: {  }

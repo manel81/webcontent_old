@@ -1,0 +1,31 @@
+uuid: 138d60df-8bf0-4b27-b133-0e5e57c31993
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.api_page_builder.field_api_reference
+    - field.field.node.api_page_builder.field_header
+    - field.field.node.api_page_builder.field_page_builder_elements
+    - node.type.api_page_builder
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - user
+_core:
+  default_config_hash: Nk_80AMgzQM59BssNngO-jjqVLZCi_y1vCSLQiV3hVs
+id: node.api_page_builder.teaser
+targetEntityType: node
+bundle: api_page_builder
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_api_reference: true
+  field_header: true
+  field_page_builder_elements: true

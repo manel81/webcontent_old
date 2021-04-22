@@ -1,0 +1,22 @@
+uuid: 35f26f42-a9c8-4b81-957a-e4807883c550
+langcode: en
+status: true
+dependencies:
+  theme:
+    - allianz
+_core:
+  default_config_hash: zN-TEmOq-Ir2Udj6JwxceMAj63Cyw6nk8-lfI_jKlN4
+id: allianz_local_tasks
+theme: allianz
+region: content
+weight: -11
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

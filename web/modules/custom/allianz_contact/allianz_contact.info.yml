@@ -1,0 +1,13 @@
+name: 'Allianz Contact'
+description: Defines custom elements to the contact page.
+package: Allianz
+
+configure: allianz_contact.settings
+dependencies:
+  - drupal:block
+  - drupal:contact
+  - select2:select2
+  - boom_enhancements:boom_enhancements
+
+type: module
+core_version_requirement: ^8.8.6

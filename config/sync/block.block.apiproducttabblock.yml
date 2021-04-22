@@ -1,0 +1,20 @@
+uuid: c6c55839-8b8f-4005-ae1f-71d9dbbccf6a
+langcode: en
+status: true
+dependencies:
+  module:
+    - allianz_api_product
+  theme:
+    - allianz
+id: apiproducttabblock
+theme: allianz
+region: header_second
+weight: -13
+provider: null
+plugin: api_product_tab_block
+settings:
+  id: api_product_tab_block
+  label: 'API Product Tab block'
+  provider: allianz_api_product
+  label_display: '0'
+visibility: {  }

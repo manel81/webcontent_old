@@ -1,0 +1,23 @@
+uuid: 4a0cb9f8-865c-48bf-adbf-015c0502f1ff
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+  module:
+    - paragraphs
+_core:
+  default_config_hash: MitMhKAqe40awz2SxkuE7IlDlVuRc5is8a_vjkeMCso
+id: paragraph.field_image_as_background
+field_name: field_image_as_background
+entity_type: paragraph
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

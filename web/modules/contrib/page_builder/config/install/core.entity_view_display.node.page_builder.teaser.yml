@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.page_builder.field_page_builder_elements
+    - node.type.page_builder
+  module:
+    - user
+  enforced:
+    module:
+      - page_builder
+id: node.page_builder.teaser
+targetEntityType: node
+bundle: page_builder
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_page_builder_elements: true

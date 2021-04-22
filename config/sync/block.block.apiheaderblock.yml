@@ -1,0 +1,20 @@
+uuid: f4c7d10f-c5a8-4e8d-980a-e50a4c27c41e
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_api_docs
+  theme:
+    - allianz
+id: apiheaderblock
+theme: allianz
+region: header_first
+weight: -11
+provider: null
+plugin: api_header_block
+settings:
+  id: api_header_block
+  label: 'API Header block'
+  provider: dp_api_docs
+  label_display: '0'
+visibility: {  }

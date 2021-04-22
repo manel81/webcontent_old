@@ -1,0 +1,14 @@
+name: Devportal Docs
+description: General Documentation feature
+package: Devportal Standard
+
+dependencies:
+  - drupal:menu_ui
+  - drupal:path
+  - drupal:text
+  - drupal:user
+
+type: module
+core_version_requirement: ^8.9.1 || ^9.0
+php: "7.1"
+version: 2.11.3

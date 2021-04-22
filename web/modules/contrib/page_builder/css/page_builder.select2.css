@@ -1,0 +1,9 @@
+.select2-results__option .select2-selection__icon,
+.select2-selection__rendered .select2-selection__icon {
+  font-size: 25px;
+  margin-right: 5px;
+}
+
+.select2-selection__rendered span {
+  vertical-align: middle;
+}

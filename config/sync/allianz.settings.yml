@@ -1,0 +1,53 @@
+color_overrides: {  }
+features:
+  node_user_picture: false
+  comment_user_picture: true
+  comment_user_verification: true
+  favicon: true
+logo:
+  use_default: true
+favicon:
+  use_default: true
+  path: 'public://favicon.ico'
+  mimetype: image/vnd.microsoft.icon
+navigation_position: false
+shift_homepage_content: true
+faq_accordion_quicklinks: true
+cards_interactive: true
+swagger_ui_highlight_enable: true
+swagger_ui_highlight_langs: 'javascript, shell'
+swagger_ui_highlight_download: true
+swagger_ui_highlight_copy: true
+swagger_ui_info_show_title: false
+swagger_ui_info_show_description: true
+swagger_ui_info_download: true
+swagger_ui_info_postman: true
+swagger_ui_code_samples_manual: true
+swagger_ui_code_samples_generate: true
+swagger_ui_code_samples_generate_langs:
+  c_libcurl: c_libcurl
+  csharp_restsharp: csharp_restsharp
+  go_native: go_native
+  java_okhttp: java_okhttp
+  java_unirest: java_unirest
+  javascript_jquery: javascript_jquery
+  javascript_xhr: javascript_xhr
+  node_native: node_native
+  node_request: node_request
+  node_unirest: node_unirest
+  objc_nsurlsession: objc_nsurlsession
+  ocaml_cohttp: ocaml_cohttp
+  php_curl: php_curl
+  php_http1: php_http1
+  php_http2: php_http2
+  python_python3: python_python3
+  python_requests: python_requests
+  ruby_native: ruby_native
+  shell_curl: shell_curl
+  shell_httpie: shell_httpie
+  shell_wget: shell_wget
+  swift_nsurlsession: swift_nsurlsession
+third_party_settings:
+  in_page_navigation:
+    top_offset: 5
+blog_post_header: false

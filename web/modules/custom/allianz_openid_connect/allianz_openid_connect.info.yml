@@ -1,0 +1,7 @@
+name: Allianz OpenID Connect
+description: Provides OpenID Connect module related customization.
+package: Allianz
+type: module
+core_version_requirement: ^8.9
+dependencies:
+  - openid_connect:openid_connect

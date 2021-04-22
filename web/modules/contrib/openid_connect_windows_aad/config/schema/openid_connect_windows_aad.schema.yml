@@ -1,0 +1,59 @@
+# Schema for the configuration files of the OpenID Connect module.
+openid_connect.settings.windows_aad:
+  type: config_object
+  label: 'OpenID Connect Windows AAD settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable client'
+    settings:
+      type: mapping
+      mapping:
+        client_id:
+          type: string
+          label: 'Client ID'
+        client_secret:
+          type: string
+          label: 'Client secret'
+        authorization_endpoint_wa:
+          type: string
+          label: 'Authorization endpoint'
+        token_endpoint_wa:
+          type: string
+          label: 'Token endpoint'
+        userinfo_endpoint_wa:
+          type: string
+          label: 'Userinfo endpoint'
+        hide_email_address_warning:
+          type: integer
+          label: 'Hide missing email address warning'
+        userinfo_update_email:
+          type: integer
+          label: 'Update email address in user profile'
+        userinfo_graph_api_use_other_mails:
+          type: integer
+          label: 'Use Graph API otherMails property for email address'
+        userinfo_graph_api_wa:
+          label: 'User info endpoint configuration'
+          type: string
+        enable_single_sign_out:
+          type: integer
+          label: 'Enable Single Sign Out'
+        map_ad_groups_to_roles:
+          type: integer
+          label: 'Method for mapping AD groups to roles'
+        group_mapping:
+          type: mapping
+          mapping:
+            method:
+              type: string
+              label: 'Method for mapping AD groups to roles'
+            mappings:
+              type: string
+              label: 'Manual mappings'
+            strict:
+              type: integer
+              label: 'Only allow users to have roles that map to an AD group they are a member of.'
+        redirect_url:
+          type: string
+          label: 'Redirect URL'

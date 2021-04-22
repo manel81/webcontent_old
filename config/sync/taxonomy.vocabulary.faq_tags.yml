@@ -1,0 +1,10 @@
+uuid: 118d0c99-757a-4369-bddd-8e4b17c32a44
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: QCIf5Ybyz4TQYqOLbxHLeQINhniUgtvd4Oz-CqoAELk
+name: 'FAQ tags'
+vid: faq_tags
+description: 'Tags used for FAQ items.'
+weight: 0

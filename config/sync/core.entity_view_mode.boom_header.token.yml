@@ -1,0 +1,10 @@
+uuid: 6b38982b-c2d1-45c1-8dab-dde9502addfa
+langcode: en
+status: true
+dependencies:
+  module:
+    - boom_header
+id: boom_header.token
+label: Token
+targetEntityType: boom_header
+cache: true

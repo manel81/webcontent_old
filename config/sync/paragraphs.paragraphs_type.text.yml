@@ -1,0 +1,15 @@
+uuid: 5a8964b8-a46c-4b2b-802a-5596a11eca60
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+_core:
+  default_config_hash: kofVAQK2LHHXJFfmj1ZTbSLl0T6b6eFhHx46EaGwhlk
+id: text
+label: Text
+icon_uuid: null
+icon_default: null
+description: 'Text with WYSIWYG editor paragraph element.'
+behavior_plugins: {  }

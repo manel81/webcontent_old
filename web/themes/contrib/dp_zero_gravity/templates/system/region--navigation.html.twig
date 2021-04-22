@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a region.
+ *
+ * Available variables:
+ * - content: The content for this region, typically blocks.
+ * - attributes: HTML attributes for the region <div>.
+ * - region: The name of the region variable as defined in the theme's
+ *   .info.yml file.
+ *
+ * @see template_preprocess_region()
+ *
+ * @ingroup themeable
+ */
+#}
+{% extends 'region.html.twig' %}
+{% block content %}
+  <nav{{ attributes }}>
+    <div id="navigation" class="container">
+      <div class="navigation">
+        <div class="navigation__buttons">
+          {% if has_search %}
+            <button type="button" class="navigation__toggle--search"><span class="navigation__toggle-icon--search"></span></button>
+          {% endif %}
+          <button type="button" class="navigation__toggle--nav"><span class="navigation__toggle-icon--nav"></span>
+          </button>
+        </div>
+        {{ content }}
+      </div>
+    </div>
+  </nav>
+{% endblock %}

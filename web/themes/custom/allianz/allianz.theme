@@ -1,0 +1,150 @@
+<?php
+
+/**
+ * @file
+ * Theme file for Allianz theme.
+ *
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Implements hook_preprocess_HOOK() for  item-list--search-results.
+ */
+function allianz_preprocess_item_list__search_results(array &$variables): void {
+  if (!\Drupal::request()->query->has('keys') && isset($variables['empty'])) {
+    unset($variables['empty']);
+  }
+  else {
+    $keyword = \Drupal::request()->get('keys');
+    $message = t('Sorry, we couldn\'t find any results for "@keyword".', ['@keyword' => $keyword]);
+    $variables['empty']['#markup'] = "<h4>{$message}</h4>";
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for search-form.
+ */
+function allianz_form_search_form_alter(array &$form,
+                                       FormStateInterface $form_state,
+                                       string $form_id): void {
+  $form['help_link']['#access'] = FALSE;
+}
+
+/**
+ * Implements template_preprocess_HOOK() for error-pages.
+ */
+function allianz_preprocess_allianz_error_pages(array &$variables): void {
+  $variables['button_attributes']->addClass(['button', 'button--primary']);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for paragraph.
+ */
+function allianz_preprocess_paragraph(array &$variables): void {
+  $variables['attributes']['class'] = array_diff($variables['attributes']['class'], ['has-shadow']);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for views_view.
+ */
+function allianz_preprocess_views_view(array &$variables): void {
+  $variables['css_class'] = array_diff($variables['css_class'], ['has-shadow']);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for contact-info-block.
+ */
+function allianz_preprocess_info_block(array &$variables): void {
+  $variables['content_attributes']->addClass(['card', 'panel']);
+  $variables['body_attributes']->addClass(['card__body']);
+  $variables['icon_wrapper_attributes']->addClass([
+    'icon--content',
+    'field',
+    'field--field-icon',
+    'field--label-hidden',
+    'field__item',
+  ]);
+  $variables['body_wrapper_attributes']->addClass(['field']);
+  $variables['title_attributes']->addClass(['h4']);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for contact-other-block.
+ */
+function allianz_preprocess_contact_block(array &$variables): void {
+  $variables['content_attributes']->addClass(['card', 'panel']);
+  $variables['body_attributes']->addClass(['card__body']);
+  $variables['icon_wrapper_attributes']->addClass([
+    'icon--content',
+    'field',
+    'field--field-icon',
+    'field--label-hidden',
+    'field__item',
+  ]);
+  $variables['body_wrapper_attributes']->addClass(['field']);
+  $variables['title_attributes']->addClass(['h4']);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu_local_action.
+ */
+function allianz_preprocess_menu_local_action(array &$variables): void {
+  $link = $variables['link'];
+  /** @var \Drupal\Core\Url $url */
+  $url = $link['#url'];
+  if ($url->getRouteName() === 'entity.group.tokens.add') {
+    // Add class to "Create token" button.
+    $url->setOption('attributes', ['class' => ['button--primary']]);
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for region--bottom-navigation.
+ */
+function allianz_preprocess_region__bottom_navigation(array &$variables): void {
+  $attributes = [
+    'src' => '/themes/custom/allianz/img/footer-illustration-1.svg',
+    'alt' => 'bottom_navigation_image_1',
+  ];
+
+  $variables['bn_image_wrapper_attributes'] = new Attribute();
+  $variables['bn_image_panel_attributes'] = new Attribute();
+  $variables['bn_image_attributes'] = new Attribute($attributes);
+  $variables['bn_slogan_wrapper_attributes'] = new Attribute();
+  $variables['bn_slogan_attributes'] = new Attribute();
+  $variables['bn_slogan_content'] = t('We are here to make insurance simple for you.');
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for api_product_tab_block.
+ */
+function allianz_preprocess_api_product_tab_block(array &$variables): void {
+  $variables['attributes']['class'][] = 'tabs--secondary';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for apigee-edge-app-api-key-add-form.
+ */
+function allianz_form_apigee_edge_app_api_key_add_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $form['actions']['cancel']['#attributes']['class'][] = 'button--secondary';
+}

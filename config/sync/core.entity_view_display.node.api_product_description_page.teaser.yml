@@ -1,0 +1,26 @@
+uuid: 0f33b49b-c270-4d08-88dc-1f94b0c1f2bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.api_product_description_page.field_api_product
+    - field.field.node.api_product_description_page.field_page_builder_elements
+    - node.type.api_product_description_page
+  module:
+    - user
+_core:
+  default_config_hash: i92Q_TMQpOLgUwxTythRQ_EA_7SRZtU2LI1HJi7Ncag
+id: node.api_product_description_page.teaser
+targetEntityType: node
+bundle: api_product_description_page
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_api_product: true
+  field_page_builder_elements: true

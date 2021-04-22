@@ -1,0 +1,23 @@
+uuid: cd1e5ca7-d9be-4636-92be-399254b93765
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+_core:
+  default_config_hash: wQO06egP70svjtMJDSTxobNjyNDIik9EhqAgaatkFDk
+name: 'API Page Builder'
+type: api_page_builder
+description: 'A page builder page that can be connected to an API.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

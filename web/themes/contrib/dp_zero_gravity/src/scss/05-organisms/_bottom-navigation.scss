@@ -1,0 +1,80 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+.region--bottom-navigation {
+  > .container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+    padding-bottom: $gutter__width * 2;
+
+    @include for-tablet-portrait-up {
+      flex-direction: row;
+    }
+
+    p {
+      margin: 0.25em 0;
+    }
+
+    ul {
+      > li {
+        > a {
+          display: inline-block;
+          margin: 0.25em 0;
+        }
+      }
+    }
+
+    > * {
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0;
+      padding: 0 $gutter__width;
+      border-left: 1px solid $bottomNavigation__borderColor;
+      margin-bottom: $gutter__width;
+      position: relative;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      @include for-tablet-portrait-up {
+        margin: 0;
+      }
+
+      .block-title {
+        @include setFontFromStack($bottomNavigation__blockTitle__font...);
+        padding-left: $gutter__width - $decorBar__width;
+        position: relative;
+        display: flex;
+        align-items: center;
+        left: -$gutter__width;
+        font-size: $bottomNavigation__blockTitle__fontSize;
+        margin-bottom: $gutter__width / 2;
+
+        &::before {
+          content: '';
+          position: relative;
+          width: $decorBar__width;
+          left: -$gutter__width + $decorBar__width;
+          height: $bottomNavigation__blockTitle__leftBar__height;
+          background: linear-gradient(to bottom, $decorBar__gradient);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+uuid: fa804689-d4ac-45b0-80d5-5f55b21b80b2
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - node
+    - paragraphs
+_core:
+  default_config_hash: afyJGdqoM2tqXW4chB0axw2ib2fOFS_J-J46Gv4igGQ
+id: paragraph.field_api_reference
+field_name: field_api_reference
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

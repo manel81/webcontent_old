@@ -1,0 +1,219 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// ================
+// # Mixins
+// ================
+
+// ## Fonts
+// ---------------
+
+// Set the font based on the $fontStack map.
+//
+// string $fontFamily
+//   The name of a font family that exists in the stack.
+// string $fontPath
+//   The name of the variant of a font family.
+// property $fontWeight
+//   CSS Font Weight property.
+// property $fontStyle
+//   CSS Font Style property.
+// property $fontStretch
+//   CSS Font Stretch property..
+@mixin declareFontFace($fontFamily, $fontPath, $fontWeight: normal, $fontStyle: normal, $fontStretch: normal) {
+  @font-face {
+    font-family: $fontFamily;
+    src: url('#{$fontPath}.woff2') format('woff2'), url('#{$fontPath}.woff') format('woff');
+    font-weight: $fontWeight;
+    font-style: $fontStyle;
+    font-stretch: $fontStretch;
+  }
+}
+
+@mixin word-wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+@mixin ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// ## Decoration
+// ---------------
+@mixin left-bar($width: $decorBar__width, $height: 100% / $lineHeight--base) {
+  padding-left: $gutter__width;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: $width;
+    left: 0;
+    height: $height;
+    background: linear-gradient(to bottom, $decorBar__gradient);
+  }
+}
+
+// Generic decoration bar implementation.
+@mixin decorBar($position: 'left', $width: $decorBar__width, $height: 100% / $lineHeight--base, $zIndex: 2) {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: $width;
+    height: $height;
+    background: linear-gradient(to bottom, $decorBar__gradient);
+    z-index: $zIndex;
+    @if $position == 'top' {
+      top: 0;
+    } @else if $position == 'right' {
+      right: 0;
+    } @else if $position == 'bottom' {
+      bottom: 0;
+    } @else if $position == 'left' {
+      left: 0;
+    }
+  }
+}
+
+// ## Breakpoints
+// ---------------
+@mixin for-mobile-only {
+  @media (max-width: $screen--mobileOnly) {
+    @content;
+  }
+}
+
+@mixin for-tablet-portrait-up {
+  @media (min-width: $screen--tabletPortait) {
+    @content;
+  }
+}
+
+@mixin for-tablet-landscape-up {
+  @media (min-width: $screen--tabletLandscape) {
+    @content;
+  }
+}
+
+@mixin for-desktop-up {
+  @media (min-width: $screen--desktop) {
+    @content;
+  }
+}
+
+@mixin for-desktop-down {
+  @media (max-width: $screen--desktop - 1) {
+    @content;
+  }
+}
+
+@mixin for-widescreen-up {
+  @media (min-width: $screen--widescreen) {
+    @content;
+  }
+}
+
+// ## Fluid typography
+// ---------------
+// @see: https://css-tricks.com/snippets/css/fluid-typography/
+@mixin fluid-type($fontSize--min, $fontSize--max, $vw--min: $viewportWidth--min, $vw--max: $viewportWidth--max) {
+  $u1: unit($fontSize--min);
+  $u2: unit($fontSize--max);
+  $u3: unit($vw--min);
+  $u4: unit($vw--max);
+
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $fontSize--min;
+      @media screen and (min-width: $vw--min) {
+        font-size: calc(
+          #{$fontSize--min} + #{strip-unit($fontSize--max - $fontSize--min)} *
+          ((100vw - #{$vw--min}) / #{strip-unit($vw--max - $vw--min)})
+        );
+      }
+      @media screen and (min-width: $vw--max) {
+        font-size: $fontSize--max;
+      }
+    }
+  }
+}
+
+@mixin setFontIcon($iconId, $fontFamily: $icon__fontFamily) {
+  content: $iconId;
+  font-size: $fontSize--icon;
+  font-family: $fontFamily;
+}
+
+// Generate font faces from the given stack.
+//
+// map $fontStack
+//   An optional alternative fontStack map if there is no default defined.
+@mixin generateFontFacesFromStack($fontStack: $fontStack) {
+  @each $fontFamily, $fontFamilyProps in $fontStack {
+    @if map-has-key($fontFamilyProps, 'dirPath') {
+      @each $fontVariant, $fontVariantProps in map-get($fontFamilyProps, variants) {
+        $props: (
+          '#{$fontFamily}',
+          '#{map-get($fontFamilyProps, dirPath)}/#{$fontFamily}-#{$fontVariant}',
+          map-get($fontVariantProps, weight),
+          map-get($fontVariantProps, style)
+        );
+        @if map-has-key($fontVariantProps, stretch) {
+          $props: append(map-get($fontVariantProps, stretch));
+        }
+        @include declareFontFace($props...);
+      }
+    }
+  }
+}
+
+// Set the font based on the $fontStack map.
+//
+// string $fontFamily
+//   The name of a font family that exists in the stack.
+// string $variant
+//   The name of the variant of a font family.
+// map $fontStack
+//   An optional alternative fontStack map if there is no default defined.
+@mixin setFontFromStack($fontFamily, $variant, $fontStack: $fontStack) {
+  @if map-has-key($fontStack, $fontFamily) {
+    $font: map-get($fontStack, $fontFamily);
+    $fontVariants: map-get($font, variants);
+    @if map-has-key($fontVariants, $variant) {
+      $fontVariant: map-get($fontVariants, $variant);
+      @if map-has-key($font, fallback) {
+        $fontFamily: append($fontFamily, map-get($font, fallback), $separator: comma);
+      }
+      font-family: $fontFamily;
+      font-weight: map-get($fontVariant, weight);
+      font-style: map-get($fontVariant, style);
+      @if map-has-key($fontVariant, stretch) {
+        font-stretch: map-get($fontVariant, stretch);
+      }
+    }
+  }
+}

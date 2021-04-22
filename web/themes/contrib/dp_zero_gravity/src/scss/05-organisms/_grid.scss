@@ -1,0 +1,132 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Grid
+// ==================
+// How to use:
+// * If you want a grid, add the .grid class to a parent element.
+// * If you want automatic spacing between the grid child elements, add grid--N
+//   (where N is the number of columns in the first row) to the parent element.
+// * Add a col--N class to each child element IMPORTANT: at least one col--N class is required for all elements
+// * Defining a size for each screen is not required
+// * If you defined a screen size that goes up from somewhere (e.g. col--desktop--6) then all
+//   lower sized screens will be full-width so you don't need to specify a column for those.
+// * For best results elements with the col--N class shouldn't have any other rules/classes defined on them,
+//   meaning that columns should only be used for layout purposes.
+%grid,
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  margin-left: -$grid__gutter / 2;
+  margin-right: -$grid__gutter / 2;
+
+  > [class*='col'] {
+    width: 100%;
+    padding-left: $grid__gutter / 2;
+    padding-right: $grid__gutter / 2;
+  }
+}
+
+// Auto sized column.
+%col,
+.col {
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+}
+
+@mixin set-col($max-width) {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: #{$max-width};
+  max-width: #{$max-width};
+}
+
+@mixin generate-columns($infix: null, $grid-columns: $grid-columns) {
+  @if ($infix) {
+    .col--#{$infix} {
+      flex-grow: 1;
+      flex-basis: 0;
+      max-width: 100%;
+    }
+  }
+  // # Columns
+  @for $i from 1 through $grid-columns {
+    $max-width: percentage($i / $grid-columns);
+
+    @if ($infix) {
+      .col--#{$infix}--#{$i} {
+        @include set-col($max-width);
+      }
+    } @else {
+      .col--#{$i} {
+        @include set-col($max-width);
+      }
+    }
+  }
+}
+
+@mixin generate-grid-vertical-spacing($infix: null, $grid-columns: $grid-columns) {
+  @for $i from 1 through $grid-columns {
+    @if ($infix) {
+      .grid--#{$infix}--#{$i} {
+        > [class*='col--'] {
+          &:nth-child(n + #{$i + 1}) {
+            margin-top: $grid__gutter;
+          }
+        }
+      }
+    } @else {
+      .grid--#{$i} {
+        > [class*='col--'] {
+          &:nth-child(n + #{$i + 1}) {
+            margin-top: $grid__gutter;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include generate-columns();
+@include generate-grid-vertical-spacing();
+
+@include for-mobile-only {
+  @include generate-columns('mobile-only');
+  @include generate-grid-vertical-spacing('mobile-only');
+}
+
+@include for-tablet-portrait-up {
+  @include generate-columns('tablet');
+  @include generate-grid-vertical-spacing('tablet');
+}
+
+@include for-tablet-landscape-up {
+  @include generate-columns('tablet-landscape');
+  @include generate-grid-vertical-spacing('tablet-landscape');
+}
+
+@include for-desktop-up {
+  @include generate-columns('desktop');
+  @include generate-grid-vertical-spacing('desktop');
+}
+
+@include for-widescreen-up {
+  @include generate-columns('widescreen');
+  @include generate-grid-vertical-spacing('widescreen');
+}

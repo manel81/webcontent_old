@@ -1,0 +1,12 @@
+name: 'Page Builder module tests'
+type: module
+description: 'Resources for Page builder tests.'
+package: Testing
+core_version_requirement: ^8.9.1 || ^9
+dependencies:
+  - page_builder:page_builder
+config_devel:
+  install:
+    - field.storage.node.field_test
+    - field.field.node.page_builder.field_test
+version: 2.11.3

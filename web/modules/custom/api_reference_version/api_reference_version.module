@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Provides versioning for API references.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\api_reference_version\ApiReferenceNodeFormHandler;
+use Drupal\api_reference_version\NodeHandler;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function api_reference_version_form_node_api_reference_form_alter(array &$form, FormStateInterface $form_state): void {
+  \Drupal::classResolver(ApiReferenceNodeFormHandler::class)->alter($form, $form_state);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function api_reference_version_form_node_api_reference_edit_form_alter(array &$form, FormStateInterface $form_state): void {
+  \Drupal::classResolver(ApiReferenceNodeFormHandler::class)->alter($form, $form_state);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function api_reference_version_node_presave(EntityInterface $entity): void {
+  \Drupal::classResolver(NodeHandler::class)->presave($entity);
+}

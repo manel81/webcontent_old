@@ -1,0 +1,5 @@
+allianz_api_product.content_overview:
+  title: API Product Pages
+  base_route: entity.node.canonical
+  route_name: view.api_product_pages.api_product_tabs_sorting
+  weight: 30

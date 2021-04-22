@@ -1,0 +1,25 @@
+uuid: c9abfdc8-685a-4fa8-bb02-1000e2a58a09
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.api_product
+  module:
+    - text
+_core:
+  default_config_hash: N_YfoM1EcBedj8xf4iIgQ-iWFyhQs2P6YP7whnSgy9w
+id: node.api_product.body
+field_name: body
+entity_type: node
+bundle: api_product
+label: Description
+description: 'This text will be shown on the card view on the API Product listing pages.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+field_type: text_with_summary

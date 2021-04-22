@@ -1,0 +1,22 @@
+uuid: 225a2789-3573-4a97-be68-17ad171d99f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - dp_zero_gravity
+_core:
+  default_config_hash: HESUSbePSzAp6uXZkN7090xyLICpr2e9dz5na5SO8Ow
+id: dp_zero_gravity_help
+theme: dp_zero_gravity
+region: help
+weight: -6
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  provider: help
+  label_display: '0'
+visibility: {  }

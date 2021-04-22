@@ -1,0 +1,26 @@
+name: THEMENAME
+type: theme
+description: Boom Starterkit theme for devportals.
+core_version_requirement: ^8.9.1 || ^9.0
+package: Custom
+base theme: boom
+
+regions:
+  navigation: 'Navigation'
+  header: 'Header'
+  tabs: 'Tabs'
+  breadcrumb: 'Breadcrumb'
+  help: 'Help'
+  highlighted: 'Highlighted'
+  sidebar_first: 'Sidebar First'
+  content: 'Content'
+  sidebar_second: 'Sidebar Second'
+  bottom_navigation: 'Bottom Navigation'
+  footer: 'Footer'
+  hidden: 'Hidden region for referenced blocks'
+
+libraries:
+  - THEMENAME/global-styling
+
+ckeditor_stylesheets:
+  - dist/css/style.css

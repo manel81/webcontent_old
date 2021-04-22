@@ -1,0 +1,13 @@
+uuid: d64fc22d-77ea-4a0b-9d77-3c9be19cf42f
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_blog
+_core:
+  default_config_hash: qN4yD-i2oUegqi5Ow7YMJb_DANwZhdRp31fGM9Azyuc
+name: 'Blog post categories'
+vid: blog_post_categories
+description: 'Categories for blog blog_posts'
+weight: 0

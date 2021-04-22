@@ -1,0 +1,76 @@
+{
+  "name": "dp_zero_gravity",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "develop": "webpack --config webpack.dev.js --watch --progress",
+    "eslint": "eslint --ext .js --ext .jsx src",
+    "test": "jest --config .jestrc.js"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ]
+  },
+  "dependencies": {
+    "@braintree/sanitize-url": "^4.0.1",
+    "axios": "^0.20.0",
+    "core-js": "^3.6.5",
+    "highlight.js": "^10.1.0",
+    "immutable": "^4.0.0-rc.12",
+    "jest-config": "^26.4.2",
+    "js-file-download": "^0.4.12",
+    "openapi-snippet": "^0.9.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.2",
+    "react-dom": "^16.13.1",
+    "react-immutable-proptypes": "^2.2.0",
+    "react-lowlight": "^2.0.0",
+    "regenerator-runtime": "^0.13.7",
+    "sanitize-html": "^1.27.4",
+    "smoothscroll-polyfill": "^0.4.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@gfx/zopfli": "^1.0.15",
+    "@testing-library/dom": "^7.24.1",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.0.2",
+    "@testing-library/user-event": "^12.1.4",
+    "babel-jest": "^26.3.0",
+    "babel-loader": "^8.1.0",
+    "babel-preset-pronovix": "1.0.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "compression-webpack-plugin": "^5.0.2",
+    "css-loader": "^4.3.0",
+    "eslint": "7.10.0",
+    "eslint-config-pronovix": "1.0.3",
+    "file-loader": "^6.0.0",
+    "jest": "^26.4.2",
+    "mini-css-extract-plugin": "^0.11.2",
+    "node-sass": "^4.14.1",
+    "node-sass-export": "^0.0.7",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-custom-properties": "^10.0.0",
+    "postcss-loader": "^4.0.2",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.0.5",
+    "prettier-config-pronovix": "1.0.1",
+    "react-is": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.4"
+  },
+  "resolutions": {
+    "openapi-snippet/httpsnippet": "1.22.0"
+  }
+}

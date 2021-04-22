@@ -1,0 +1,105 @@
+<?php
+
+/**
+ * @file
+ * Devportal API Docs module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\allianz_api_product\ApiProductEntityHandler;
+use Drupal\allianz_api_product\ApiProductFormHandler;
+
+/**
+ * Implements hook_theme().
+ */
+function allianz_api_product_theme(): array {
+  return [
+    'api_product_tab_block' => [
+      'variables' => [
+        'tabs' => NULL,
+      ],
+    ],
+    'api_product_header_block' => [
+      'variables' => [
+        'title' => NULL,
+        'version' => NULL,
+        'tags' => NULL,
+        'content' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_entity_bundle_field_info_alter().
+ */
+function allianz_api_product_entity_bundle_field_info_alter(array &$fields, EntityTypeInterface $entity_type, string $bundle): void {
+  if (($bundle === 'api_product_description_page' || $bundle === 'api_product_release_note') && $entity_type->id() === 'node') {
+    $field_api_product = $fields['field_api_product'] ?? NULL;
+    if ($field_api_product) {
+      // Do not allow referencing an API Product by multiple API Product
+      // Description pages.
+      $field_api_product->addConstraint('SingleReferencingNode', []);
+    }
+  }
+}
+
+/**
+ * Prepares variables for API Product tab block template.
+ *
+ * Default template: api-product-tab-block.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - nav_attributes: The attribute object for the nav element.
+ *   - tabs.i.attributes: Attributes for the tab elements.
+ */
+function template_preprocess_api_product_tab_block(array &$variables): void {
+  $variables['nav_attributes'] = new Attribute(['class' => ['tab-navigation']]);
+
+  if (isset($variables['tabs'])) {
+    foreach ($variables['tabs'] as &$tab) {
+      $tab['attributes'] = new Attribute();
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function allianz_api_product_form_node_api_product_delete_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  \Drupal::classResolver(ApiProductFormHandler::class)
+    ->alterDeleteForm($form, $form_state, $form_id);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function allianz_api_product_node_delete(EntityInterface $entity): void {
+  \Drupal::classResolver(ApiProductEntityHandler::class)
+    ->nodeDelete($entity);
+}

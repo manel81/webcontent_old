@@ -1,0 +1,258 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+%card,
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: $card__padding;
+  border-radius: $card__borderRadius;
+  transform-origin: center;
+  position: relative;
+  z-index: 1;
+}
+
+.card__title,
+.card__header,
+.card__body,
+.card__footer,
+.card__author {
+  position: relative;
+}
+
+.card__title,
+.card__header,
+.card__author {
+  bottom: 0;
+  transition: bottom $transition-duration;
+}
+
+.card__footer {
+  top: 0;
+  transition: top $transition-duration;
+}
+
+.card__body {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+
+  * {
+    margin: 0;
+  }
+}
+
+.card__background {
+  background-color: $card__backgroundColor;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  transition: top $transition-duration, bottom $transition-duration, box-shadow $transition-duration;
+}
+
+.card__header {
+  margin-bottom: 1rem;
+}
+
+.card__header-image {
+  margin: (-$card__padding) (-$card__padding) 0rem;
+  height: 17rem;
+}
+
+.card__title {
+  margin-bottom: 1rem;
+
+  a {
+    color: $card--quicklink__titleLink__color;
+  }
+}
+
+.card--summary {
+  border: 2px solid transparent;
+  background-clip: padding-box;
+
+  .card--summary__target {
+    align-self: flex-start;
+    justify-content: flex-start;
+  }
+}
+
+.card--has-background-image {
+  height: 100%;
+
+  @include for-tablet-landscape-up {
+    height: 27rem;
+  }
+
+  @include for-desktop-up {
+    height: 32rem;
+  }
+}
+
+.card--interactive {
+  @include for-desktop-up {
+    &:hover,
+    &:focus,
+    &:active {
+      z-index: 2;
+
+      .card--quicklink__target,
+      .card__background {
+        top: -$card__padding;
+        bottom: -$card__padding;
+      }
+
+      .has-shadow {
+        box-shadow: $boxShadow--normal--hover;
+      }
+
+      .card__title,
+      .card__header,
+      .card__author {
+        bottom: $card__padding;
+      }
+
+      .card__footer {
+        top: $card__padding;
+      }
+    }
+
+    &.card--quicklink {
+      &:hover,
+      &:focus,
+      &:active {
+        .card__body {
+          bottom: $card__padding;
+        }
+
+        .card__target {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.card--quicklink {
+  color: $card--quicklink__color;
+
+  @include for-desktop-up {
+    .card__body {
+      bottom: 0;
+      transition: bottom $transition-duration;
+    }
+  }
+
+  // This is to correctly position the chevron. Should probably refactor this part.
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.card--quicklink__icon {
+  border: 1px solid $card--quicklink__icon__borderColor;
+}
+
+.card--quicklink__title {
+  color: $card--quicklink__title__color;
+}
+
+.card--quicklink__target {
+  &,
+  a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 0;
+    transition: top $transition-duration, bottom $transition-duration;
+  }
+
+  [class^='feather-'] {
+    position: absolute;
+    top: $card__padding;
+    right: $card__padding;
+    color: $card__targetIconColor;
+  }
+}
+
+.card__author {
+  margin-bottom: 1rem;
+  margin-top: -1rem;
+}
+
+[class*='col--'] {
+  > .card--summary:not(.layout-builder-block) {
+    height: 100%;
+  }
+}
+
+.card__link {
+  display: inline-block;
+  position: relative;
+  font-size: $fontSize--small;
+  line-height: $card__link__lineHeight;
+  text-transform: $card__link__textTransform;
+  margin-top: 1.5rem;
+  @include setFontFromStack($card__link__font...);
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 1.5rem;
+      left: 0;
+      width: 100%;
+      height: $card__link--hover__borderWidth;
+      background: linear-gradient(to right, $decorBar__gradient);
+    }
+  }
+}
+
+.card__link--arrow {
+  position: relative;
+  padding-right: $card__link--arrow__paddingRight;
+
+  &::after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    font-family: $icon__fontFamily;
+    content: $feather-chevron-right;
+    font-size: $card__link__arrow__fontSize;
+    font-weight: normal;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    &::before {
+      width: calc(100% - #{$card__link--arrow__paddingRight});
+    }
+  }
+}

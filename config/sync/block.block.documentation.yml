@@ -1,0 +1,25 @@
+uuid: 0f8de20b-956d-4fd0-b6de-6d29d4cbbf01
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic_block:721ba213-8dc9-4418-8163-b41bcc63a89b'
+  module:
+    - block_content
+  theme:
+    - allianz
+id: documentation
+theme: allianz
+region: bottom_navigation
+weight: -11
+provider: null
+plugin: 'block_content:721ba213-8dc9-4418-8163-b41bcc63a89b'
+settings:
+  id: 'block_content:721ba213-8dc9-4418-8163-b41bcc63a89b'
+  label: Documentation
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

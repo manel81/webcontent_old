@@ -1,0 +1,31 @@
+uuid: cd4be7a4-5ac9-4f6d-98ca-5f5ea12b713f
+langcode: en
+status: true
+dependencies:
+  module:
+    - allianz_contact
+    - system
+  theme:
+    - allianz
+id: infoblock
+theme: allianz
+region: sidebar_second
+weight: -12
+provider: null
+plugin: allianz_contact_info_block
+settings:
+  id: allianz_contact_info_block
+  label: 'Info block'
+  provider: allianz_contact
+  label_display: '0'
+  icon: feather-compass
+  icon_color: '#ffffff'
+  icon_background_color: '#414141'
+  title: 'Have a question?'
+  content: "<p>Send us a message and we will go back faster than a super Hero !</p>\r\n"
+visibility:
+  request_path:
+    id: request_path
+    pages: /contact
+    negate: false
+    context_mapping: {  }

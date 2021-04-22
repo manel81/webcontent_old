@@ -1,0 +1,5 @@
+allow_version_duplication: false
+manual_mode_default: false
+enable_validation: true
+_core:
+  default_config_hash: ns3zmVdXq58BnXQKO9A2Y-ibI0RcCfnJe1S44gcFTv8

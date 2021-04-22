@@ -1,0 +1,48 @@
+.h2,
+h2,
+%h2,
+.h3,
+h3,
+%h3,
+.h4,
+h4,
+%h4,
+.h5,
+h5,
+%h5,
+.h6,
+h6,
+%h6 {
+  text-transform: unset;
+}
+
+.h1--hero {
+  @include setFontFromStack($hero__font...);
+  line-height: 70px;
+}
+
+blockquote {
+  color: $blockquote__textColor;
+}
+
+.zg-page-header--overlay::before {
+  background-image: $pageHeader__backgroundImage;
+}
+
+.h1--section,
+.h1--page-title,
+.h1--hero {
+  padding-left: 0;
+
+  &::before {
+    content: none;
+  }
+}
+
+.text--highlighted {
+  color: $text--highlighted__color;
+}
+
+.has-background-image {
+  text-align: center;
+}

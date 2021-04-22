@@ -1,0 +1,93 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+.messages {
+  margin: $gutter__width 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  a {
+    color: $message__link__color;
+    text-decoration: $message__textDecoration;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $message__link--hover__color;
+    }
+  }
+
+  &,
+  [class^='feather-'],
+  [class*=' feather-'] {
+    color: $message__color;
+  }
+
+  .dismiss {
+    position: absolute;
+    margin-top: $message__margin-top;
+    right: $message__right;
+  }
+
+  &__text {
+    display: flex;
+    align-items: center;
+    padding: $message__padding;
+  }
+
+  &__icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+    color: $message__icon__color;
+    margin-right: 2rem;
+    position: relative;
+
+    &::before {
+      content: '';
+      width: 100%;
+      position: absolute;
+      height: 100%;
+      border-radius: 50%;
+      border: 1px solid $message__icon__borderColor;
+      opacity: $message__iconBackground__opacity;
+    }
+  }
+
+  &--success,
+  &--status {
+    background-color: $message--success__backgroundColor;
+  }
+
+  &--warning {
+    background-color: $message--warning__backgroundColor;
+  }
+
+  &--error {
+    background-color: $message--error__backgroundColor;
+  }
+
+  &--info {
+    background-color: $message--info__backgroundColor;
+  }
+}
+
+.dismiss {
+  background: none;
+  border: none;
+}

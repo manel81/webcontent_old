@@ -1,0 +1,24 @@
+uuid: aa6d911c-a6be-4950-8335-3b0be42432e7
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: UpGMrih2e34OT26zKL5dBXKBIlnchL3Tpf0ah114n20
+id: api_page_builder_pattern
+label: 'Api Page Builder pattern'
+type: 'canonical_entities:node'
+pattern: '/api-catalog/[node:field_api_ref]/[node:title]'
+selection_criteria:
+  544840ec-f61e-4d5e-807a-ee81046b43ad:
+    id: node_type
+    bundles:
+      api_page_builder: api_page_builder
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 544840ec-f61e-4d5e-807a-ee81046b43ad
+selection_logic: and
+weight: -5
+relationships: {  }

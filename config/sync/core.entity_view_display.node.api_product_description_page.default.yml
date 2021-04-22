@@ -1,0 +1,30 @@
+uuid: 54f6500b-2fca-417c-8e40-393b3e488bda
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.api_product_description_page.field_api_product
+    - field.field.node.api_product_description_page.field_page_builder_elements
+    - node.type.api_product_description_page
+  module:
+    - entity_reference_revisions
+    - user
+_core:
+  default_config_hash: cxG4zAjhW4DKvJewsDP2owFo7E8zoCtcTBNweurJKhY
+id: node.api_product_description_page.default
+targetEntityType: node
+bundle: api_product_description_page
+mode: default
+content:
+  field_page_builder_elements:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+hidden:
+  field_api_product: true
+  links: true

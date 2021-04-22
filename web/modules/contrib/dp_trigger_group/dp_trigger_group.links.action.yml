@@ -1,0 +1,5 @@
+group.token.add:
+  route_name: entity.group.tokens.add
+  title: Create token
+  appears_on:
+    - entity.group.tokens.list

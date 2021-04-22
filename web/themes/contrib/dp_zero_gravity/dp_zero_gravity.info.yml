@@ -1,0 +1,65 @@
+name: DevPortal Zero Gravity
+type: theme
+description: 'Zero Gravity theme for devportals.'
+core_version_requirement: ^8.9.1 || ^9.0
+libraries:
+  - dp_zero_gravity/global-styling
+  - dp_zero_gravity/font-faces
+  - dp_zero_gravity/zero_gravity.ckeditor
+base theme: boom
+logo: logo.svg
+
+regions:
+  navigation: 'Navigation'
+  header_first: 'Header First'
+  header_second: 'Header Second'
+  breadcrumb: 'Breadcrumb'
+  help: 'Help'
+  top_bar: 'Top Bar'
+  sidebar_first: 'Sidebar First'
+  content: 'Content'
+  sidebar_second: 'Sidebar Second'
+  trusted: 'Trusted By'
+  bottom_navigation: 'Bottom navigation'
+  footer: 'Footer'
+
+ckeditor_stylesheets:
+  - dist/css/style.css
+
+custom_ckeditor_js: 'dist/js/zero_gravity_ckeditor.js'
+
+libraries-override:
+  dp_faq/dp_faq_block: dp_zero_gravity/faq
+  core/jquery.ui:
+    css:
+      component:
+        assets/vendor/jquery.ui/themes/base/core.css: false
+      theme:
+        assets/vendor/jquery.ui/themes/base/theme.css: false
+  core/jquery.ui.accordion:
+    css:
+      component:
+        assets/vendor/jquery.ui/themes/base/accordion.css: false
+  apigee_edge/apigee_edge.components:
+    css:
+      theme:
+        css/apigee_edge.components.css: false
+  apigee_m10n/rate_plan.entity_list:
+    css:
+      theme:
+        css/apigee_m10n.plan-list.css: false
+  apigee_m10n/rate_plan.details_field:
+    css:
+      theme:
+        css/apigee_m10n.plan-details-field.css: false
+  core/drupal.dropbutton:
+    css:
+      component:
+        /core/themes/stable/css/core/dropbutton/dropbutton.css: false
+    js:
+      misc/dropbutton/dropbutton.js: false
+  core/jquery.ui.dialog:
+    css:
+      component:
+        assets/vendor/jquery.ui/themes/base/dialog.css: false
+version: 2.11.3

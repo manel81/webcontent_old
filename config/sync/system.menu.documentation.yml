@@ -1,0 +1,11 @@
+uuid: de352fb4-801e-4f27-9f39-7ab16d6ff473
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_docs
+id: documentation
+label: Documentation
+description: 'Documentation links'
+locked: false

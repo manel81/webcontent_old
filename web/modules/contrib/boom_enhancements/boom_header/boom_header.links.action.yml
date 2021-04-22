@@ -1,0 +1,9 @@
+entity.boom_header.add_form:
+  # Which route will be called by the link
+  route_name: entity.boom_header.add_form
+  title: 'Add Header Background'
+
+  # Where will the link appear, defined by route name.
+  appears_on:
+    - entity.boom_header.collection
+    - entity.boom_header.canonical

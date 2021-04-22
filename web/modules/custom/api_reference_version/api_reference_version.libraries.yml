@@ -1,0 +1,6 @@
+autosubmit:
+  css:
+    theme:
+      dist/css/autosubmit.css: {}
+  js:
+    dist/js/autosubmit.js: {minified: true}

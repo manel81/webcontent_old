@@ -1,0 +1,163 @@
+<?php
+
+/**
+ * @file
+ * Devportal API Docs module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\node\Entity\NodeType;
+
+/**
+ * Implements hook_theme().
+ */
+function dp_api_docs_theme(): array {
+  return [
+    'api_tab_block' => [
+      'variables' => [
+        'tabs' => NULL,
+      ],
+      'template' => 'api-tab-block',
+    ],
+    'api_header_block' => [
+      'variables' => [
+        'title' => NULL,
+        'version' => NULL,
+        'tags' => NULL,
+        'content' => NULL,
+      ],
+      'template' => 'api-header-block',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_modules_installed().
+ *
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function dp_api_docs_modules_installed(array $modules): void {
+  // Add the "Main" menu as a selectable one to the Page CT when the
+  // menu_ui.module is enabled.
+  if (in_array('menu_ui', $modules)) {
+    /** @var \Drupal\node\Entity\NodeType $node_type */
+    $node_type = NodeType::load('page');
+    // Prevent PHP errors if the CT doesn't exist (eg. the site was installed
+    // using the minimal.profile).
+    if ($node_type) {
+      $menu_ui = $node_type->getThirdPartySettings('menu_ui');
+      $node_type->setThirdPartySetting('menu_ui', 'available_menus', $menu_ui['available_menus'] + ['main']);
+      $node_type->setThirdPartySetting('menu_ui', 'parent', 'main:');
+      $node_type->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_bundle_field_info_alter().
+ */
+function dp_api_docs_entity_bundle_field_info_alter(array &$fields, EntityTypeInterface $entity_type, string $bundle): void {
+  if ($bundle === 'api_description_page' && $entity_type->id() === 'node') {
+    $field_api_reference = $fields['field_api_reference'] ?? NULL;
+    if ($field_api_reference) {
+      // Do not allow referencing an API Reference by multiple API Description
+      // pages.
+      $field_api_reference->addConstraint('SingleReferencingNode', []);
+    }
+  }
+}
+
+/**
+ * Prepares variables for API tab block template.
+ *
+ * Default template: api-tab-block.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - nav_attributes: The attribute object for the nav element.
+ *   - tabs.i.attributes: Attributes for the tab elements.
+ */
+function template_preprocess_api_tab_block(array &$variables): void {
+  $variables['nav_attributes'] = new Attribute(['class' => ['tab-navigation']]);
+
+  if ($variables['tabs']) {
+    foreach ($variables['tabs'] as &$tab) {
+      $tab['attributes'] = new Attribute();
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function dp_api_docs_form_node_api_reference_delete_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $api_ref_nid = $form_state->getFormObject()->getEntity()->id();
+
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $query = $node_storage
+    ->getQuery()
+    ->condition('field_api_reference', $api_ref_nid);
+  $related_node_ids = $query->execute();
+
+  if (empty($related_node_ids)) {
+    return;
+  }
+
+  $node_links = [];
+  foreach ($node_storage->loadMultiple($related_node_ids) as $related_node) {
+    $node_links[] = $related_node->toLink()->toRenderable();
+  }
+
+  $form['description'] = [
+    '#theme' => 'item_list',
+    '#title' => t('This action cannot be undone and will also delete the following content item(s):'),
+    '#items' => $node_links,
+  ];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @todo The group_entity_delete() does something similar, but it would be
+ *   better to create a queue for this, because it can lead to an OOM.
+ */
+function dp_api_docs_node_delete(EntityInterface $entity): void {
+  if ($entity->bundle() !== 'api_reference') {
+    return;
+  }
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $query = $node_storage
+    ->getQuery()
+    ->condition('field_api_reference', $entity->id());
+  $related_node_ids = $query->execute();
+
+  if (empty($related_node_ids)) {
+    return;
+  }
+
+  $node_storage->delete($node_storage->loadMultiple($related_node_ids));
+}

@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Install functions for page_builder_test module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function page_builder_test_install(): void {
+  $config_factory = \Drupal::configFactory();
+  $form_display = $config_factory->getEditable('core.entity_form_display.node.page_builder.default');
+  $form_display_dependencies = $form_display->get('dependencies');
+  $form_display_dependencies['config'][] = 'field.field.node.page_builder.field_test';
+  $form_display->set('dependencies', $form_display_dependencies);
+  $form_content = $form_display->get('content');
+  $form_field_test_field = [
+    'weight' => 26,
+    'settings' => [
+      'display_label' => TRUE,
+    ],
+    'third_party_settings' => [],
+    'type' => 'boolean_checkbox',
+    'region' => 'content',
+  ];
+  $form_content['field_test'] = $form_field_test_field;
+  $form_display->set('content', $form_content);
+  $form_display->save();
+
+  $view_display = $config_factory->getEditable('core.entity_view_display.node.page_builder.default');
+  $view_display_dependencies = $view_display->get('dependencies');
+  $view_display_dependencies['config'][] = 'field.field.node.page_builder.field_test';
+  $view_display->set('dependencies', $view_display_dependencies);
+  $view_display_content = $view_display->get('content');
+  $view_field_test_field = [
+    'weight' => 1,
+    'label' => 'above',
+    'settings' => [
+      'format' => 'default',
+      'format_custom_false' => '',
+      'format_custom_true' => '',
+    ],
+    'third_party_settings' => [],
+    'type' => 'boolean',
+    'region' => 'content',
+  ];
+  $view_display_content['field_test'] = $view_field_test_field;
+  $view_display->set('content', $view_display_content);
+  $view_display->save();
+}

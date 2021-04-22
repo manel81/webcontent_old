@@ -1,0 +1,202 @@
+<?php
+
+/**
+ * @file
+ * Main module file for Boom Enhancements.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2019 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\block\Entity\Block;
+use Drupal\boom_enhancements\BoomEnhancementsManager;
+use Drupal\boom_enhancements\Exceptions\InvalidJsonException;
+use Drupal\node\NodeInterface;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+
+/**
+ * Implements hook_block_access().
+ */
+function boom_enhancements_block_access(Block $block, string $operation, AccountInterface $account): AccessResultInterface {
+  if ($operation === 'view' && $block->getPluginId() === 'page_title_block') {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $node_types = \Drupal::config('boom_enhancements.settings')
+      ->get('node_types');
+    if ($node_types) {
+      $node_types = array_values($node_types);
+      return AccessResult::forbiddenIf(($node instanceof NodeInterface) && in_array($node->getType(), $node_types, TRUE))
+        ->addCacheableDependency($block);
+    }
+
+    return AccessResult::neutral();
+  }
+
+  return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function boom_enhancements_library_info_alter(array &$libraries, string $extension): void {
+  switch ($extension) {
+    case 'ckeditor':
+      $info = _boom_enhancements_find_active_ckeditor_js();
+      if ($info === NULL) {
+        return;
+      }
+      $styles = DIRECTORY_SEPARATOR . drupal_get_path('theme', $info['machine_name']) . DIRECTORY_SEPARATOR . $info['custom_ckeditor_js'];
+      $libraries['drupal.ckeditor']['js'][$styles] = [];
+      break;
+
+    case 'boom_enhancements':
+      /** @var \Drupal\Core\Config\ConfigFactory $config_factory */
+      $config_factory = \Drupal::configFactory();
+      $icons_source_dir = $config_factory->getEditable('boom_enhancements.settings')
+        ->get('icons_source');
+
+      if ($icons_source_dir === '') {
+        return;
+      }
+
+      $libraries['boom_enhancements.custom_icons']['css']['theme'][DIRECTORY_SEPARATOR . $icons_source_dir . DIRECTORY_SEPARATOR . BoomEnhancementsManager::BRAND_ICONS_CSS] = [];
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_form_display_alter().
+ */
+function boom_enhancements_entity_form_display_alter(EntityFormDisplayInterface $form_display, array $context): void {
+  /** @var \Drupal\Core\Logger\LoggerChannelInterface $logger */
+  $logger = \Drupal::service('logger.channel.boom_enhancements');
+  /** @var \Drupal\Core\Messenger\Messenger $messenger */
+  $messenger = \Drupal::service('messenger');
+  /** @var \Drupal\boom_enhancements\BoomEnhancementsManager $boom_enhancements_manager */
+  $boom_enhancements_manager = \Drupal::service('boom_enhancements.manager');
+  $contact_admin_translatable = t('Please contact the site administrator.');
+
+  // There is one slight issue that when visiting the Manage Form Display page
+  // the old widget (HTML5 color picker) is shown, and the error message for the
+  // widget summary will never show up.
+  // @todo Fix in https://project.pronovix.net/issues/6566
+  // @see \Drupal\boom_enhancements\Plugin\Field\FieldWidget\ColorFieldWidgetBoxFromFile
+  // If getting brand colors fail, show a message to the user and don't try to
+  // alter the widget.
+  try {
+    $boom_enhancements_manager->getBrandColors();
+  }
+  catch (InvalidArgumentException $e) {
+    $logger->warning('The colors source directory is invalid. Please review the Devportal Theme Enhancements Settings', [
+      'link' => $boom_enhancements_manager->getSettingsLink()->toString(),
+    ]);
+    $messenger->addWarning(t('The colors source directory is invalid, HTML5 color picker is used instead of brand colors.') . ' ' . $contact_admin_translatable);
+    return;
+  }
+  catch (FileNotFoundException $e) {
+    $logger->warning('File: %file_path not found. Please review the Devportal Theme Enhancements Settings', [
+      'link' => $boom_enhancements_manager->getSettingsLink()->toString(),
+      '%file_path' => $e->getMessage(),
+    ]);
+    $messenger->addWarning(t('Brand colors JSON file not found, HTML5 color picker is used instead of brand colors.') . ' ' . $contact_admin_translatable);
+    return;
+  }
+  catch (InvalidJsonException $e) {
+    $logger->warning('An error occurred when parsing the JSON file. Please review the Devportal Theme Enhancements Settings.', [
+      'link' => $boom_enhancements_manager->getSettingsLink()->toString(),
+    ]);
+    $messenger->addWarning(t('An error occurred when parsing the JSON file, HTML5 color picker is used instead of brand colors.') . ' ' . $contact_admin_translatable);
+    return;
+  }
+
+  // Change the field widget for the listed fields to the one defined in this
+  // module.
+  foreach ($form_display->getComponents() as $name => $component) {
+    $widget = $form_display->getRenderer($name);
+
+    if (!$widget) {
+      continue;
+    }
+
+    $plugin_definition = $widget->getPluginDefinition();
+
+    if (!in_array('color_field_type', $plugin_definition['field_types'])) {
+      continue;
+    }
+
+    $component['type'] = 'color_field_widget_box_from_file';
+    $form_display->setComponent($name, $component);
+  }
+}
+
+/**
+ * Modifies JavaScript settings that are added for text editors.
+ *
+ * @param array $settings
+ *   All the settings that will be added to the page for the text formats to
+ *   which a user has access.
+ */
+function boom_enhancements_editor_js_settings_alter(array &$settings): void {
+  $info = _boom_enhancements_find_active_ckeditor_js();
+  if ($info === NULL) {
+    return;
+  }
+
+  foreach ($settings['editor']['formats'] as $format => &$editor) {
+    $editor['editorSettings']['stylesSet'] = $info['machine_name'];
+  }
+}
+
+/**
+ * Internal function to get active theme info.
+ *
+ * @param string $theme
+ *   The machine name of a theme. Defaults to the default theme.
+ *
+ * @return array|null
+ *   Info array or null if no definition found.
+ */
+function _boom_enhancements_find_active_ckeditor_js(string $theme = 'default'): ?array {
+  if ($theme === 'default') {
+    $theme = \Drupal::config('system.theme')->get($theme);
+  }
+  /** @var \Drupal\Core\Extension\ThemeExtensionList $theme_extension_list */
+  $theme_extension_list = \Drupal::service('extension.list.theme');
+  $info = $theme_extension_list->getExtensionInfo($theme);
+
+  if (isset($info['custom_ckeditor_js']) && $info['custom_ckeditor_js'] === FALSE) {
+    return NULL;
+  }
+
+  if (!isset($info['custom_ckeditor_js'])) {
+    if (!isset($info['base theme']) || $info['base theme'] === FALSE) {
+      return NULL;
+    }
+
+    return _boom_enhancements_find_active_ckeditor_js($info['base theme']);
+  }
+
+  $info['machine_name'] = $theme;
+  return $info;
+}

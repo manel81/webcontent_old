@@ -1,0 +1,27 @@
+uuid: af73437d-8b22-4558-94c6-98fe34f42b94
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_api.field_api_reference
+    - paragraphs.paragraphs_type.featured_api
+  enforced:
+    module:
+      - dp_api_docs
+_core:
+  default_config_hash: G6_FAhmwvqEOp8D3Qszu70DXxw6LOYNunEj1W9dbR-8
+id: paragraph.featured_api.default
+targetEntityType: paragraph
+bundle: featured_api
+mode: default
+content:
+  field_api_reference:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: card
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

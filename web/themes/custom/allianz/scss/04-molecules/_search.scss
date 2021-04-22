@@ -1,0 +1,28 @@
+.search-result {
+  ol {
+    list-style: none;
+
+    h2 {
+      a {
+        position: relative;
+        display: block;
+
+        &::after {
+          content: $feather-chevron-right;
+          font-family: $fontFamily--icons;
+          color: $search__heading__color;
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+  }
+}
+
+@include for-mobile-only {
+  .search-block-form {
+    h2.block-title {
+      display: none;
+    }
+  }
+}

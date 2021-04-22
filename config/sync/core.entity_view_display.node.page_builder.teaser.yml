@@ -1,0 +1,27 @@
+uuid: c8170ba0-3fa6-40fe-a100-aa50e2bdf90f
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.page_builder.field_header
+    - field.field.node.page_builder.field_page_builder_elements
+    - node.type.page_builder
+  enforced:
+    module:
+      - page_builder
+  module:
+    - user
+_core:
+  default_config_hash: KlSV0FyphN_R5SRvak6eZqe_YV_TOqdwLJ90XgUv5ug
+id: node.page_builder.teaser
+targetEntityType: node
+bundle: page_builder
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_header: true
+  field_page_builder_elements: true

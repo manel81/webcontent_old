@@ -1,0 +1,57 @@
+.highlighted-code {
+  position: relative;
+
+  pre {
+    @extend %code;
+    @extend %code--block;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .hljs {
+    background-color: inherit;
+  }
+
+  &__buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__download,
+  &__copy {
+    color: $swaggerUi__icon__color;
+    padding: 0.5rem;
+
+    &-text {
+      font-size: 0;
+
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+
+  &__copy {
+    position: relative;
+
+    &-tooltip {
+      position: absolute;
+      top: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100%);
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent;
+        border-top-color: $tooltip__backgroundColor;
+      }
+    }
+  }
+}

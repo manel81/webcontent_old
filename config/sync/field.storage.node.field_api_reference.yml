@@ -1,0 +1,24 @@
+uuid: c7e2ad0c-add8-4f1d-a658-ce3c2c3ec0af
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dp_api_docs
+  module:
+    - node
+_core:
+  default_config_hash: 1_40ff4kXrZDV0r1KB9Vn-Jm175nllVuPUmPW1r0Los
+id: node.field_api_reference
+field_name: field_api_reference
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

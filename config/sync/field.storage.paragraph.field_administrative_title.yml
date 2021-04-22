@@ -1,0 +1,26 @@
+uuid: 90f22015-08d7-4191-acb1-dc23e90c0fcc
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+  module:
+    - paragraphs
+_core:
+  default_config_hash: vrCqfxzksW3ffELIB55a_OatbTx-0huYaUi-Eo_Uba0
+id: paragraph.field_administrative_title
+field_name: field_administrative_title
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

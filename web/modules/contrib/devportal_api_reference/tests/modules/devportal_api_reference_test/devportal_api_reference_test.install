@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Install functions for devportal_api_reference_test module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Copyright (C) 2020 PRONOVIX GROUP BVBA.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function devportal_api_reference_test_install(bool $is_syncing): void {
+  // Do not change the config if config sync is running (ex.: the site is
+  // installed from an existing configuration).
+  if (!$is_syncing) {
+    $config = \Drupal::configFactory()->getEditable('core.entity_form_display.node.api_reference.default');
+    $content = $config->get('content');
+    $field_api_category_test = [
+      'type' => 'entity_reference_autocomplete',
+      'weight' => 10,
+      'region' => 'content',
+      'settings' => [
+        'match_operator' => 'CONTAINS',
+        'size' => 60,
+        'placeholder' => '',
+        'match_limit' => 10,
+      ],
+      'third_party_settings' => [],
+    ];
+    $content['field_api_category_test'] = $field_api_category_test;
+    $config->set('content', $content);
+    $config->save();
+  }
+}

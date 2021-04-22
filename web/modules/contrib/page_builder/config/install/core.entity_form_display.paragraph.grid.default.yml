@@ -1,0 +1,85 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.grid.field_administrative_title
+    - field.field.paragraph.grid.field_background_color
+    - field.field.paragraph.grid.field_border_color
+    - field.field.paragraph.grid.field_grid_button
+    - field.field.paragraph.grid.field_grid_elements
+    - field.field.paragraph.grid.field_grid_layout
+    - field.field.paragraph.grid.field_grid_title
+    - paragraphs.paragraphs_type.grid
+  enforced:
+    module:
+      - page_builder
+  module:
+    - color_field
+    - link_class
+    - paragraphs
+id: paragraph.grid.default
+targetEntityType: paragraph
+bundle: grid
+mode: default
+content:
+  field_administrative_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_background_color:
+    weight: 6
+    settings: {  }
+    third_party_settings: {  }
+    type: color_field_widget_html5
+    region: content
+  field_border_color:
+    weight: 7
+    settings: {  }
+    third_party_settings: {  }
+    type: color_field_widget_html5
+    region: content
+  field_grid_button:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+      link_class_mode: select_class
+      link_class_force: ''
+      link_class_select: "button button--primary|Primary Button\r\nbutton button--primary--inverted|Primary Inverted Button\r\nbutton button--secondary|Secondary Button\r\nbutton button--secondary--inverted|Secondary Inverted Button\r\nbutton button--link|Link Button"
+    third_party_settings: {  }
+    type: link_class_field_widget
+    region: content
+  field_grid_elements:
+    type: entity_reference_paragraphs
+    weight: 8
+    settings:
+      title: 'Grid element'
+      title_plural: 'Grid elements'
+      edit_mode: open
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    region: content
+  field_grid_layout:
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_grid_title:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

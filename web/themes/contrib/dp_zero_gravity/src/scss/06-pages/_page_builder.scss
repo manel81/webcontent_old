@@ -1,0 +1,136 @@
+// Copyright (C) 2020 PRONOVIX GROUP BVBA.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+
+// # Paragraphs
+// ---------------
+.paragraph--benefit {
+  .icon--content {
+    margin-bottom: 2rem;
+  }
+}
+
+.paragraph--card {
+  img {
+    width: calc(100% + #{2 * $card__padding});
+    height: auto;
+    margin: -#{$card__padding} -#{$card__padding} 0;
+  }
+}
+
+.paragraph--grid {
+  margin-bottom: 5rem;
+
+  &.has-border {
+    border-left: $paragraphsGrid__borderWidth solid;
+    border-color: $grid__borderColor;
+  }
+
+  .container {
+    position: relative;
+  }
+
+  .field--field-grid-button {
+    position: absolute;
+    bottom: -4rem;
+    right: 1rem;
+  }
+
+  @include for-tablet-portrait-up {
+    margin-bottom: 10rem;
+
+    .field--field-grid-button {
+      bottom: auto;
+      top: 0;
+    }
+  }
+}
+
+.paragraph--text {
+  padding: 3rem;
+}
+
+.paragraph--message {
+  .messages {
+    margin: 0;
+  }
+}
+
+.paragraph--cta {
+  padding: 2rem;
+
+  .field--field-buttons {
+    > div {
+      display: inline-block;
+
+      &:last-child {
+        margin-top: 1rem;
+      }
+
+      @include for-tablet-portrait-up {
+        &:last-child {
+          margin-top: 0;
+          margin-left: 1rem;
+        }
+      }
+    }
+  }
+
+  @include for-tablet-portrait-up {
+    padding: 6rem 7rem;
+
+    .container {
+      display: flex;
+    }
+
+    .field--field-text {
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 60%;
+    }
+
+    .field--field-buttons {
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 40%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}
+
+@include for-tablet-portrait-up {
+  .paragraph--promo-image {
+    margin-top: -6rem;
+  }
+}
+
+.page-builder,
+.api-description-page {
+  .page-builder__element:first-child {
+    margin-top: 0;
+  }
+}
+
+// Search block theming
+@include for-tablet-portrait-up {
+  .paragraph--block {
+    .search-block-form {
+      margin-bottom: 0;
+    }
+  }
+}

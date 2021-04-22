@@ -1,0 +1,26 @@
+uuid: 5488e1b6-550b-4a7a-bffb-05fd7c257b09
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+  module:
+    - options
+    - paragraphs
+_core:
+  default_config_hash: sE_pdo1SEAfNMmkg12o5kWhho2g9lWazr4YK2dpIOxg
+id: paragraph.field_grid_layout
+field_name: field_grid_layout
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values: {  }
+  allowed_values_function: _page_builder_field_grid_layout_allowed_values
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

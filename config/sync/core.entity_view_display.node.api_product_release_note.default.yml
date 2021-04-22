@@ -1,0 +1,32 @@
+uuid: 9cad97a6-a126-42a7-b74c-f6c6879cea5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.api_product_release_note.body
+    - field.field.node.api_product_release_note.field_api_product
+    - node.type.api_product_release_note
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: '-lPs8IEmofKHkH2KYb7VdgoQd8yzfkAbTdoC6bZMq0o'
+id: node.api_product_release_note.default
+targetEntityType: node
+bundle: api_product_release_note
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_api_product: true

@@ -1,0 +1,2 @@
+in_page_navigation_selector:
+  allianz: 'main .block--system-main-block h2, main .block--system-main-block .swagger-ui h4'

@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_blog
+    - node
+  theme:
+    - dp_zero_gravity
+id: dp_zero_gravity_authoranddateblock
+theme: dp_zero_gravity
+region: breadcrumb
+weight: 0
+provider: null
+plugin: author_and_date_block
+settings:
+  id: author_and_date_block
+  label: 'Author and date block'
+  provider: dp_blog
+  label_display: '0'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      blog_post: blog_post
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

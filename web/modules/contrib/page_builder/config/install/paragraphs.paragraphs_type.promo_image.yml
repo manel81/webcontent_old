@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - page_builder
+id: promo_image
+label: 'Promo image'
+icon_uuid: null
+description: 'An image element for more prominent images.'
+behavior_plugins: {  }
